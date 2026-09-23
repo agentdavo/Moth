@@ -1,0 +1,41 @@
+// Markdown tables for docs/DESIGN_REPORT.md: research baselines vs optimised designs.
+import { PRESETS } from '../src/physics/design.js';
+import { OPTIMISED } from '../src/physics/optimised.js';
+import { evaluateDesign } from '../src/physics/objective.js';
+import { planformStats, chordAt } from '../src/physics/geometry.js';
+const cols = [['Light (baseline)', PRESETS.light, 'light'], ['★ Light (opt)', OPTIMISED.light, 'light'], ['Medium (baseline)', PRESETS.medium, 'medium'], ['★ Medium (opt)', OPTIMISED.medium, 'medium'], ['Strong (baseline)', PRESETS.strong, 'strong'], ['★ Strong (opt)', OPTIMISED.strong, 'strong']];
+const ev = cols.map(([, d, t]) => evaluateDesign(d, t));
+const row = (label, f) => `| ${label} | ${cols.map((c, i) => f(c[1], ev[i])).join(' | ')} |`;
+const mm = (v) => (v * 1000).toFixed(0);
+const lines = [`| | ${cols.map((c) => c[0]).join(' | ')} |`, `|---|${cols.map(() => '---').join('|')}|`];
+lines.push(row('Main span (mm)', (d) => mm(d.main.span)));
+lines.push(row('Main area (cm²)', (d) => (planformStats(d.main).area * 1e4).toFixed(0)));
+lines.push(row('Main AR', (d) => planformStats(d.main).AR.toFixed(1)));
+lines.push(row('Root / tip chord (mm)', (d) => `${mm(d.main.rootChord)} / ${mm(chordAt(d.main, 0.95))}`));
+lines.push(row('¼-chord sweep / twist (°)', (d) => `${d.main.sweep.toFixed(1)} / ${d.main.twist.toFixed(1)}`));
+lines.push(row('Tip dihedral (°)', (d) => d.main.dihedral.toFixed(1)));
+lines.push(row('t/c root → tip (%)', (d) => `${(d.main.tcRoot * 100).toFixed(1)} → ${(d.main.tcTip * 100).toFixed(1)}`));
+lines.push(row('Design c_l', (d) => d.main.cli.toFixed(2)));
+lines.push(row('Flap chord / span (%)', (d) => `${(d.main.flapFrac * 100).toFixed(0)} / ${(d.main.flapSpan * 100).toFixed(0)}`));
+lines.push(row('Flap stops (°)', (d) => `${d.boat.flapMin.toFixed(1)} / +${d.boat.flapMax.toFixed(1)}`));
+lines.push(row('Main incidence (°)', (d) => d.main.incidence.toFixed(1)));
+lines.push(row('Elevator span (mm) / area (cm²)', (d) => `${mm(d.elevator.span)} / ${(planformStats(d.elevator).area * 1e4).toFixed(0)}`));
+lines.push(row('S_elev / S_main', (d) => (planformStats(d.elevator).area / planformStats(d.main).area).toFixed(2)));
+lines.push(row('Main strut chord (mm) / t/c (%)', (d) => `${mm(d.mainStrut.chord)} / ${(d.mainStrut.tc * 100).toFixed(1)}`));
+lines.push(row('Rudder strut chord (mm)', (d) => mm(d.rudderStrut.chord)));
+lines.push(row('**Take-off boat speed (kn)**', (d, e) => e.takeoffKn.toFixed(1)));
+lines.push(row('**Min. flying speed (kn)**', (d, e) => e.minFlyKn.toFixed(1)));
+lines.push(row('**Foils from TWS (kn)**', (d, e) => e.minTWSkn.toFixed(1)));
+for (const k of ['light', 'medium', 'strong']) {
+  lines.push(row(`${k} VMG up / down (kn)`, (d, e) => `${e.bands[k].upVMG.toFixed(1)}${e.bands[k].upFoil ? '' : 'ᴴ'} / ${e.bands[k].downVMG.toFixed(1)}${e.bands[k].downFoil ? '' : 'ᴴ'}`));
+  lines.push(row(`${k} boat speed up / down (kn)`, (d, e) => `${e.bands[k].upV.toFixed(1)} / ${e.bands[k].downV.toFixed(1)}`));
+  lines.push(row(`${k} foiling tacks`, (d, e) => (e.bands[k].manoeuvre ? (e.bands[k].manoeuvre.foilingTacks ? '✓' : '✗') : '–')));
+}
+lines.push(row('V_max (kn)', (d, e) => e.vmaxKn.toFixed(1)));
+lines.push(row('Cavitation margin at V_max', (d, e) => e.cavAtMax.toFixed(2)));
+lines.push(row('Divergence speed (kn)', (d, e) => e.divergenceKn.toFixed(0)));
+lines.push(row('Tip deflection 2 g (% b/2)', (d, e) => (e.structure.main.deflectionRatio * 100).toFixed(1)));
+lines.push(row('Strut deflection (mm)', (d, e) => (e.structure.strut.tipDeflection * 1000).toFixed(0)));
+lines.push(row('Heave/pitch damping ζ', (d, e) => e.stability.minZeta.toFixed(2)));
+lines.push(row('Target-band score', (d, e) => e.score.toFixed(3)));
+console.log(lines.join('\n'));

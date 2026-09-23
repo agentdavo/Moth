@@ -7,6 +7,8 @@ import { chordAt, tcAt, planformStats, strutStats } from './geometry.js';
 const K_I = 0.036;
 // Torsion constant of a solid aerofoil: J ~ k c t^3 (thin section)
 const K_J = 0.14;
+// struts are UHM-UD dominated (research 8.3: HM/UHM UD 230-300 GPa fibre-direction laminate)
+const E_STRUT = 200e9;
 
 /**
  * Main-foil / elevator half-span bending under a given total lift (N), distributed
@@ -67,7 +69,7 @@ export function strutBending(s, sideForce, immersed, foilSide = 0) {
     let m = foilSide * (L - z);
     for (let j = i; j < n; j++) { const zj = (j + 0.5) * dz; m += load(zj) * dz * (zj - z); }
     maxM = Math.max(maxM, Math.abs(m));
-    slope += m / (E_CARBON * I) * dz;
+    slope += m / (E_STRUT * I) * dz;
     defl += slope * dz;
   }
   return { tipDeflection: defl, tipSlopeDeg: slope / DEG, rootStress: maxM * (t / 2) / I, mass: strutStats(s).mass };
@@ -93,6 +95,8 @@ export function structuralCheck(design, loadFactor = 2.5, mainShape = null) {
   const W = (design.boat.hullMass + design.boat.sailorMass) * G;
   const main = foilBending(design.main, W * loadFactor * 0.96, mainShape);
   const elev = foilBending(design.elevator, W * loadFactor * 0.25);
-  const strut = strutBending(design.mainStrut, W * 0.5 * loadFactor, design.mainStrut.length - design.boat.rideHeight);
+  // strut: 441 N design side load for a 100 kg sailor (Voodoo test, IST Lisboa), scaled by weight;
+  // the measured 8.1 N/mm strut (t/c 14.5%) deflects ~54 mm under it
+  const strut = strutBending(design.mainStrut, 441 * W / 1060, Math.max(0.2, design.mainStrut.length - design.boat.rideHeight));
   return { main, elev, strut, loadFactor };
 }

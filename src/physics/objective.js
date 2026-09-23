@@ -58,6 +58,10 @@ export function evaluateDesign(design, target = 'allround', opts = {}) {
   let stab = { minZeta: 0, stable: false, freqHz: 0 };
   try { stab = linearStability(buildFlightModel(design, 7.5)); } catch (e) { /* infeasible trim */ }
 
+  // foiling manoeuvres & lulls: tacks/gybes bleed speed to ~60% of the upwind speed [EST];
+  // if that is below the minimum flying speed (flap max, bow-up 3 deg, normal ride height)
+  // the boat touches down in every manoeuvre, costing up to ~8% of the band's VMG [EST]
+  const vMinFly = model.takeoffSpeed(0, design.boat.rideHeight);
   const bands = {};
   let score = 0, wsum = 0;
   const w = TARGETS[target] || TARGETS.allround;
@@ -68,7 +72,13 @@ export function evaluateDesign(design, target = 'allround', opts = {}) {
       downV: toKn(b.down.V), downTWA: b.down.twa, downVMG: down, downFoil: b.down.foiling,
       upLimit: b.up.limit, downLimit: b.down.limit,
     };
-    const s = 0.5 * (up / REF_VMG[k].up + down / REF_VMG[k].down);
+    let s = 0.5 * (up / REF_VMG[k].up + down / REF_VMG[k].down);
+    if (b.up.foiling) {
+      const vTurn = 0.6 * b.up.V;
+      const deficit = isFinite(vMinFly) ? Math.max(0, Math.min(1, (vMinFly - vTurn) / vMinFly * 4)) : 1;
+      bands[k].manoeuvre = { vTurnKn: toKn(vTurn), vMinFlyKn: toKn(vMinFly), foilingTacks: deficit === 0 };
+      s *= 1 - 0.08 * deficit;
+    }
     bands[k].score = s;
     score += w[k] * s; wsum += w[k];
   }
@@ -84,16 +94,24 @@ export function evaluateDesign(design, target = 'allround', opts = {}) {
   if (ventMax > 1) pen.ventilation = 0.1 * (ventMax - 1);
   if (tipClear < 0) pen.tipClearance = 2 * -tipClear;
   if (!stab.stable) pen.stability = 0.1; else if (stab.minZeta < 0.15) pen.stability = 0.3 * (0.15 - stab.minZeta);
+  // tip Reynolds number at take-off >= 1.5e5 (laminar separation / tip stall), elevator >= 1.2e5
+  const vto = ev.takeoffV || 5;
+  const reTip = vto * chordAt(design.main, 0.95) / 1.19e-6, reTipE = vto * chordAt(design.elevator, 0.95) / 1.19e-6;
+  if (reTip < 1.5e5) pen.tipRe = 0.4 * (1 - reTip / 1.5e5);
+  if (reTipE < 1.2e5) pen.tipRe = (pen.tipRe || 0) + 0.3 * (1 - reTipE / 1.2e5);
+  // strut lateral stiffness: <= 100 mm tip deflection at the design side load [EST]
+  if (st.strut.tipDeflection > 0.10) pen.strut = 2 * (st.strut.tipDeflection - 0.10);
   const AR = main.AR;
   if (AR > 17) pen.aspect = 0.05 * (AR - 17);
   const ratio = elev.area / main.area;
-  if (ratio < 0.28) pen.tail = 1.0 * (0.28 - ratio);
+  // pitch authority: modern elevators run S_r/S_m ~ 0.40-0.47 (research 4); below 0.35 is penalised
+  if (ratio < 0.35) pen.tail = 1.5 * (0.35 - ratio);
   const totalPen = Object.values(pen).reduce((a, b) => a + b, 0);
   const t1 = typeof performance !== 'undefined' ? performance.now() : 0;
   return {
     score: score - totalPen, rawScore: score, penalties: pen, bands,
-    takeoffKn: toKn(ev.takeoffV), minTWSkn, vmaxKn: toKn(vmax), cavAtMax, ventMax, tipClear, stallMax: stall,
-    divergenceKn: toKn(vdiv), structure: st, stability: stab,
+    takeoffKn: toKn(ev.takeoffV), minTWSkn, minFlyKn: toKn(vMinFly), vmaxKn: toKn(vmax), cavAtMax, ventMax, tipClear, stallMax: stall,
+    divergenceKn: toKn(vdiv), structure: st, stability: stab, reTip, reTipE,
     main: { area: main.area, AR: main.AR, mass: main.mass }, elev: { area: elev.area, AR: elev.AR },
     evals: model.evals, ms: t1 - t0,
   };

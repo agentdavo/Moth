@@ -20,6 +20,8 @@ try {
     async sim() { await page.evaluate(() => window.__moth.tab('sim')); await page.click('#simSweep'); await page.evaluate(() => window.__moth.runSim()); await page.waitForTimeout(9000); },
     async sweep() { await page.evaluate(() => { window.__moth.tab('sweep'); window.__moth.runSweep(); }); await wait('window.__moth.sweepDone', 300000); await page.click('#swCpu'); await page.waitForTimeout(1500); },
     async opt() { await page.evaluate(() => { window.__moth.tab('opt'); document.getElementById('optGens').value = process_gens; document.getElementById('optRun').click(); }).catch(() => {}); },
+    async sens() { await page.evaluate(() => { window.__moth.tab('sens'); window.__moth.runSens(); }); await wait('window.__moth.sensDone', 900000); await page.waitForTimeout(800); },
+    async preset() { const k = process.env.PRESET; await page.evaluate((k) => { window.__moth.evalDone = false; window.__moth.loadPreset(k); }, k); await page.waitForTimeout(2500); await wait('window.__moth.ready && window.__moth.evalDone'); await page.waitForTimeout(6000); },
     async decisions() { await page.evaluate(() => window.__moth.tab('decisions')); await page.waitForTimeout(800); },
     async strong() { await page.evaluate(() => window.__moth.loadPreset('strong')); await page.waitForTimeout(1500); await wait('window.__moth.ready'); await page.waitForTimeout(8000); },
     async margins() { await page.evaluate(() => { document.querySelector('[data-tab="margins"]').click(); document.getElementById('colorMode').value = 'cav'; document.getElementById('colorMode').dispatchEvent(new Event('change')); }); await page.waitForTimeout(5000); },

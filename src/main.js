@@ -5,7 +5,8 @@ import { liftSlope2D, reynolds, FAMILIES } from './physics/sections.js';
 import { KNOT, DEG } from './physics/constants.js';
 import { SepCMAES, paretoInsert } from './physics/optimizer.js';
 import { buildControls } from './ui/controls.js';
-import { lineChart, barList, polarChart, scatter, heatmap } from './ui/charts.js';
+import { OPTIMISED } from './physics/optimised.js';
+import { lineChart, barList, polarChart, scatter, heatmap, divergingBars } from './ui/charts.js';
 import { renderDecisions } from './ui/decisions.js';
 import { MothScene } from './render/scene.js';
 import { LBMSolver } from './gpu/lbm.js';
@@ -81,8 +82,13 @@ for (const [k, d] of Object.entries(PRESETS)) {
 function loadDesign(d, key) {
   state.design = d;
   for (const [k, b] of Object.entries(presetButtons)) b.classList.toggle('on', k === key);
-  if (key && WIND_BANDS[key]) { const band = WIND_BANDS[key]; state.cond.tws = band.tws; state.cond.heel = band.heelUp; state.cond.twa = 45; }
+  const bandKey = key?.replace('opt-', '');
+  if (bandKey && WIND_BANDS[bandKey]) { const band = WIND_BANDS[bandKey]; state.cond.tws = band.tws; state.cond.heel = band.heelUp; state.cond.twa = 45; }
   refreshControls(); onEdit('*');
+}
+for (const [k, d] of Object.entries(OPTIMISED)) {
+  const b = document.createElement('button'); b.textContent = `★ opt ${k}`; b.title = d.name; b.onclick = () => loadDesign(cloneDesign(d), `opt-${k}`);
+  presetBar.appendChild(b); presetButtons[`opt-${k}`] = b;
 }
 presetButtons.medium.classList.add('on');
 
@@ -206,18 +212,19 @@ function renderEval(ev, pol) {
   const rows = BANDS.map(([k, band]) => {
     const r = ev.bands[k];
     const f = (v, foil) => `${v.toFixed(1)}${foil ? '' : '<small>ᴴ</small>'}`;
-    return `<tr><td><span class="sw" style="background:${band.color}"></span>${band.label} ${band.tws} kn</td><td>${f(r.upV, r.upFoil)}</td><td>${r.upTWA.toFixed(0)}°</td><td>${r.upVMG.toFixed(1)}</td><td>${f(r.downV, r.downFoil)}</td><td>${r.downTWA.toFixed(0)}°</td><td>${r.downVMG.toFixed(1)}</td></tr>`;
+    const tack = r.manoeuvre ? (r.manoeuvre.foilingTacks ? '<span class="ok">✓</span>' : '<span class="warn">✗</span>') : '<span class="dim">–</span>';
+    return `<tr><td><span class="sw" style="background:${band.color}"></span>${band.label} ${band.tws}</td><td>${f(r.upV, r.upFoil)}</td><td>${r.upTWA.toFixed(0)}°</td><td>${r.upVMG.toFixed(1)}</td><td>${f(r.downV, r.downFoil)}</td><td>${r.downTWA.toFixed(0)}°</td><td>${r.downVMG.toFixed(1)}</td><td>${tack}</td></tr>`;
   }).join('');
-  $('bandTable').innerHTML = `<table class="bands"><tr><th>band</th><th>up kn</th><th>TWA</th><th>VMG</th><th>down kn</th><th>TWA</th><th>VMG</th></tr>${rows}</table>`;
+  $('bandTable').innerHTML = `<table class="bands"><tr><th>band kn</th><th>up</th><th>TWA</th><th>VMG</th><th>down</th><th>TWA</th><th>VMG</th><th title="foils through tacks and gybes (turn speed 0.6 × upwind speed above minimum flying speed)">tack</th></tr>${rows}</table>`;
   const pen = Object.keys(ev.penalties);
-  $('evalNote').innerHTML = `Take-off ${ev.takeoffKn.toFixed(1)} kn boat speed · foils from ${ev.minTWSkn.toFixed(1)} kn TWS · V<sub>max</sub> ${ev.vmaxKn.toFixed(1)} kn · score ${ev.score.toFixed(3)}${pen.length ? ` · penalties: ${pen.join(', ')}` : ''}<br><small>ᴴ = not foiling (hull-borne)</small>`;
+  $('evalNote').innerHTML = `Take-off ${ev.takeoffKn.toFixed(1)} kn boat speed · min flying ${ev.minFlyKn.toFixed(1)} kn · foils from ${ev.minTWSkn.toFixed(1)} kn TWS · V<sub>max</sub> ${ev.vmaxKn.toFixed(1)} kn · score ${ev.score.toFixed(3)}${pen.length ? ` · penalties: ${pen.join(', ')}` : ''}<br><small>ᴴ = not foiling (hull-borne) · tack ✓ = foils through manoeuvres</small>`;
   polarChart($('polar'), BANDS.map(([k, b]) => ({ label: `${b.label} ${b.tws} kn`, color: b.color, pts: pol[k] })));
   const st = ev.structure;
   $('structList').innerHTML = [
     marginRow('Main tip deflection (≤ 4.5% b/2)', 0.045 - st.main.deflectionRatio, 0, 0.03, () => `${(st.main.tipDeflection * 1000).toFixed(0)} mm`),
     marginRow('Main root stress margin', st.main.stressMargin, 0, 2, (v) => `${(st.main.maxStress / 1e6).toFixed(0)} MPa`),
     marginRow('Divergence ≥ 1.3 V_max', ev.divergenceKn / (1.3 * Math.max(ev.vmaxKn, 1)) - 1, 0, 0.5, () => `${ev.divergenceKn.toFixed(0)} kn`),
-    marginRow('Strut tip deflection', 0.06 - st.strut.tipDeflection, 0, 0.04, () => `${(st.strut.tipDeflection * 1000).toFixed(0)} mm`),
+    marginRow('Strut tip deflection (≤ 100 mm)', 0.10 - st.strut.tipDeflection, 0, 0.05, () => `${(st.strut.tipDeflection * 1000).toFixed(0)} mm`),
     marginRow('Heave/pitch damping ζ', ev.stability.minZeta, 0.1, 0.6, (v) => v.toFixed(2)),
   ].join('') + `<p class="note">Main foil mass ≈ ${ev.main.mass.toFixed(2)} kg (solid carbon) · top-speed cavitation margin ${ev.cavAtMax.toFixed(2)}</p>`;
 }
@@ -234,13 +241,14 @@ wireTabs($('dockTabs'), 'tab-', 'tabpane');
 wireTabs($('rightTabs'), 'r-', 'rpane');
 let activeTab = 'cfd';
 function onTab(t) {
-  if (['cfd', 'sim', 'opt', 'sweep', 'decisions'].includes(t)) activeTab = t;
+  if (['cfd', 'sim', 'opt', 'sweep', 'sens', 'decisions'].includes(t)) activeTab = t;
   if (t === 'loads' && state.detail) renderDetail(state.detail);
   if (t === 'margins' && state.detail) renderDetail(state.detail);
   if (t === 'perf' && state.evalRes) renderEval(state.evalRes, state.polars);
   if (t === 'opt') drawOpt();
   if (t === 'sweep') drawSweep();
   if (t === 'sim' && simResult) drawSim(simResult);
+  if (t === 'sens' && sens.rows) drawSens();
 }
 window.__moth.tab = (t) => document.querySelector(`[data-tab="${t}"]`)?.click();
 renderDecisions($('decisions'));
@@ -269,7 +277,7 @@ function lbmApply(reset = false) {
 if (scene.device) {
   try {
     const c = $('lbmCanvas');
-    lbm = new LBMSolver(scene.device, c, { nx: 480, ny: 192 });
+    lbm = new LBMSolver(scene.device, c, { nx: 512, ny: 224 });
     const swift = scene.software;
     lbm.stepsPerFrame = swift ? 6 : 16;
     lbmApply(true);
@@ -329,7 +337,7 @@ async function runSim() {
 function drawSim(r) {
   const s = r.series, m = r.metrics, st = r.stability;
   const ride0 = state.design.boat.rideHeight;
-  lineChart($('simRide'), { series: [{ label: 'ride height (keel)', color: '#3987e5', x: s.t, y: s.ride }, { label: 'wave at main foil', color: '#5f7282', x: s.t, y: s.eta.map((v) => v + ride0 - 0.5) }], xlabel: '', ylabel: 'm', hline: { y: ride0, label: 'set point' } });
+  lineChart($('simRide'), { series: [{ label: 'ride height (keel)', color: '#3987e5', x: s.t, y: s.ride }, { label: 'wave at main foil', color: '#5f7282', x: s.t, y: s.eta.map((v) => v + ride0 - 0.5) }], xlabel: '', ylabel: 'm', hline: { y: ride0 } });
   lineChart($('simPitch'), { series: [{ label: 'pitch', color: '#199e70', x: s.t, y: s.pitch }], xlabel: '', ylabel: 'pitch °', zeroLine: true, legend: false });
   lineChart($('simFlap'), { series: [{ label: 'flap', color: '#d95926', x: s.t, y: s.flap }], xlabel: 'time s', ylabel: 'flap °', legend: false });
   $('simReadout').textContent = `linear stability: ${st.stable ? 'stable' : 'UNSTABLE'}\nleast-damped ζ = ${st.minZeta.toFixed(3)} @ ${st.freqHz.toFixed(2)} Hz\nRMS ride error ${(m.rmsRide * 1000).toFixed(0)} mm\nRMS pitch ${m.rmsPitchDeg.toFixed(2)}°\npeak heave accel ${m.maxAccG.toFixed(2)} g\ntouch-downs ${m.touchdowns} · foil breaches ${m.breaches}\ndL_main/dα ${(r.derivs.Lm_a / 1000).toFixed(1)} kN/rad\ndownwash k ${r.derivs.kdw.toFixed(3)}`;
@@ -444,7 +452,7 @@ async function runSweep() {
 }
 function drawSweepReadout() {
   if (!sweep.res) return;
-  $('swReadout').textContent = `${sweep.designs.length} designs × ${sweep.res[0].n} panels\nGPU: ${sweep.ms.toFixed(0)} ms (AIC + elimination + KJ forces)\n${sweep.cpuMs ? `CPU (1 thread): ${sweep.cpuMs.toFixed(0)} ms` : 'CPU: press “CPU timing”'}\nGPU vs CPU max rel. error ${(sweep.err * 100).toExponential(2)}%`;
+  $('swReadout').textContent = `${sweep.designs.length} designs × ${sweep.res[0].n} panels\nGPU${scene.software ? ' (SwiftShader = software, CPU-emulated)' : ''}: ${sweep.ms.toFixed(0)} ms (AIC + elimination + KJ forces)\n${sweep.cpuMs ? `CPU (1 thread): ${sweep.cpuMs.toFixed(0)} ms` : 'CPU: press “CPU timing”'}\nGPU vs CPU max rel. error ${(sweep.err * 100).toExponential(2)}%`;
 }
 function drawSweep() {
   if (!sweep.res) { return; }
@@ -471,15 +479,71 @@ function drawSweep() {
   lineChart($('swCurve'), {
     series: [
       { label: 'current', color: '#e6edf3', x: speeds, y: curve(...cur) },
-      { label: 'best @ V', color: '#c98500', x: speeds, y: curve(...best) },
-      { label: 'big foil', color: '#3987e5', x: speeds, y: curve(...big) },
-      { label: 'small foil', color: '#d95926', x: speeds, y: curve(...small) },
+      { label: 'best@V', color: '#c98500', x: speeds, y: curve(...best) },
+      { label: 'big', color: '#3987e5', x: speeds, y: curve(...big) },
+      { label: 'small', color: '#d95926', x: speeds, y: curve(...small) },
     ], xlabel: 'boat speed kn', ylabel: 'level-flight drag N', fmtX: (v) => v.toFixed(0), fmtY: (v) => v.toFixed(0),
   });
   drawSweepReadout();
 }
 
+// ---------------------------------------------------------------- sensitivity (design decisions, per band)
+const sens = { rows: null };
+const SENS_LABEL = {
+  'main.span': 'main span', 'main.rootChord': 'main root chord', 'main.taper': 'main taper', 'main.ellipticity': 'main ellipticity',
+  'main.sweep': 'main sweep', 'main.twist': 'main twist', 'main.dihedral': 'main tip dihedral', 'main.tcRoot': 'main t/c root', 'main.tcTip': 'main t/c tip',
+  'main.cli': 'main camber (c_li)', 'main.flapFrac': 'flap chord', 'main.flapSpan': 'flap span', 'main.incidence': 'main incidence',
+  'elevator.span': 'elevator span', 'elevator.rootChord': 'elevator chord', 'elevator.incidence': 'elevator incidence', 'elevator.cli': 'elevator camber',
+  'mainStrut.chord': 'main strut chord', 'mainStrut.tc': 'main strut t/c', 'rudderStrut.chord': 'rudder strut chord', 'boat.flapMin': 'flap min stop', 'boat.flapMax': 'flap max stop',
+};
+$('sensRun').onclick = runSens;
+async function runSens() {
+  const template = cloneDesign(state.design);
+  const x0 = encode(template).map((v) => Math.min(0.97, Math.max(0.03, v)));
+  const step = 0.08;
+  setBusy(1);
+  const t0 = performance.now();
+  try {
+    let done = 0;
+    const total = 1 + DESIGN_VARS.length * 2;
+    const job = (x) => pool.run('evalVector', [x, template, 'allround']).then((r) => { done++; $('sensReadout').textContent = `${done}/${total} VPP evaluations…`; return r; });
+    const base = job(x0);
+    const pm = DESIGN_VARS.map((_, i) => [1, -1].map((sg) => { const x = x0.slice(); x[i] = Math.min(1, Math.max(0, x[i] + sg * step)); return job(x); }));
+    const b = await base;
+    const res = await Promise.all(pm.map((p) => Promise.all(p)));
+    const mean = (r, k) => 0.5 * (r.bands[k].upVMG + r.bands[k].downVMG);
+    sens.rows = DESIGN_VARS.map(([p], i) => {
+      const [rp, rm] = res[i];
+      const d = {};
+      for (const k of ['light', 'medium', 'strong']) d[k] = (mean(rp, k) - mean(rm, k)) / 2;
+      return { p, label: SENS_LABEL[p] || p, d };
+    });
+    sens.rows.sort((a, c) => Math.max(...Object.values(c.d).map(Math.abs)) - Math.max(...Object.values(a.d).map(Math.abs)));
+    sens.base = b;
+    $('sensReadout').textContent = `${total} VPP evaluations in ${((performance.now() - t0) / 1000).toFixed(0)} s\nbase mean VMG  L ${mean(b, 'light').toFixed(2)} · M ${mean(b, 'medium').toFixed(2)} · S ${mean(b, 'strong').toFixed(2)} kn`;
+    drawSens();
+    window.__moth.sensDone = true;
+  } catch (e) { console.error(e); $('sensReadout').textContent = `error: ${e.message}`; } finally { setBusy(-1); }
+}
+function drawSens() {
+  // top 12 variables by their largest effect in any band; each panel has its own scale
+  // (a take-off "cliff" in light air would otherwise flatten the other bands)
+  const rows = sens.rows.slice(0, 12);
+  const mx = (k) => Math.max(0.01, ...rows.map((r) => Math.abs(r.d[k])));
+  divergingBars($('sensL'), rows.map((r) => ({ label: r.label, v: r.d.light })), { title: `Light ${WIND_BANDS.light.tws} kn`, max: mx('light') });
+  divergingBars($('sensM'), rows.map((r) => ({ label: r.label, v: r.d.medium })), { title: `Medium ${WIND_BANDS.medium.tws} kn`, max: mx('medium'), showLabels: false });
+  divergingBars($('sensS'), rows.map((r) => ({ label: r.label, v: r.d.strong })), { title: `Strong ${WIND_BANDS.strong.tws} kn`, max: mx('strong'), showLabels: false });
+}
+window.__moth.runSens = runSens;
+
 // ---------------------------------------------------------------- go
+{
+  const qp = new URLSearchParams(location.search);
+  const pk = qp.get('preset');
+  if (pk && presetButtons[pk]) presetButtons[pk].click();
+  const tab = qp.get('tab');
+  if (tab) window.__moth.tab(tab);
+}
 updateDerived();
 updateLegend();
 requestDetail();

@@ -10,13 +10,15 @@
 // Speed is the largest steady equilibrium that is feasible (flap/elevator within range,
 // no stall). If no foiling equilibrium exists a displacement-mode estimate is returned.
 import { G, DEG, RHO_WATER, clamp, KNOT } from './constants.js';
-import { buildLattice } from './geometry.js';
+import { buildLattice, planformStats } from './geometry.js';
 import { solveLattice, finishSolution } from './vlm.js';
 import { hydroForces } from './hydro.js';
 import { sailForce, sailCLmax } from './sail.js';
 import { solveSmall } from './linalg.js';
-import { cfTurb } from './sections.js';
 import { WIND_BANDS } from './design.js';
+
+// speed gain from pumping sail + body to initiate foiling (class rule 12.1 alters RRS 42)
+export const PUMP = 1.15;
 
 export class MothModel {
   constructor(design, opts = {}) {
@@ -226,30 +228,31 @@ export class MothModel {
     return { ...rlo, V: lo, limit: rhi.feasible ? 'drag' : rhi.why, foiling: true };
   }
 
-  /** Non-foiling (displacement / skimming) speed estimate. */
+  /**
+   * Non-foiling (hull-borne) speed. Hull resistance from the Beaver & Zseleczky (2009) tow
+   * tank: R = k' * Delta_hull * V^2 with k' = 7.0e-3 (60 lb) .. 5.6e-3 s^2/m^2 (>=120 lb);
+   * the foils (at full depth, flap down) unload the hull but add their own drag.
+   */
   displacementSpeed(cond) {
     const b = this.b, d = this.d;
     const twa = cond.twa * DEG;
-    const Lh = 3.355;
-    const Sw = 0.95;
-    const areaFoils = (d.main.span * d.main.rootChord * 0.8) + (d.elevator.span * d.elevator.rootChord * 0.8) +
-      d.mainStrut.chord * 0.9 + d.rudderStrut.chord * 0.9;
+    const Sm = planformStats(d.main).area, Se = planformStats(d.elevator).area;
+    const strutWet = (d.mainStrut.chord + d.rudderStrut.chord) * (d.mainStrut.length - 0.1);
     const R = (V) => {
       const q = 0.5 * RHO_WATER * V * V;
-      const lift = Math.min(this.W * 0.8, q * d.main.span * d.main.rootChord * 0.8 * 0.9);
+      const lift = Math.min(this.W * 0.85, q * (Sm * 0.9 + Se * 0.4));
       const disp = Math.max(0, this.W - lift);
-      const fn = V / Math.sqrt(G * Lh);
-      const Rf = q * Sw * (disp / this.W) ** 0.66 * cfTurb(V * Lh / 1.19e-6) * 1.25;
-      const Rw = disp * (0.015 + 0.09 * Math.exp(-(((fn - 0.48) / 0.2) ** 2)));
-      const Rfoil = q * areaFoils * 0.011 + (lift * lift) / (q * Math.PI * d.main.span ** 2 + 1e-9);
-      return Rf + Rw + Rfoil;
+      const kp = clamp(7.0e-3 - (disp - 267) / 267 * 1.4e-3, 5.6e-3, 7.0e-3);
+      const Rhull = kp * disp * V * V;
+      const Rfoil = q * (Sm + Se) * 0.013 + q * strutWet * 0.009 + (lift * lift) / (q * Math.PI * d.main.span ** 2 * 0.9 + 1e-9);
+      return Rhull + Rfoil;
     };
     const drive = (V) => {
-      let CL = b.sailCLmax;
+      let CL = sailCLmax(b, sailForce(b, V, cond.tws, twa, 0, 1).awaE);
       let s = sailForce(b, V, cond.tws, twa, 0, CL);
-      // roll limit with sailor at max hike, no heel, CE above water ~ deck + CE
-      const zce = b.deckAboveKeel + b.ceAboveDeck * s.ceFactor + 0.15;
-      const Mr = this.Ws * b.hikeMax + this.Wb * 0.0;
+      // roll limit with the sailor at max hike, no heel; CE height above the waterline
+      const zce = b.deckAboveKeel + b.ceAboveDeck * s.ceFactor + 0.1;
+      const Mr = this.Ws * b.hikeMax;
       if (s.sail[1] * zce > Mr) { CL *= Mr / (s.sail[1] * zce); s = sailForce(b, V, cond.tws, twa, 0, CL); }
       return s.sail[0] + s.windage[0];
     };
@@ -259,11 +262,11 @@ export class MothModel {
   }
 
   /** Best VMG in a direction ('up' | 'down') for a TWS (m/s) and heel. */
-  bestVMG(tws, dir, heel) {
+  bestVMG(tws, dir, heel, canFoil = true) {
     const [a, b] = dir === 'up' ? [30, 68] : [105, 172];
     const f = (twa) => {
       const cond = { tws, twa, heel };
-      const r = this.speedAt(cond) || this.displacementSpeed(cond);
+      const r = (canFoil && this.speedAt(cond)) || this.displacementSpeed(cond);
       return { r, vmg: r.V * Math.abs(Math.cos(twa * DEG)) };
     };
     // coarse scan (foiling / non-foiling makes the VMG curve discontinuous) then golden refine
@@ -285,7 +288,7 @@ export class MothModel {
 
   /**
    * Minimum true wind (m/s) to get foiling from the hull: the displacement-mode speed on the
-   * best reaching angle (x1.1 for pumping, allowed by rule 12.1) must reach the take-off
+   * best reaching angle (x PUMP for pumping, allowed by rule 12.1) must reach the take-off
    * speed, and a sustained foiling equilibrium must exist there.
    */
   minFoilingTWS() {
@@ -294,7 +297,7 @@ export class MothModel {
     const test = (tws) => {
       for (const twa of [60, 75, 90, 105, 120]) {
         const disp = this.displacementSpeed({ tws, twa });
-        if (disp.V * 1.1 >= vto && this.speedAt({ tws, twa, heel: 0 })) return true;
+        if (disp.V * PUMP >= vto && this.speedAt({ tws, twa, heel: 0 })) return true;
       }
       return false;
     };
@@ -311,9 +314,12 @@ export class MothModel {
     if (!opts.skipMinTWS) res.minTWS = this.minFoilingTWS();
     for (const [k, band] of Object.entries(bands)) {
       const tws = band.tws * KNOT;
-      const up = this.bestVMG(tws, 'up', band.heelUp);
-      const down = this.bestVMG(tws, 'down', band.heelDown);
-      res.bands[k] = { up, down, tws: band.tws };
+      // a band below the take-off threshold is sailed hull-borne: the sustained foiling
+      // equilibrium exists but cannot be reached from the water
+      const canFoil = opts.skipMinTWS || !isFinite(res.minTWS) ? isFinite(res.takeoffV) : tws >= res.minTWS;
+      const up = this.bestVMG(tws, 'up', band.heelUp, canFoil);
+      const down = this.bestVMG(tws, 'down', band.heelDown, canFoil);
+      res.bands[k] = { up, down, tws: band.tws, canFoil };
     }
     return res;
   }

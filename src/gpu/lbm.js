@@ -147,7 +147,7 @@ export class LBMSolver {
     this.u0 = 0.08;
     this.re = 6000;
     this.mode = 0;
-    this.chord = Math.round(nx * 0.24);
+    this.chord = Math.round(nx * 0.17); // ~40% of the height: moderate blockage
     this.stepsPerFrame = 12;
     this.force = [0, 0];
     this.hist = [];

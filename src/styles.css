@@ -107,14 +107,14 @@ table.bands td:first-child, table.bands th:first-child { text-align: left; font-
 .cfd-readout { font: 11px/1.5 'JetBrains Mono', monospace; color: var(--ink-2); background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 6px 8px; margin: 6px 0; white-space: pre-wrap; }
 canvas.mini { width: 100%; height: 80px; display: block; margin-top: 4px; }
 .sim-wrap, .sweep-wrap { display: grid; grid-template-columns: 270px 1fr 300px; gap: 10px; height: 100%; }
-.opt-wrap { display: grid; grid-template-columns: 270px 1fr 1fr 1fr; gap: 10px; height: 100%; }
+.opt-wrap { display: grid; grid-template-columns: 240px 1fr 1fr 1.25fr; gap: 10px; height: 100%; }
 canvas.wide, canvas.narrow, canvas.third { width: 100%; height: 100%; min-height: 0; display: block; }
-.opt-table { overflow-y: auto; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+.opt-table { overflow: auto; font-size: 10.5px; font-family: 'JetBrains Mono', monospace; }
 .opt-table table { width: 100%; border-collapse: collapse; }
 .opt-table td { padding: 2px 4px; border-top: 1px solid var(--line); }
 .opt-table td:last-child { text-align: right; }
-.decisions { height: 100%; overflow-y: auto; columns: 2; column-gap: 18px; font-size: 12px; }
-.decisions .dec { break-inside: avoid; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; }
+.decisions { height: 100%; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 10px; align-content: start; font-size: 12px; }
+.decisions .dec { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
 .decisions h5 { margin: 0 0 4px; font-size: 12px; color: #9cc8f5; }
 .decisions table { width: 100%; border-collapse: collapse; }
 .decisions td { vertical-align: top; padding: 3px 4px; border-top: 1px solid var(--line); color: var(--ink-2); }
@@ -131,3 +131,4 @@ canvas.wide, canvas.narrow, canvas.third { width: 100%; height: 100%; min-height
 }
 .stack { display: grid; grid-template-rows: repeat(3, 1fr); gap: 2px; min-height: 0; height: 100%; }
 .stack canvas { width: 100%; height: 100%; min-height: 0; display: block; }
+.sens-wrap { display: grid; grid-template-columns: 230px 1.35fr 1fr 1fr; gap: 8px; height: 100%; }

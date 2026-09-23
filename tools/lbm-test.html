@@ -1,0 +1,17 @@
+<!doctype html><html><body><canvas id="c" width="320" height="128"></canvas>
+<script type="module">
+import { LBMSolver } from '/src/gpu/lbm.js';
+const out = {};
+const adapter = await navigator.gpu.requestAdapter();
+const device = await adapter.requestDevice();
+const params = new URLSearchParams(location.search);
+const alpha = +(params.get('a') ?? 4), re = +(params.get('re') ?? 2000), steps = +(params.get('n') ?? 6000);
+const s = new LBMSolver(device, document.getElementById('c'), { nx: 320, ny: 128 });
+s.setRe(re);
+s.setFoil({ family: 'naca4', tc: 0.12, cli: 0 }, alpha, 0, 0);
+s.reset();
+const t0 = performance.now();
+for (let k = 0; k < steps / 50; k++) { s.step(50); await device.queue.onSubmittedWorkDone(); await new Promise(r => setTimeout(r, 0)); }
+await new Promise(r => setTimeout(r, 300));
+window.result = { ...s.averaged(), last: s.hist.slice(-3), ms: performance.now() - t0, chord: s.chord, tau: s.tau };
+</script></body></html>

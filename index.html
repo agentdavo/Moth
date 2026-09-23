@@ -40,11 +40,12 @@
           <button data-tab="sim">Flight sim · wand</button>
           <button data-tab="opt">Optimiser</button>
           <button data-tab="sweep">Design space · GPU</button>
+          <button data-tab="sens">Sensitivity</button>
           <button data-tab="decisions">Design decisions</button>
         </nav>
         <div class="tabpane on" id="tab-cfd">
           <div class="cfd-wrap">
-            <canvas id="lbmCanvas" width="960" height="384"></canvas>
+            <canvas id="lbmCanvas" width="1024" height="448"></canvas>
             <div class="cfd-side">
               <div class="row"><label>Section</label><select id="lbmSurface"><option value="main">main foil root</option><option value="elev">elevator root</option><option value="mstrut">main strut</option></select></div>
               <div class="row"><label>α (deg)</label><input type="range" id="lbmAlpha" min="-4" max="14" step="0.5" value="2" /><output id="lbmAlphaOut">2</output></div>
@@ -98,6 +99,16 @@
             </div>
             <canvas id="swHeat" class="wide"></canvas>
             <canvas id="swCurve" class="narrow"></canvas>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-sens">
+          <div class="sens-wrap">
+            <div class="opt-side">
+              <p class="note">Each design variable is moved by ±8% of its optimiser range around the current design and the full VPP is re-run. Bars show the change in mean VMG (average of up- and downwind VMG) per wind band for a +8% step. They quantify each design decision for light, medium and strong wind.</p>
+              <div class="row"><button id="sensRun" class="primary">run sensitivity</button></div>
+              <div class="cfd-readout" id="sensReadout"></div>
+            </div>
+            <canvas id="sensL" class="third"></canvas><canvas id="sensM" class="third"></canvas><canvas id="sensS" class="third"></canvas>
           </div>
         </div>
         <div class="tabpane" id="tab-decisions"><div class="decisions" id="decisions"></div></div>

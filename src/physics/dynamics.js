@@ -175,7 +175,6 @@ export function simulate(M, { T = 20, dt = 0.004, sea = makeSea({ hs: 0 }), pert
       rmsRide: Math.sqrt(sumE / Math.max(n, 1)), rmsPitchDeg: Math.sqrt(sumP / Math.max(n, 1)) / DEG,
       maxAccG: maxAcc / G, touchdowns: touch, breaches: breach,
     },
-    stateAt: (s0) => s0,
   };
 }
 

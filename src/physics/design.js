@@ -41,7 +41,7 @@ export const mediumDesign = {
     dihedral: -14, dihedralStart: 0.45, tcRoot: 0.10, tcTip: 0.09, cli: 0.15, family: 'eppler',
     incidence: 1.0, x: -2.30, z: 0.10, nHalf: 7,
   },
-  mainStrut: { length: 1.10, chord: 0.105, tc: 0.11, family: 'naca66', nSeg: 7 },
+  mainStrut: { length: 1.10, chord: 0.105, tc: 0.12, family: 'naca66', nSeg: 7 },
   rudderStrut: { length: 1.10, chord: 0.095, tc: 0.11, family: 'naca66', nSeg: 7 },
   boat: { ...baseBoat },
 };
@@ -53,7 +53,7 @@ export const lightDesign = (() => {
   d.name = 'Light (< 8 kn)';
   Object.assign(d.main, { span: 1.10, rootChord: 0.115, taper: 0.39, sweep: 3, twist: -1.5, tcRoot: 0.12, tcTip: 0.10, cli: 0.55, flapFrac: 0.35, incidence: 2.5 });
   Object.assign(d.elevator, { span: 0.78, rootChord: 0.070, dihedral: -12, cli: 0.2 });
-  Object.assign(d.mainStrut, { chord: 0.110, tc: 0.12 });
+  Object.assign(d.mainStrut, { chord: 0.110, tc: 0.125 });
   Object.assign(d.rudderStrut, { chord: 0.100 });
   Object.assign(d.boat, { flapMin: -6, flapMax: 12, rideHeight: 0.70 });
   return d;
@@ -64,7 +64,7 @@ export const strongDesign = (() => {
   d.name = 'Strong (15-25 kn)';
   Object.assign(d.main, { span: 0.88, rootChord: 0.097, taper: 0.41, sweep: 8, twist: -1.5, dihedral: -2, dihedralStart: 0.3, tcRoot: 0.10, tcTip: 0.085, cli: 0.2, flapFrac: 0.28, flapSpan: 0.85, incidence: 0.5 });
   Object.assign(d.elevator, { span: 0.63, rootChord: 0.060, dihedral: -16, tcRoot: 0.09, tcTip: 0.085, cli: 0.1 });
-  Object.assign(d.mainStrut, { chord: 0.100, tc: 0.105 });
+  Object.assign(d.mainStrut, { chord: 0.100, tc: 0.12 });
   Object.assign(d.rudderStrut, { chord: 0.092, tc: 0.10 });
   Object.assign(d.boat, { flapMin: -9, flapMax: 7, rideHeight: 0.72 });
   return d;
@@ -104,7 +104,7 @@ export const DESIGN_VARS = [
   ['main.flapSpan', 0.60, 1.00],
   ['main.incidence', -1.0, 3.5],
   ['elevator.span', 0.55, 0.85],
-  ['elevator.rootChord', 0.045, 0.080],
+  ['elevator.rootChord', 0.045, 0.085],
   ['elevator.incidence', -2, 4],
   ['elevator.cli', 0.0, 0.3],
   ['mainStrut.chord', 0.080, 0.130],

@@ -38,6 +38,7 @@ export function lineChart(canvas, { series, xlabel = '', ylabel = '', xlim, ylim
   const pad = { l: 44, r: 10, t: legend && series.length > 1 ? 20 : 8, b: 30 };
   const xs = series.flatMap((s) => s.x), ys = series.flatMap((s) => s.y).filter(Number.isFinite);
   const [x0, x1] = xlim || [Math.min(...xs), Math.max(...xs)];
+  if (hline) ys.push(hline.y);
   let [y0, y1] = ylim || [Math.min(...ys), Math.max(...ys)];
   if (!ylim) { const m = (y1 - y0) * 0.08 || 0.5; y0 -= m; y1 += m; }
   const X = (v) => pad.l + (v - x0) / (x1 - x0 || 1) * (w - pad.l - pad.r);
@@ -100,7 +101,7 @@ export function polarChart(canvas, bands, { maxKn } = {}) {
   const mk = maxKn || Math.ceil(Math.max(...bands.flatMap((b) => b.pts.map((p) => p.kn))) / 5) * 5;
   ctx.strokeStyle = INK.grid; ctx.fillStyle = INK.muted;
   for (let k = 5; k <= mk; k += 5) { ctx.beginPath(); ctx.arc(cx, cy, R * k / mk, -Math.PI / 2, Math.PI / 2); ctx.stroke(); ctx.fillText(`${k}`, cx + 2, cy - R * k / mk - 2); }
-  for (let a = 0; a <= 180; a += 30) { const t = a * Math.PI / 180; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + R * Math.sin(t), cy - R * Math.cos(t)); ctx.stroke(); ctx.fillText(`${a}°`, cx + (R + 8) * Math.sin(t) - 6, cy - (R + 8) * Math.cos(t) + 4); }
+  for (let a = 0; a <= 180; a += 30) { const t = a * Math.PI / 180; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + R * Math.sin(t), cy - R * Math.cos(t)); ctx.stroke(); if (a > 0) ctx.fillText(`${a}°`, cx + (R + 10) * Math.sin(t) - 6, cy - (R + 10) * Math.cos(t) + 4); }
   const P = (p) => [cx + R * p.kn / mk * Math.sin(p.twa * Math.PI / 180), cy - R * p.kn / mk * Math.cos(p.twa * Math.PI / 180)];
   for (const b of bands) {
     ctx.strokeStyle = b.color; ctx.lineWidth = 2; ctx.beginPath();
@@ -195,6 +196,36 @@ export function heatmap(canvas, { values, xs, ys, xlabel, ylabel, fmt = (v) => v
     if (i < 0 || j < 0 || i >= nx || j >= ny) { tip.style.display = 'none'; return; }
     tip.innerHTML = `${xlabel} ${xs[i].toFixed(3)} · ${ylabel} ${ys[j].toFixed(4)}<br><b>${fmt(values[j][i])} ${unit}</b>`;
     tip.style.display = 'block'; tip.style.left = `${Math.min(mx + 10, w - 190)}px`; tip.style.top = `${my}px`;
+  };
+  canvas.onmouseleave = () => { tip.style.display = 'none'; };
+}
+
+/** Diverging horizontal bars around zero (sensitivity). rows [{label, v}], shared order across panels. */
+export function divergingBars(canvas, rows, { title = '', unit = 'kn', max = null, showLabels = true, pos = '#3987e5', neg = '#d95926' } = {}) {
+  const { ctx, w, h } = setup(canvas);
+  const lw = showLabels ? 118 : 6;
+  const top = 20, rowH = (h - top - 16) / rows.length;
+  const m = max || Math.max(1e-6, ...rows.map((r) => Math.abs(r.v)));
+  const x0 = lw + (w - lw - 10) / 2, half = (w - lw - 14) / 2;
+  ctx.fillStyle = INK.primary; ctx.textAlign = 'left'; ctx.fillText(title, lw, 12);
+  ctx.strokeStyle = INK.axis; ctx.beginPath(); ctx.moveTo(x0, top - 2); ctx.lineTo(x0, h - 14); ctx.stroke();
+  rows.forEach((r, i) => {
+    const y = top + i * rowH;
+    if (showLabels) { ctx.fillStyle = INK.secondary; ctx.textAlign = 'right'; ctx.fillText(r.label, lw - 6, y + rowH * 0.7); }
+    const bw = half * r.v / m;
+    const bh = Math.max(3, rowH - 3);
+    ctx.fillStyle = r.v >= 0 ? pos : neg;
+    ctx.beginPath(); ctx.roundRect(bw >= 0 ? x0 : x0 + bw, y + (rowH - bh) / 2, Math.max(1.5, Math.abs(bw)), bh, bw >= 0 ? [0, 3, 3, 0] : [3, 0, 0, 3]); ctx.fill();
+  });
+  ctx.fillStyle = INK.muted; ctx.textAlign = 'center';
+  ctx.fillText(`−${m.toFixed(2)}`, x0 - half, h - 3); ctx.fillText('0', x0, h - 3); ctx.fillText(`+${m.toFixed(2)} ${unit}`, x0 + half - 14, h - 3);
+  const tip = tooltip(canvas);
+  canvas.onmousemove = (e) => {
+    const rc = canvas.getBoundingClientRect(); const my = e.clientY - rc.top, mx = e.clientX - rc.left;
+    const i = Math.floor((my - top) / rowH);
+    if (i < 0 || i >= rows.length) { tip.style.display = 'none'; return; }
+    tip.innerHTML = `${rows[i].label}<br><b>${rows[i].v >= 0 ? '+' : ''}${rows[i].v.toFixed(3)} ${unit}</b> mean VMG per +8% step${rows[i].note ? `<br>${rows[i].note}` : ''}`;
+    tip.style.display = 'block'; tip.style.left = `${Math.min(mx + 10, w - 200)}px`; tip.style.top = `${my}px`;
   };
   canvas.onmouseleave = () => { tip.style.display = 'none'; };
 }
