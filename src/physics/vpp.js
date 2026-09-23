@@ -206,17 +206,16 @@ export class MothModel {
     if (vmin === undefined) { vmin = this.takeoffSpeed(cond.heel ?? 0, cfg.ride, 0); this._vto.set(cfg.key, vmin); }
     if (!isFinite(vmin)) return null;
     const good = (r) => r.feasible && r.Rx > 0;
-    let V = vmin * 1.03;
-    let r = this.atSpeed(cfg, V, cond);
-    if (!good(r)) return null;
-    let lo = V, rlo = r, hi = null;
-    for (let i = 0; i < 12; i++) {
-      V = lo * 1.3;
-      if (V > 24) { hi = 24; break; }
+    // Scan upward from the minimum flying speed: foiling drag has a hump at low speed, so a
+    // self-sustaining equilibrium can exist above speeds where drive < drag (reached in
+    // practice by bearing away to accelerate). Keep the highest good speed, then bisect.
+    let lo = null, rlo = null, hi = null, r;
+    for (let V = vmin * 1.03; V <= 24; V *= 1.12) {
       r = this.atSpeed(cfg, V, cond);
-      if (good(r)) { lo = V; rlo = r; } else { hi = V; break; }
+      if (good(r)) { lo = V; rlo = r; } else if (lo !== null) { hi = V; break; }
     }
-    if (hi === null) hi = lo * 1.3;
+    if (lo === null) return null;
+    if (hi === null) hi = Math.min(24, lo * 1.12);
     for (let i = 0; i < 14; i++) {
       const m = 0.5 * (lo + hi);
       r = this.atSpeed(cfg, m, cond);

@@ -54,6 +54,7 @@ $('optWorkers').textContent = `${cores} web workers`;
 const state = {
   design: cloneDesign(PRESETS.medium),
   cond: { tws: 11, twa: 45, heel: 17 },
+  autoTWA: null,
   colorMode: 'load',
   detail: null, evalRes: null, polars: null,
   optBest: null,
@@ -83,7 +84,7 @@ function loadDesign(d, key) {
   state.design = d;
   for (const [k, b] of Object.entries(presetButtons)) b.classList.toggle('on', k === key);
   const bandKey = key?.replace('opt-', '');
-  if (bandKey && WIND_BANDS[bandKey]) { const band = WIND_BANDS[bandKey]; state.cond.tws = band.tws; state.cond.heel = band.heelUp; state.cond.twa = 45; }
+  if (bandKey && WIND_BANDS[bandKey]) { const band = WIND_BANDS[bandKey]; state.cond.tws = band.tws; state.cond.heel = band.heelUp; state.cond.twa = 45; state.autoTWA = bandKey; }
   refreshControls(); onEdit('*');
 }
 for (const [k, d] of Object.entries(OPTIMISED)) {
@@ -94,6 +95,7 @@ presetButtons.medium.classList.add('on');
 
 let tDetail = 0, tEval = 0;
 function onEdit(path) {
+  if (path === 'cond.twa' || path === 'cond.tws') state.autoTWA = null;
   updateDerived();
   clearTimeout(tDetail); tDetail = setTimeout(requestDetail, 60);
   if (!path.startsWith('cond.')) { clearTimeout(tEval); tEval = setTimeout(requestEval, 450); }
@@ -204,6 +206,12 @@ async function requestEval() {
     if (my !== evalSeq) return;
     state.evalRes = ev; state.polars = pol;
     renderEval(ev, pol);
+    // after a preset load, show the band's optimal upwind angle in the 3D view
+    if (state.autoTWA && ev.bands[state.autoTWA]?.upFoil) {
+      state.cond.twa = Math.round(ev.bands[state.autoTWA].upTWA);
+      state.autoTWA = null;
+      refreshControls(); requestDetail();
+    }
     window.__moth.evalDone = true;
   } catch (e) { console.error(e); } finally { setBusy(-1); }
 }

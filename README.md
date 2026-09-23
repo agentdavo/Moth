@@ -39,7 +39,7 @@ Engineering conclusions and optimised designs: [`docs/DESIGN_REPORT.md`](docs/DE
 | T-foil drag, 20 ft/s, 18 in, 801 N lift | 43.3 N total; 11.3 induced; 18.1 foil+junction (Beaver & Zseleczky 2009 tow tank) | within 20% / 35% / 30% (test) |
 | Elliptic wing lift slope / span efficiency | Helmbold, e = 1 | < 3%, e 0.95–1.06 |
 | Take-off boat speed | 7–10 kn | 7.5 / 9.3 / 12.9 kn (light/medium/strong presets) |
-| Minimum foiling wind | 6–8 kn | 7.1–8.7 kn |
+| Minimum foiling wind | 6–8 kn | 6.9–8.8 kn |
 | Medium foil speeds, 11 kn TWS | 14–18 up / 19–25 down | 14.4 / 19.9 kn |
 | Strong wind, 18 kn TWS | 17–21 up / 25–33 down | 20.6 / 25.9 kn |
 | Section drag at Re 6e5 | 0.0075–0.012 | ~0.010 |

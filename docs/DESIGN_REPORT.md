@@ -52,26 +52,28 @@ Validation against published data is in the README table. Examples: the 2009 tow
 | Rudder strut chord (mm) | 100 | 76 | 95 | 75 | 92 | 80 |
 | **Take-off boat speed (kn)** | 7.5 | 8.9 | 9.3 | 10.6 | 12.9 | 10.4 |
 | **Min. flying speed (kn)** | 7.6 | 9.0 | 9.4 | 10.7 | 13.0 | 10.5 |
-| **Foils from TWS (kn)** | 7.1 | 7.0 | 7.6 | 7.8 | 8.8 | 8.0 |
-| light VMG up / down (kn) | 3.4ᴴ / 3.2ᴴ | **6.6 / 6.5** | 3.4ᴴ / 3.2ᴴ | 3.5ᴴ / 3.3ᴴ | 3.5ᴴ / 3.3ᴴ | 3.4ᴴ / 3.2ᴴ |
-| light boat speed up / down (kn) | 4.6 / 3.2 | 12.2 / 13.9 | 4.7 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 |
-| medium VMG up / down (kn) | 9.3 / 9.8 | 9.7 / 13.2 | 9.8 / 14.1 | **10.0 / 15.5** | 8.2 / 15.1 | 9.9 / 15.2 |
-| medium boat speed up / down (kn) | 13.5 / 14.5 | 14.2 / 19.2 | 14.4 / 19.9 | 15.4 / 20.8 | 18.8 / 20.6 | 15.2 / 20.8 |
+| **Foils from TWS (kn)** | 6.9 | 7.0 | 7.6 | 7.8 | 8.8 | 8.0 |
+| light VMG up / down (kn) | 6.2 / 5.1 | **6.6 / 6.5** | 3.4ᴴ / 3.2ᴴ | 3.5ᴴ / 3.3ᴴ | 3.5ᴴ / 3.3ᴴ | 3.4ᴴ / 3.2ᴴ |
+| light boat speed up / down (kn) | 11.8 / 12.4 | 12.2 / 13.9 | 4.7 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 |
+| light foiling tacks | ✗ | ✗ | – | – | – | – |
+| medium VMG up / down (kn) | 9.3 / 10.6 | 9.7 / 13.2 | 9.8 / 14.1 | **10.0 / 15.5** | 8.2 / 15.1 | 9.9 / 15.2 |
+| medium boat speed up / down (kn) | 13.5 / 14.5 | 14.3 / 19.2 | 15.0 / 19.8 | 15.3 / 20.7 | 18.8 / 20.6 | 15.2 / 20.5 |
 | medium foiling tacks | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
 | strong VMG up / down (kn) | 10.3 / 13.1 | 11.1 / 16.6 | 11.4 / 21.2 | **12.9 / 22.8** | 10.8 / 22.7 | 11.6 / 22.6 |
-| strong boat speed up / down (kn) | 13.3 / 14.8 | 16.1 / 19.8 | 20.6 / 25.9 | 19.3 / 27.2 | 20.1 / 27.2 | 17.4 / 27.2 |
+| strong boat speed up / down (kn) | 13.3 / 14.8 | 15.8 / 19.8 | 20.6 / 26.0 | 19.2 / 27.3 | 20.1 / 27.2 | 17.2 / 27.1 |
 | strong foiling tacks | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ |
-| V_max (kn) | 14.8 | 19.8 | 25.9 | 27.2 | 27.2 | 27.2 |
-| Cavitation margin at V_max | 2.27 | 1.03 | 0.23 | 0.14 | 0.36 | 0.32 |
+| V_max (kn) | 14.8 | 19.8 | 26.0 | 27.3 | 27.2 | 27.1 |
+| Cavitation margin at V_max | 2.27 | 1.03 | 0.22 | 0.13 | 0.36 | 0.33 |
 | Divergence speed (kn) | 48 | 48 | 44 | 46 | 43 | 51 |
 | Tip deflection 2 g (% b/2) | 2.8 | 4.1 | 4.4 | 4.2 | 6.1 | 3.8 |
 | Strut deflection (mm) | 72 | 97 | 102 | 89 | 120 | 84 |
 | Heave/pitch damping ζ | 0.35 | 0.30 | 0.35 | 0.34 | 0.07 | 0.33 |
+| Target-band score | 0.665 | 0.900 | 0.835 | 0.941 | 0.863 | 1.033 |
 
 Notes:
 - The **optimised medium foil is the best strong-wind foil as well**: 12.9 / 22.8 kn VMG against 11.6 / 22.6 for the optimised strong foil. It carries a 44% flap and a +10.7° stop, so it keeps foiling through lulls. It gives up the light band, which it could not reach anyway (7.8 kn threshold).
 - The **optimised strong foil** trades ~1 kn of upwind VMG for a stiffer, better-damped foil. It has the highest divergence margin (51 kn) and ζ 0.33 against 0.07 for the baseline. Choose it for waves and gusts, which the steady VPP rewards less than a sailor does.
-- The light baseline is overpowered in breeze: its V_max is 14.8 kn, limited by the flap-up stop. The light optimum fixes that with less camber (c_l 0.37 vs 0.55) and incidence (1.3° vs 2.5°). It now reaches 19.8 kn and still takes off in 7 kn.
+- The light baseline foils in 7 kn but is overpowered in breeze: its V_max is 14.8 kn, limited by the flap-up stop. The light optimum gains +0.4 kn upwind and +1.4 kn downwind VMG in 7 kn through more span (AR 15) and a smaller elevator and struts. With less camber (c_l 0.37 vs 0.55) and incidence (1.3° vs 2.5°) it also reaches 19.8 kn.
 
 ## 4. Design decisions, quantified
 
