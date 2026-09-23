@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moth Foil Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M3 20h26M16 20V6M16 6l9 12M16 20v7M9 27h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+      <div><b>MOTH FOIL LAB</b><span>WebGPU hydrofoil physics · VPP · flight dynamics · optimiser</span></div>
+    </div>
+    <div class="presets" id="presets"></div>
+    <div class="status">
+      <span id="backend" class="pill">…</span>
+      <span id="busy" class="pill dim">idle</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="left" id="controls"></aside>
+
+    <section class="center">
+      <div class="viewport" id="viewport">
+        <div class="hud" id="hud"></div>
+        <div class="viewbar">
+          <label>Colour <select id="colorMode"><option value="load">section load (cl / cl<sub>max</sub>)</option><option value="cav">cavitation margin σ + Cp<sub>min</sub></option><option value="cp">suction peak −Cp<sub>min</sub></option></select></label>
+          <label><input type="checkbox" id="showFlow" checked /> flow particles</label>
+          <label><input type="checkbox" id="showForces" checked /> force vectors</label>
+          <span class="legend" id="legend"></span>
+        </div>
+      </div>
+      <div class="dock">
+        <nav class="tabs" id="dockTabs">
+          <button data-tab="cfd" class="on">Section CFD · LBM</button>
+          <button data-tab="sim">Flight sim · wand</button>
+          <button data-tab="opt">Optimiser</button>
+          <button data-tab="sweep">Design space · GPU</button>
+          <button data-tab="decisions">Design decisions</button>
+        </nav>
+        <div class="tabpane on" id="tab-cfd">
+          <div class="cfd-wrap">
+            <canvas id="lbmCanvas" width="960" height="384"></canvas>
+            <div class="cfd-side">
+              <div class="row"><label>Section</label><select id="lbmSurface"><option value="main">main foil root</option><option value="elev">elevator root</option><option value="mstrut">main strut</option></select></div>
+              <div class="row"><label>α (deg)</label><input type="range" id="lbmAlpha" min="-4" max="14" step="0.5" value="2" /><output id="lbmAlphaOut">2</output></div>
+              <div class="row"><label>flap (deg)</label><input type="range" id="lbmFlap" min="-10" max="15" step="0.5" value="0" /><output id="lbmFlapOut">0</output></div>
+              <div class="row"><label>Re<sub>LBM</sub></label><input type="range" id="lbmRe" min="1000" max="20000" step="500" value="6000" /><output id="lbmReOut">6000</output></div>
+              <div class="row"><label>View</label><select id="lbmMode"><option value="0">vorticity</option><option value="1">speed</option><option value="2">pressure Cp</option></select></div>
+              <div class="row"><button id="lbmReset">reset flow</button><button id="lbmFromTrim">use current trim</button></div>
+              <div class="cfd-readout" id="lbmReadout"></div>
+              <canvas id="lbmHist" class="mini"></canvas>
+              <canvas id="secPolar" class="mini"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-sim">
+          <div class="sim-wrap">
+            <div class="sim-side">
+              <div class="row"><label>boat speed kn</label><input type="range" id="simV" min="9" max="30" step="0.5" value="15" /><output id="simVOut">15</output></div>
+              <div class="row"><label>wand gearing</label><input type="range" id="simG" min="0.05" max="1.5" step="0.01" value="0.25" /><output id="simGOut">0.25</output></div>
+              <div class="row"><label>wave Hs m</label><input type="range" id="simHs" min="0" max="0.6" step="0.02" value="0.25" /><output id="simHsOut">0.25</output></div>
+              <div class="row"><label>wave Tp s</label><input type="range" id="simTp" min="1.5" max="5" step="0.1" value="2.6" /><output id="simTpOut">2.6</output></div>
+              <div class="row"><label>sea</label><select id="simHead"><option value="180">head (upwind)</option><option value="0">following (downwind)</option><option value="90">beam</option></select></div>
+              <div class="row"><button id="simRun">run simulation</button><button id="simSweep">gearing sweep</button></div>
+              <div class="cfd-readout" id="simReadout"></div>
+            </div>
+            <div id="simCharts" class="wide stack"><canvas id="simRide"></canvas><canvas id="simPitch"></canvas><canvas id="simFlap"></canvas></div>
+            <canvas id="simSweepChart" class="narrow"></canvas>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-opt">
+          <div class="opt-wrap">
+            <div class="opt-side">
+              <div class="row"><label>Target</label><select id="optTarget"><option value="light">light wind (7 kn)</option><option value="medium" selected>medium (11 kn)</option><option value="strong">strong (18 kn)</option><option value="allround">all-round</option></select></div>
+              <div class="row"><label>Generations</label><input type="range" id="optGens" min="4" max="60" step="1" value="16" /><output id="optGensOut">16</output></div>
+              <div class="row"><label>Workers</label><output id="optWorkers">–</output></div>
+              <div class="row"><button id="optRun" class="primary">run CMA-ES</button><button id="optStop">stop</button><button id="optApply">apply best</button></div>
+              <div class="cfd-readout" id="optReadout"></div>
+            </div>
+            <canvas id="optConv" class="third"></canvas>
+            <canvas id="optScatter" class="third"></canvas>
+            <div class="opt-table third" id="optTable"></div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-sweep">
+          <div class="sweep-wrap">
+            <div class="opt-side">
+              <p class="note">Batched vortex-lattice solves on the GPU: one workgroup per design builds the influence matrix (with free-surface images), eliminates, and reduces Kutta–Joukowski forces. Drag is for level flight (lift = weight) — a screening metric before the full VPP.</p>
+              <div class="row"><label>Grid</label><select id="swGrid"><option value="12">12 × 10</option><option value="20" selected>20 × 16</option><option value="32">32 × 24</option></select></div>
+              <div class="row"><label>Speed kn</label><input type="range" id="swV" min="7" max="32" step="0.5" value="14" /><output id="swVOut">14</output></div>
+              <div class="row"><button id="swRun" class="primary">solve on GPU</button><button id="swCpu">CPU timing</button></div>
+              <div class="cfd-readout" id="swReadout"></div>
+            </div>
+            <canvas id="swHeat" class="wide"></canvas>
+            <canvas id="swCurve" class="narrow"></canvas>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-decisions"><div class="decisions" id="decisions"></div></div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <nav class="tabs small" id="rightTabs">
+        <button data-tab="perf" class="on">Performance</button>
+        <button data-tab="loads">Loads &amp; drag</button>
+        <button data-tab="margins">Margins</button>
+      </nav>
+      <div class="rpane on" id="r-perf">
+        <div class="card"><h3>Condition <small id="condTitle"></small></h3><div id="condStats" class="stats"></div></div>
+        <div class="card"><h3>Wind-band VPP <small>best VMG, optimised TWA</small></h3><div id="bandTable"></div><div id="evalNote" class="note"></div></div>
+        <div class="card"><h3>Boat-speed polars</h3><canvas id="polar" class="chart tall"></canvas></div>
+      </div>
+      <div class="rpane" id="r-loads">
+        <div class="card"><h3>Drag breakdown <small>at current condition</small></h3><canvas id="dragBars" class="chart"></canvas></div>
+        <div class="card"><h3>Main-foil span loading <small>vs elliptic</small></h3><canvas id="spanLoad" class="chart"></canvas></div>
+        <div class="card"><h3>Force balance</h3><div id="balance" class="stats"></div></div>
+      </div>
+      <div class="rpane" id="r-margins">
+        <div class="card"><h3>Hydrodynamic margins</h3><div id="marginList"></div></div>
+        <div class="card"><h3>Structure <small>2 g load case</small></h3><div id="structList"></div></div>
+        <div class="card"><h3>Section polar <small>main root, current Re</small></h3><canvas id="rootPolar" class="chart"></canvas></div>
+      </div>
+    </aside>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

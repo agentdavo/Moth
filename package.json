@@ -1,0 +1,21 @@
+{
+  "name": "moth-foil-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "WebGPU/Three.js physics lab & optimiser for International Moth hydrofoils",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/",
+    "screenshot": "node tools/screenshot.mjs"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0",
+    "playwright-core": "1.56.1"
+  }
+}
