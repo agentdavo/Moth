@@ -34,7 +34,7 @@ export class FlowField {
       const r1 = hash(s);
       const r2 = hash(s.add(7919.0));
       const r3 = hash(s.add(104729.0));
-      return vec3(uBox.x.add(r3.mul(0.6)), mix(uSeed.z, uSeed.w, r2), r1.sub(0.5).mul(2).mul(uSeed.y));
+      return vec3(uBox.x.add(r3.mul(0.15)), mix(uSeed.z, uSeed.w, r2), r1.sub(0.5).mul(2).mul(uSeed.y));
     });
 
     this.init = Fn(() => {
@@ -75,8 +75,8 @@ export class FlowField {
     const s = ind.toAttribute();
     const t = s.mul(8.0).clamp(0, 1);
     mat.colorNode = mix(color(0x2c8cff), mix(color(0xffffff), color(0xff5a3c), select(t.greaterThan(0.5), t.sub(0.5).mul(2), float(0))), t.mul(2).clamp(0, 1));
-    mat.opacityNode = float(0.55).add(t.mul(0.45));
-    mat.scaleNode = float(0.009);
+    mat.opacityNode = float(0.30).add(t.mul(0.6));
+    mat.scaleNode = float(0.0065);
     this.sprite = new THREE.Sprite(mat);
     this.sprite.count = count;
     this.sprite.frustumCulled = false;

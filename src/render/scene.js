@@ -33,11 +33,11 @@ export class MothScene {
     scene.fog = new THREE.Fog(0x0b1622, 14, 40);
     this.scene = scene;
     const camera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.05, 200);
-    camera.position.set(-3.7, 0.95, -2.35);
+    camera.position.set(-3.0, -0.62, -1.9);
     const cam = new URLSearchParams(location.search).get('cam');
     this.camera = camera;
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.set(-1.0, -0.28, 0.05);
+    controls.target.set(-1.05, -0.3, 0.1);
     if (cam) { const v = cam.split(',').map(Number); camera.position.set(v[0], v[1], v[2]); controls.target.set(v[3], v[4], v[5]); }
     controls.enableDamping = true;
     controls.update();
@@ -89,6 +89,8 @@ export class MothScene {
       const swift = /swiftshader/i.test(`${info.architecture} ${info.vendor} ${info.description}`);
       this.software = swift;
       this.flow = new FlowField(renderer, scene, swift ? 5000 : 14000);
+      // software rasteriser runs at a few fps: speed up tracer time so the wake still develops
+      if (swift) this.flow.uTimeScale.value = 0.3;
     }
     this.clock = new THREE.Clock();
     window.addEventListener('resize', () => this.resize());
@@ -215,6 +217,6 @@ export class MothScene {
     const depth = detail.depth ?? 0.4;
     // a sheet of tracers around the foil depth, slightly wider than the span, so tip vortices,
     // downwash and the elevator's passage through the main-foil wake stand out
-    this.flow.setSeedBox(0.25, design.main.span * 0.6, -depth - 0.07, -Math.max(0.03, depth - 0.07), design.elevator.x - 1.2);
+    this.flow.setSeedBox(0.12, design.main.span * 0.58, -depth - 0.035, -Math.max(0.03, depth - 0.035), design.elevator.x - 0.6);
   }
 }

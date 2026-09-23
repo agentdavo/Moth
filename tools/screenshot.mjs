@@ -15,7 +15,7 @@ const wait = (cond, t = 120000) => page.waitForFunction(cond, null, { timeout: t
 try {
   await wait('window.__moth && window.__moth.ready && window.__moth.evalDone');
   const scen = {
-    async main() { await page.waitForTimeout(4000); },
+    async main() { await page.waitForTimeout(+(process.env.WAIT || 9000)); },
     async cfd() { await page.waitForTimeout(12000); },
     async sim() { await page.evaluate(() => window.__moth.tab('sim')); await page.click('#simSweep'); await page.evaluate(() => window.__moth.runSim()); await page.waitForTimeout(9000); },
     async sweep() { await page.evaluate(() => { window.__moth.tab('sweep'); window.__moth.runSweep(); }); await wait('window.__moth.sweepDone', 300000); await page.click('#swCpu'); await page.waitForTimeout(1500); },
