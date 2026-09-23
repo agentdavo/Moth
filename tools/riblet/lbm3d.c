@@ -1,5 +1,8 @@
-// Minimal-span open-channel DNS with riblets: D3Q19 lattice Boltzmann, regularised BGK,
+// Minimal-span open-channel simulation with riblets: D3Q19 lattice Boltzmann, regularised BGK,
 // Guo body force, OpenMP. Used to check the riblet drag-reduction claim from first principles.
+// Resolution is DNS-like (dx+ = 2); a small Smagorinsky term (Cs = CS env, default 0.1, van Driest damped,
+// zero at the wall) keeps tau ~ 0.509 stable, so strictly this is a wall-resolved LES.
+// Populations are stored as deviations from the rest weights (f - w_i) for float32 precision.
 //
 // Domain: x streamwise (periodic), z spanwise (periodic), y wall-normal.
 //   y < 0            : smooth no-slip floor (halfway bounce-back)
@@ -86,7 +89,7 @@ int main(int argc, char **argv) {
       double uu = u * u + v * v + w * w;
       for (int i = 0; i < Q; i++) {
         double cu = cx[i] * u + cy[i] * v + cz[i] * w;
-        A[i * N + c] = wq[i] * (1 + 3 * cu + 4.5 * cu * cu - 1.5 * uu);
+        A[i * N + c] = wq[i] * (3 * cu + 4.5 * cu * cu - 1.5 * uu); // deviation from w_i
       }
     }
   }
@@ -98,13 +101,16 @@ int main(int argc, char **argv) {
   snprintf(fn, sizeof fn, "%s.ts", out);
   FILE *ts = fopen(fn, restart ? "a" : "w");
   double t0 = omp_get_wtime();
-  const float om = (float)omega, gf = (float)g, fpref = (float)(1 - 0.5 * omega);
+  const float gf = (float)g, tau0 = (float)tau;
+  const double CS = getenv("CS") ? atof(getenv("CS")) : 0.1;
+  (void)omega;
+  const int yMon = tip + 8; // monitor row, y+ ~ 17
 
   for (long it = step0; it < steps; it++) {
     const int doStat = (it >= spinup) && (it % 20 == 0);
     const int doTs = (it % 200 == 0);
-    double ubSum = 0, utop = 0;
-    #pragma omp parallel for collapse(2) schedule(static) reduction(+:ubSum,utop)
+    double ubSum = 0, utop = 0, vv = 0;
+    #pragma omp parallel for collapse(2) schedule(static) reduction(+:ubSum,utop,vv)
     for (int y = 0; y < NY; y++) for (int z = 0; z < NZ; z++) {
       if (solid[y * NZ + z]) continue;
       const float *src[Q]; int shift[Q];
@@ -114,12 +120,14 @@ int main(int argc, char **argv) {
         else if (ys > NY - 1) { src[i] = A + (size_t)mir[i] * N + IDX(0, y, zs); shift[i] = cx[i]; }
         else { src[i] = A + (size_t)i * N + IDX(0, ys, zs); shift[i] = cx[i]; }
       }
-      double rowU = 0;
+      double rowU = 0, rowV = 0;
+      const double ypRow = fmax(0.0, (y + 0.5 - tip) * uTau / nu);
+      const float cs2 = (float)(18 * sqrt(2.0) * pow(CS * (1 - exp(-ypRow / 26)), 2));
       for (int x = 0; x < NX; x++) {
         float f[Q];
         for (int i = 0; i < Q; i++) {
           int xs = x - shift[i]; xs += (xs < 0) ? NX : 0; xs -= (xs >= NX) ? NX : 0;
-          f[i] = src[i][xs];
+          f[i] = src[i][xs] + wq[i];
         }
         float rho = 0, jx = 0, jy = 0, jz = 0;
         for (int i = 0; i < Q; i++) { rho += f[i]; jx += cx[i] * f[i]; jy += cy[i] * f[i]; jz += cz[i] * f[i]; }
@@ -135,16 +143,20 @@ int main(int argc, char **argv) {
           Pxy += cx[i] * cy[i] * fn; Pxz += cx[i] * cz[i] * fn; Pyz += cy[i] * cz[i] * fn;
         }
         const size_t c = IDX(x, y, z);
+        const float PP = Pxx * Pxx + Pyy * Pyy + Pzz * Pzz + 2 * (Pxy * Pxy + Pxz * Pxz + Pyz * Pyz);
+        const float teff = 0.5f * (tau0 + sqrtf(tau0 * tau0 + cs2 * sqrtf(PP) * ir));
+        const float om = 1.f / teff, fpref = 1 - 0.5f * om;
         for (int i = 0; i < Q; i++) {
           const float qxx = cx[i] * cx[i] - 1.f / 3, qyy = cy[i] * cy[i] - 1.f / 3, qzz = cz[i] * cz[i] - 1.f / 3;
           const float fneq = 4.5f * wq[i] * (qxx * Pxx + qyy * Pyy + qzz * Pzz + 2 * (cx[i] * cy[i] * Pxy + cx[i] * cz[i] * Pxz + cy[i] * cz[i] * Pyz));
           const float cu = cx[i] * ux + cy[i] * uy + cz[i] * uz;
           const float Fi = fpref * wq[i] * (3 * (cx[i] - ux) + 9 * cu * cx[i]) * gf;
-          B[(size_t)i * N + c] = feq[i] + (1 - om) * fneq + Fi;
+          B[(size_t)i * N + c] = feq[i] + (1 - om) * fneq + Fi - wq[i];
         }
         rowU += ux;
+        if (y == yMon) rowV += uy * uy + uz * uz;
       }
-      ubSum += rowU;
+      ubSum += rowU; vv += rowV;
       if (y == NY - 1) utop += rowU;
     }
     if (doStat) {
@@ -156,7 +168,7 @@ int main(int argc, char **argv) {
           for (int x = 0; x < NX; x++) {
             size_t c = IDX(x, y, z);
             float rho = 0, jx = 0, jy = 0, jz = 0;
-            for (int i = 0; i < Q; i++) { float fi = B[(size_t)i * N + c]; rho += fi; jx += cx[i] * fi; jy += cy[i] * fi; jz += cz[i] * fi; }
+            for (int i = 0; i < Q; i++) { float fi = B[(size_t)i * N + c] + wq[i]; rho += fi; jx += cx[i] * fi; jy += cy[i] * fi; jz += cz[i] * fi; }
             double u = (jx + 0.5 * g) / rho, v = jy / rho, w = jz / rho;
             su += u; suu += u * u; svv += v * v; sww += w * w; suv += u * v; sv += v; sw += w; n++;
           }
@@ -172,9 +184,11 @@ int main(int argc, char **argv) {
       double ub = ubSum / ((double)NX * NZ * H); // flow rate per unit span / H (incl. groove flow)
       double ut = utop / ((double)NX * NZ);
       double el = omp_get_wtime() - t0;
-      fprintf(ts, "%ld %.4f %.6f %.6f\n", it, it * uTau / H, ub / uTau, ut / uTau);
+      double vw = sqrt(vv / ((double)NX * NZ)) / uTau; // rms of (v, w) combined at y+ ~ 17 (0 if laminar)
+      if (!isfinite(ub)) { fprintf(stderr, "%s: NaN at step %ld\n", out, it); return 2; }
+      fprintf(ts, "%ld %.4f %.6f %.6f %.4f\n", it, it * uTau / H, ub / uTau, ut / uTau, vw);
       fflush(ts);
-      if (it % 5000 == 0) fprintf(stderr, "%s step %ld  t*uT/H=%.2f  Ub+=%.3f  Utop+=%.3f  %.1f MLUPS\n", out, it, it * uTau / H, ub / uTau, ut / uTau,
+      if (it % 5000 == 0) fprintf(stderr, "%s step %ld  t*uT/H=%.2f  Ub+=%.3f  Utop+=%.3f  vw'+=%.3f  %.1f MLUPS\n", out, it, it * uTau / H, ub / uTau, ut / uTau, vw,
                                   (double)N * (it - step0 + 1) / el / 1e6);
     }
     if ((it + 1) % 50000 == 0 || it + 1 == steps) {
