@@ -48,5 +48,12 @@ Engineering conclusions and optimised designs: [`docs/DESIGN_REPORT.md`](docs/DE
 
 ## Screenshots
 
-`node tools/screenshot.mjs <url> <out.png> <main|sim|sweep|opt|decisions>` drives headless Chromium
-with SwiftShader WebGPU. The images in `docs/screenshots/` were produced this way.
+`node tools/screenshot.mjs <url> <out.png> <main|sim|sweep|opt|sens|decisions>` drives headless Chromium
+with SwiftShader WebGPU. URL options: `?preset=opt-medium`, `?tab=sweep`, `?cam=x,y,z,tx,ty,tz`.
+
+| | |
+|---|---|
+| ![optimised medium](docs/screenshots/09-opt-medium.png) Optimised medium foil at 11 kn TWS, TWA 49°: 15.3 kn, flap +2.5°. The GPU tracer particles show the downwash sheet and tip vortices. | ![sensitivity](docs/screenshots/08-sensitivity.png) Sensitivity of mean VMG to every design variable, per wind band. |
+| ![GPU sweep](docs/screenshots/05-gpu-sweep.png) Batched VLM on the GPU: level-flight drag over span × area, and drag vs speed for big and small foils. | ![flight sim](docs/screenshots/04-flightsim.png) Heave/pitch flight sim in head seas; damping vs wand gearing. |
+| ![LBM flap 0](docs/screenshots/11-lbm-flap0.png) LBM section CFD, Eppler-type 12%, α 3°, flap 0°: attached flow. | ![LBM flap 12](docs/screenshots/10-lbm-flap12.png) The same section with the 35% flap at +12°: separation over the hinge and a von Kármán street. |
+| ![optimiser](docs/screenshots/06-optimiser.png) In-browser CMA-ES across web workers. | ![decisions](docs/screenshots/07-decisions.png) Design-decision matrix (light / medium / strong). |

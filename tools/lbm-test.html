@@ -1,17 +1,19 @@
-<!doctype html><html><body><canvas id="c" width="320" height="128"></canvas>
+<!doctype html><html><body style="margin:0;background:#000"><canvas id="c" width="1024" height="448" style="width:1024px;height:448px"></canvas>
 <script type="module">
+// Headless LBM validation / figure page. Params: a (deg), re, n (steps), fam, tc, cli, flap (deg), cf, nx, ny, mode
 import { LBMSolver } from '/src/gpu/lbm.js';
-const out = {};
+const q = new URLSearchParams(location.search);
+const num = (k, d) => +(q.get(k) ?? d);
 const adapter = await navigator.gpu.requestAdapter();
 const device = await adapter.requestDevice();
-const params = new URLSearchParams(location.search);
-const alpha = +(params.get('a') ?? 4), re = +(params.get('re') ?? 2000), steps = +(params.get('n') ?? 6000);
-const s = new LBMSolver(device, document.getElementById('c'), { nx: 320, ny: 128 });
-s.setRe(re);
-s.setFoil({ family: 'naca4', tc: 0.12, cli: 0 }, alpha, 0, 0);
+const s = new LBMSolver(device, document.getElementById('c'), { nx: num('nx', 320), ny: num('ny', 128) });
+s.setRe(num('re', 2000));
+s.setMode(num('mode', 0));
+s.setFoil({ family: q.get('fam') || 'naca4', tc: num('tc', 0.12), cli: num('cli', 0) }, num('a', 4), num('cf', 0), num('flap', 0));
 s.reset();
+const steps = num('n', 6000);
 const t0 = performance.now();
-for (let k = 0; k < steps / 50; k++) { s.step(50); await device.queue.onSubmittedWorkDone(); await new Promise(r => setTimeout(r, 0)); }
-await new Promise(r => setTimeout(r, 300));
-window.result = { ...s.averaged(), last: s.hist.slice(-3), ms: performance.now() - t0, chord: s.chord, tau: s.tau };
+for (let k = 0; k < steps / 50; k++) { s.step(50); await device.queue.onSubmittedWorkDone(); await new Promise((r) => setTimeout(r, 0)); }
+await new Promise((r) => setTimeout(r, 300));
+window.result = { ...s.averaged(), ms: performance.now() - t0, chord: s.chord, tau: s.tau, steps };
 </script></body></html>
