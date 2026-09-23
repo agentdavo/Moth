@@ -101,7 +101,9 @@ export function sectionProps(sec, re = 4e5) {
 // s+ = s u_tau / nu (Bechert et al. 1997 blade-riblet curve, see research doc).
 // Blade-riblet curve (Bechert 1997, digitised); commercial trapezoid films reach ~0.83 of it.
 const RIBLET_CURVE = [[0, 0], [5, -0.035], [10, -0.07], [15, -0.095], [17, -0.099], [20, -0.09], [25, -0.05], [30, 0], [35, 0.04], [40, 0.08], [60, 0.15]];
-export const RIBLET_FILM = 0.83;
+export let RIBLET_FILM = 0.83;
+/** Sensitivity studies only: scale factor of a real film relative to the ideal blade curve. */
+export function setRibletFilm(k) { RIBLET_FILM = k; }
 export function ribletFactor(splus) {
   const t = RIBLET_CURVE;
   if (splus <= 0) return 1;
