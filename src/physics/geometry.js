@@ -3,7 +3,7 @@
 // along the strut. World frame adds windward heel (rotation about x) and the ride
 // height so that z = 0 is the water surface.
 import { DEG, RHO_CARBON } from './constants.js';
-import { flapTau } from './sections.js';
+import { flapTau, tubercleEffects } from './sections.js';
 
 export function chordAt(f, eta) {
   const e = Math.min(1, Math.abs(eta));
@@ -15,24 +15,116 @@ export function chordAt(f, eta) {
 
 export function tcAt(f, eta) { return f.tcRoot + (f.tcTip - f.tcRoot) * Math.min(1, Math.abs(eta)); }
 
+// ---------------------------------------------------------------------------------
+// Generalised planform. All shape parameters are optional (default = planar wing):
+//   dihedralInner (deg)          dihedral inboard of dihedralStart; with an anhedral outer
+//                                panel this is the gull wing (seagull / albatross shoulder)
+//   crescent (deg), crescentStart  extra aft sweep ramping in quadratically outboard of
+//                                crescentStart -> lunate (tuna / swift) or raked tips
+//   wingletHeight (m), wingletCant (deg, +90 up, -90 down, 0 planar), wingletTaper,
+//   wingletSweep (deg)           tip device at the end of the main path
+//   feathers (N >= 2), featherStart (eta), featherSpread (deg dihedral fan), featherFan
+//   (deg plan fan), featherChord (fraction of the break chord shared by the feathers),
+//   featherLength (x outboard length)   splayed "primary feather" slotted tips
+//   tubercleAmp (A/c), tubercleWave (lambda/c)   humpback leading-edge tubercles
+//   riblet (um)                  shark-skin riblet spacing on the turbulent part
+// ---------------------------------------------------------------------------------
 export function zAt(f, y) {
   const ys = (f.dihedralStart ?? 0.75) * f.span / 2;
   const a = Math.abs(y);
-  return a > ys ? (a - ys) * Math.tan((f.dihedral || 0) * DEG) : 0;
+  return Math.min(a, ys) * Math.tan((f.dihedralInner || 0) * DEG) + Math.max(0, a - ys) * Math.tan((f.dihedral || 0) * DEG);
 }
 
-export function xqcAt(f, y) { return -Math.tan((f.sweep || 0) * DEG) * Math.abs(y); }
+export function xqcAt(f, y) {
+  const b2 = f.span / 2, a = Math.abs(y);
+  let x = -Math.tan((f.sweep || 0) * DEG) * a;
+  if (f.crescent) {
+    const e0 = f.crescentStart ?? 0.6, eta = a / b2;
+    if (eta > e0) { const u = (eta - e0) / (1 - e0); x -= Math.tan(f.crescent * DEG) * b2 * (1 - e0) * u * u; }
+  }
+  return x;
+}
 
-/** Planform area (projected, m^2), mean chord, aspect ratio. */
+const hasFeathers = (f) => (f.feathers || 0) >= 2;
+
+/**
+ * Spanwise paths of the +y half-wing in the body frame (relative to the foil root
+ * quarter chord). Each path is a list of stations from inboard to outboard:
+ *   { P: quarter-chord point, t: spanwise unit tangent (y-z plane), chord, tc,
+ *     twist (rad, geometric incl. incidence), eta, kind: main|winglet|feather, s: arc length }
+ * The main path uses half-cosine spacing (identical to full-span cosine spacing).
+ */
+export function halfPaths(f, n = 12, extraDense = 1) {
+  const b2 = f.span / 2;
+  const eEnd = hasFeathers(f) ? (f.featherStart ?? 0.8) : 1;
+  const twistAt = (eta) => ((f.incidence || 0) + (f.twist || 0) * Math.min(1, eta)) * DEG;
+  const nm = n * extraDense;
+  const main = [];
+  let s = 0, prev = null;
+  for (let k = 0; k <= nm; k++) {
+    const eta = eEnd * Math.sin(Math.PI / 2 * k / nm);
+    const y = eta * b2;
+    const P = [xqcAt(f, y), y, zAt(f, y)];
+    const d = 1e-4;
+    const t = norm([0, d, zAt(f, y + d) - zAt(f, y)]);
+    if (prev) s += Math.hypot(P[1] - prev[1], P[2] - prev[2]);
+    prev = P;
+    main.push({ P, t, chord: Math.max(chordAt(f, eta), 0.002), tc: tcAt(f, eta), twist: twistAt(eta), eta, kind: 'main', s });
+  }
+  const paths = [main];
+  const tip = main[main.length - 1];
+  if (!hasFeathers(f) && (f.wingletHeight || 0) > 0) {
+    const h = f.wingletHeight, cant = (f.wingletCant ?? 90) * DEG;
+    const nw = Math.max(3, Math.round(n / 3)) * extraDense;
+    // a short blend arc from the wing tangent to the cant angle, then the straight winglet
+    const t0 = Math.atan2(tip.t[2], tip.t[1]);
+    const w = [];
+    let P = tip.P.slice(), sw = 0;
+    for (let k = 0; k <= nw; k++) {
+      const u = k / nw;
+      const ang = t0 + (cant - t0) * Math.min(1, u / 0.3);
+      const t = [0, Math.cos(ang), Math.sin(ang)];
+      if (k > 0) { const ds = h / nw; P = [P[0] - Math.tan((f.wingletSweep ?? 30) * DEG) * ds, P[1] + t[1] * ds, P[2] + t[2] * ds]; sw += ds; }
+      w.push({ P: P.slice(), t, chord: tip.chord * (1 - (1 - (f.wingletTaper ?? 0.5)) * u), tc: tip.tc, twist: twistAt(1), eta: 1 + u * h / b2, kind: 'winglet', s: tip.s + sw });
+    }
+    paths.push(w);
+  }
+  if (hasFeathers(f)) {
+    const N = Math.round(f.feathers), br = tip;
+    const L = (1 - eEnd) * b2 * (f.featherLength ?? 1.15);
+    const cb = br.chord, cf = cb * (f.featherChord ?? 0.9) / N;
+    const leB = br.P[0] + 0.25 * cb;
+    const nf = Math.max(3, Math.round(n / 3)) * extraDense;
+    for (let i = 0; i < N; i++) {
+      const fr = i / (N - 1) - 0.5;
+      const dih = ((f.dihedral || 0) - (f.featherSpread ?? 20) * fr) * DEG; // leading feather highest
+      const sweep = (f.sweep || 0) * DEG + (f.featherFan ?? 12) * DEG * (fr + 0.5);
+      const t = [0, Math.cos(dih), Math.sin(dih)];
+      const x0 = leB - i * cb / N - 0.25 * cf;
+      const path = [];
+      for (let k = 0; k <= nf; k++) {
+        const u = k / nf, sl = L * u;
+        path.push({ P: [x0 - Math.tan(sweep) * sl, br.P[1] + t[1] * sl, br.P[2] + t[2] * sl], t, chord: cf * (1 - 0.45 * u), tc: br.tc, twist: twistAt(eEnd), eta: eEnd + (1 - eEnd) * u, kind: 'feather', s: br.s + sl });
+      }
+      paths.push(path);
+    }
+  }
+  return paths;
+}
+
+/** Planform area (incl. tip devices, m^2), mean chord, aspect ratio (projected span). */
 export function planformStats(f, n = 200) {
   let area = 0, vol = 0;
-  const h = f.span / 2 / n;
-  for (let i = 0; i < n; i++) {
-    const eta = (i + 0.5) / n;
-    const c = chordAt(f, eta);
-    area += c * h;
-    vol += 0.685 * c * c * tcAt(f, eta) * h;
+  for (const path of halfPaths(f, 40)) {
+    for (let k = 0; k < path.length - 1; k++) {
+      const a = path[k], b = path[k + 1];
+      const ds = Math.hypot(b.P[1] - a.P[1], b.P[2] - a.P[2]) || Math.abs(b.P[0] - a.P[0]);
+      const c = 0.5 * (a.chord + b.chord), tc = 0.5 * (a.tc + b.tc);
+      area += c * ds;
+      vol += 0.685 * c * c * tc * ds;
+    }
   }
+  void n;
   area *= 2; vol *= 2;
   const mac = area / f.span;
   return { area, mac, AR: f.span * f.span / area, volume: vol, mass: vol * RHO_CARBON };
@@ -67,27 +159,39 @@ function makePanel(surf, A, B, C, eps, extra) {
   return { surf, A, B, C, M: scl(add(A, B), 0.5), n, dn, ds: Math.hypot(...sub(B, A)), ...extra };
 }
 
-/** Horizontal lifting surface panels in body frame. */
+/** Horizontal lifting surface panels (any path set) in body frame. */
 function horizontalPanels(f, surf, x0, z0, nHalf) {
-  const N = 2 * nHalf;
   const b2 = f.span / 2;
-  const ys = [];
-  for (let k = 0; k <= N; k++) ys.push(b2 * Math.cos(Math.PI * k / N));
   const out = [];
   const tau = surf === 'main' ? flapTau(f.flapFrac || 0) : 0;
   const flapHalf = (f.flapSpan || 0) * b2;
-  for (let k = 0; k < N; k++) {
-    const ya = ys[k], yb = ys[k + 1], ym = 0.5 * (ya + yb);
-    const eta = Math.abs(ym) / b2;
-    const c = chordAt(f, eta);
-    const A = [x0 + xqcAt(f, ya), ya, z0 + zAt(f, ya)];
-    const B = [x0 + xqcAt(f, yb), yb, z0 + zAt(f, yb)];
-    const C = [x0 + xqcAt(f, ym) - 0.5 * c, ym, z0 + zAt(f, ym)];
-    const eps = ((f.incidence || 0) + (f.twist || 0) * eta) * DEG + (f.cli || 0) / (2 * Math.PI);
-    out.push(makePanel(surf, A, B, C, eps, {
-      chord: c, tc: tcAt(f, eta), cli: f.cli || 0, family: f.family, eta, yb: ym,
-      flapped: surf === 'main' && Math.abs(ym) <= flapHalf, tau, eps,
-    }));
+  const paths = halfPaths(f, nHalf);
+  for (const side of [1, -1]) {
+    for (const path of paths) {
+      for (let k = 0; k < path.length - 1; k++) {
+        const inn = path[k], outr = path[k + 1];
+        const P = (st) => [x0 + st.P[0], side * st.P[1], z0 + st.P[2]];
+        // bound vortex runs from +y towards -y (positive circulation = lift along +n)
+        const [A, B] = side > 0 ? [P(outr), P(inn)] : [P(inn), P(outr)];
+        const c = 0.5 * (inn.chord + outr.chord);
+        const Mb = [0.5 * (A[0] + B[0]), 0.5 * (A[1] + B[1]), 0.5 * (A[2] + B[2])];
+        const C = [Mb[0] - 0.5 * c, Mb[1], Mb[2]];
+        const eta = 0.5 * (inn.eta + outr.eta);
+        const twist = 0.5 * (inn.twist + outr.twist);
+        const eps = twist + (f.cli || 0) / (2 * Math.PI);
+        out.push(makePanel(surf, A, B, C, eps, {
+          chord: c, tc: 0.5 * (inn.tc + outr.tc), cli: f.cli || 0, family: f.family, eta, yb: Mb[1], pb: Mb,
+          kind: inn.kind, flapped: surf === 'main' && inn.kind === 'main' && Math.abs(Mb[1]) <= flapHalf + 1e-9, tau, eps,
+          tub: inn.kind === 'main' ? (f.tubercleAmp || 0) : 0, tubWave: f.tubercleWave || 0.3, rib: f.riblet || 0,
+          // local sweep of the bound vortex (crescent / raked tips stall earlier)
+          sweepLocal: Math.atan2(Math.abs(outr.P[0] - inn.P[0]), Math.hypot(outr.P[1] - inn.P[1], outr.P[2] - inn.P[2]) || 1e-9),
+          // slot/gap interference of feather tips, junction of winglets (research §3-4)
+          slotDrag: inn.kind === 'feather' ? 0.001 : inn.kind === 'winglet' ? 0.0006 : 0,
+          // tubercle lift-slope loss at Moth Re (evaluated at 6 m/s)
+          slopeF: inn.kind === 'main' && f.tubercleAmp > 0 ? tubercleEffects(f.tubercleAmp, f.tubercleWave, 6 * c / 1.19e-6).slope : 1,
+        }));
+      }
+    }
   }
   return out;
 }
@@ -145,8 +249,8 @@ export function buildLattice(design, heelDeg = 0, rideHeight = design.boat.rideH
       const Mq = L(tm);
       const C = [Mq[0] - 0.5 * st.s.chord, Mq[1], Mq[2]];
       const pnl = makePanel(st.surf, A, B, C, 0, {
-        chord: st.s.chord, tc: st.s.tc, cli: 0, family: st.s.family, eta: tm, yb: 0,
-        flapped: false, tau: 0, eps: 0, depth: -C[2],
+        chord: st.s.chord, tc: st.s.tc, cli: 0, family: st.s.family, eta: tm, yb: 0, pb: [st.xq, 0, st.z0 + tm * st.s.length],
+        flapped: false, tau: 0, eps: 0, depth: -C[2], rib: st.s.riblet || 0,
       });
       panels.push(pnl);
     }
@@ -154,17 +258,3 @@ export function buildLattice(design, heelDeg = 0, rideHeight = design.boat.rideH
   return { panels, breached, minDepth, T, heel: heelDeg, rideHeight };
 }
 
-/** Geometry for rendering: list of spanwise stations with LE, TE, thickness in body frame. */
-export function surfaceStations(f, x0, z0, n = 40) {
-  const st = [];
-  const b2 = f.span / 2;
-  for (let k = 0; k <= n; k++) {
-    const y = -b2 + (2 * b2 * k) / n;
-    const eta = Math.abs(y) / b2;
-    const c = Math.max(chordAt(f, eta), 0.004);
-    const xq = x0 + xqcAt(f, y);
-    const twist = ((f.incidence || 0) + (f.twist || 0) * eta) * DEG;
-    st.push({ y, z: z0 + zAt(f, y), xLE: xq + c / 4, chord: c, tc: tcAt(f, eta), twist, eta });
-  }
-  return st;
-}

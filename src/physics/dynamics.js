@@ -7,6 +7,9 @@
 import { G, DEG, RHO_WATER, clamp } from './constants.js';
 import { MothModel } from './vpp.js';
 import { hydroForces } from './hydro.js';
+import { sectionProps, liftSlope2D, flapTau, flapEta, tubercleEffects } from './sections.js';
+import { foilBending } from './structure.js';
+import { planformStats } from './geometry.js';
 
 function mulberry32(a) { return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 
@@ -54,7 +57,17 @@ export function buildFlightModel(design, V, opts = {}) {
   const e = 0.2 * DEG;
   const hT = base({ th: e }), hF = base({ df: e }), hE = base({ de: e });
   const d = (h, s) => (h.S[s].F[2] - h0.S[s].F[2]) / e;
-  const Lm_a = d(hT, 'main'), Le_th = d(hT, 'elev'), Le_de = d(hE, 'elev'), Lm_df = d(hF, 'main');
+  let Lm_a = d(hT, 'main'), Le_th = d(hT, 'elev'), Le_de = d(hE, 'elev'), Lm_df = d(hF, 'main');
+  // bend-twist coupling of swept / crescent tips: tip bending slope phi washes the outer span
+  // out by phi sin(Lambda) (research BIOINSPIRED §2: ~0.8 deg for 20 deg, 15 mm). Averaged over
+  // the lift-carrying span (x0.4), this lowers the dynamic lift slope (gust alleviation);
+  // forward sweep washes in (divergence trend).
+  const mf0 = design.main;
+  const effSweep = ((mf0.sweep || 0) + 0.5 * (mf0.crescent || 0) * (1 - (mf0.crescentStart ?? 0.6))) * DEG;
+  const deflPerN = foilBending(mf0, 1).tipDeflection;
+  const dAlphaPerN = 0.4 * 1.5 * Math.sin(effSweep) / (mf0.span / 2) * deflPerN;
+  const bendTwist = 1 / Math.max(0.3, 1 + Lm_a * dAlphaPerN);
+  Lm_a *= bendTwist; Lm_df *= bendTwist;
   const kdw = (Le_th - Le_de) / Lm_a; // elevator lift change per unit main lift change (downwash)
   const mTot = b.hullMass + b.sailorMass;
   const L = design.mainStrut.length;
@@ -65,8 +78,19 @@ export function buildFlightModel(design, V, opts = {}) {
   const xe = design.elevator.x;
   const Iy = opts.Iy ?? (b.hullMass * 0.85 ** 2 + b.sailorMass * 0.35 ** 2 + b.sailorMass * 0.12);
   const addedMass = RHO_WATER * Math.PI * ((design.main.rootChord / 2) ** 2 * design.main.span + (design.elevator.rootChord / 2) ** 2 * design.elevator.span) * 0.7;
+  // main-foil stall: 3-D CLmax ~ 0.9 x mean section clmax (+ half the flap increment on the
+  // flapped span). Plain sections lose ~35% of lift abruptly past stall; tubercles plateau.
+  const mf = design.main;
+  const sp = sectionProps({ family: mf.family, tc: 0.5 * (mf.tcRoot + mf.tcTip), cli: mf.cli || 0, tub: mf.tubercleAmp || 0 });
+  const Sm = planformStats(mf).area;
+  const qV = 0.5 * RHO_WATER * V * V;
+  const dclFlap = (d) => liftSlope2D(mf.tcRoot) * flapTau(mf.flapFrac || 0) * flapEta(d) * d * (mf.flapSpan || 0);
+  const LmaxOf = (d) => qV * Sm * 0.9 * (sp.clmax + 0.5 * Math.max(0, dclFlap(d)));
+  const spBase = sectionProps({ family: mf.family, tc: 0.5 * (mf.tcRoot + mf.tcTip), cli: mf.cli || 0 });
+  const tubT = tubercleEffects(mf.tubercleAmp || 0, mf.tubercleWave, V * (Sm / mf.span) / 1.19e-6);
+  const plateauOf = (mf.tubercleAmp || 0) > 0 ? (d) => tubT.plateau * qV * Sm * 0.9 * (spBase.clmax + 0.5 * Math.max(0, dclFlap(d))) : null;
   return {
-    V, design, trim: tr, h0,
+    V, design, trim: tr, h0, LmaxOf, plateauOf, bendTwist,
     Lm0: h0.S.main.F[2], Le0: h0.S.elev.F[2],
     Lm_a, Le_de, Lm_df, kdw,
     m: mTot + addedMass, Iy, xcg, zcg, xe, L,
@@ -104,7 +128,17 @@ function rhs(M, s, t, sea, env) {
   const fM = depthFactor(dM, M.cMain) / depthFactor(dM0, M.cMain);
   const fE = depthFactor(dE, M.cElev) / depthFactor(dE0, M.cElev);
   const dLm = M.Lm_a * aM + M.Lm_df * (s[4] - M.df0);
-  const Lm = (M.Lm0 + dLm) * fM;
+  let Lm = (M.Lm0 + dLm) * fM;
+  let stalled = false;
+  if (M.LmaxOf) {
+    const Lmax = M.LmaxOf(s[4]) * fM;
+    if (Lm > Lmax) {
+      stalled = true;
+      const r = Math.min(1, (Lm / Lmax - 1) / 0.2);
+      // plain section: abrupt loss towards 65% of CLmax; tubercles: flat post-stall plateau
+      Lm = M.plateauOf ? Math.min(Lmax, M.plateauOf(s[4]) * fM) : Lmax * (1 - 0.35 * r);
+    }
+  }
   const dLmLag = env.lagLift(t - M.lag, dLm);
   const Le = (M.Le0 + M.Le_de * aE + M.kdw * dLmLag) * fE;
   // hull contact (planing/buoyancy) at the main strut & bow
@@ -126,7 +160,7 @@ function rhs(M, s, t, sea, env) {
   const cmd = clamp(M.df0 + M.gearing * (psi - M.psi0), M.flapMin, M.flapMax);
   return {
     d: [s[1], Fz / M.m, s[3], My / M.Iy, (cmd - s[4]) / M.tauFlap],
-    out: { Lm, Le, dM, dE, touch, breach: dM < 0.01, hw, ride: worldZ(M, s, 0, M.L) - sea.eta(0, t, V), dLm },
+    out: { Lm, Le, dM, dE, touch, stalled, breach: dM < 0.01, hw, ride: worldZ(M, s, 0, M.L) - sea.eta(0, t, V), dLm },
   };
 }
 
@@ -144,7 +178,7 @@ export function simulate(M, { T = 20, dt = 0.004, sea = makeSea({ hs: 0 }), pert
     },
   };
   const series = { t: [], ride: [], pitch: [], flap: [], acc: [], eta: [], Le: [], Lm: [] };
-  let nextRec = 0, touch = 0, breach = 0, sumE = 0, sumP = 0, n = 0, maxAcc = 0;
+  let nextRec = 0, touch = 0, breach = 0, sumE = 0, sumP = 0, n = 0, maxAcc = 0, stallT = 0, touchT = 0, breachT = 0;
   let wasTouch = false, wasBreach = false;
   for (let t = 0; t <= T; t += dt) {
     const k1 = rhs(M, s, t, sea, env);
@@ -158,6 +192,9 @@ export function simulate(M, { T = 20, dt = 0.004, sea = makeSea({ hs: 0 }), pert
     hist.push([t, k1.out.dLm]);
     if (hist.length > 4000) hist.splice(0, 1000);
     const o = k1.out;
+    if (o.stalled) stallT += dt;
+    if (o.touch) touchT += dt;
+    if (o.breach) breachT += dt;
     if (o.touch && !wasTouch) touch++;
     if (o.breach && !wasBreach) breach++;
     wasTouch = o.touch; wasBreach = o.breach;
@@ -173,7 +210,7 @@ export function simulate(M, { T = 20, dt = 0.004, sea = makeSea({ hs: 0 }), pert
     series,
     metrics: {
       rmsRide: Math.sqrt(sumE / Math.max(n, 1)), rmsPitchDeg: Math.sqrt(sumP / Math.max(n, 1)) / DEG,
-      maxAccG: maxAcc / G, touchdowns: touch, breaches: breach,
+      maxAccG: maxAcc / G, touchdowns: touch, breaches: breach, stallFrac: stallT / T, touchFrac: touchT / T, breachFrac: breachT / T,
     },
   };
 }

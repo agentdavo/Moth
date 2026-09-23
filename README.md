@@ -9,7 +9,8 @@ the main T-foil, the rudder elevator and both surface-piercing struts. It covers
 npm install
 npm run dev        # http://127.0.0.1:5173  (Chrome/Edge with WebGPU; falls back to WebGL2 without GPU compute)
 npm test           # physics unit + validation tests (node --test)
-node tools/optimise.mjs medium 36 12   # offline CMA-ES study -> docs/results/opt-medium.json
+node tools/optimise.mjs medium 40 12    # offline CMA-ES study -> docs/results/opt-medium.json
+node tools/shape-tournament.mjs 14 10  # nature-inspired planform tournament -> docs/results/shape-tournament.json
 ```
 
 ## What is in it
@@ -21,7 +22,8 @@ node tools/optimise.mjs medium 36 12   # offline CMA-ES study -> docs/results/op
 | `src/physics/hydro.js` | Full appendage force model. Adds strip profile drag and flap-gap drag, strut **spray** (0.30·q·t², measured), Hoerner **T-junction** drag and foil **wave drag**. Checks cavitation σ + Cp_min, strut ventilation and the tip-clearance rule. |
 | `src/physics/sail.js` | North Sails FLOW Moth sail polar (Bögle 2010 / Waldman), depower model, CE shift and windage. |
 | `src/physics/vpp.js` | **6-DOF trim VPP.** Flap (wand) carries the weight, leeway balances side force, and elevator rake plus sailor fore/aft balance pitch. Hiking balances roll and the sail depowers beyond max righting moment. Drive = drag sets speed. Also computes take-off speed, the hull-borne hump (Beaver & Zseleczky tank fit), minimum foiling wind, and best VMG with optimised TWA per wind band. |
-| `src/physics/dynamics.js` | Heave/pitch **flight simulation** with wand kinematics (ψ = acos h/L), gearing, flap lag and downwash lag. Adds irregular Pierson-Moskowitz seas, orbital velocities, depth loss/ventilation, hull touch-down and **linear eigen-stability**. |
+| `src/physics/dynamics.js` | Heave/pitch **flight simulation** with wand kinematics (ψ = acos h/L), gearing, flap lag and downwash lag. Adds irregular Pierson-Moskowitz seas, orbital velocities, depth loss/ventilation, main-foil stall (with a tubercle plateau), bend–twist gust alleviation, hull touch-down and **linear eigen-stability**. |
+| `src/physics/geometry.js`, `shapes.js` | Generalised planform: 3-D spanwise paths per half-wing (gull/polyhedral, crescent and raked tips, winglets, splayed feather tips, tubercled leading edge, riblets), shared by the lattice, the drag model, the structure and the 3-D loft. Shape library of 12 nature-inspired families. |
 | `src/physics/structure.js` | Solid-carbon beam bending of foils and struts (tip deflection, stress) and torsional divergence speed. |
 | `src/physics/optimizer.js`, `objective.js` | sep-CMA-ES over 22 design variables. The objective is VMG across wind bands normalised to fleet speeds, with research-based constraints: take-off, cavitation, divergence, deflection, strut stiffness, tip Re, S_r/S_m, ventilation, tip clearance and damping. |
 | `src/gpu/lbm.js` | **WebGPU D2Q9 lattice-Boltzmann** (BGK + Smagorinsky) section CFD with the flap deflected. Momentum-exchange lift/drag is reduced on the GPU and rendered straight from GPU buffers. |
@@ -31,6 +33,7 @@ node tools/optimise.mjs medium 36 12   # offline CMA-ES study -> docs/results/op
 
 Research behind every number: [`docs/research/MOTH_FOIL_RESEARCH.md`](docs/research/MOTH_FOIL_RESEARCH.md).
 Engineering conclusions and optimised designs: [`docs/DESIGN_REPORT.md`](docs/DESIGN_REPORT.md).
+Nature-inspired planforms (tuna lunate, swift rake, albatross, gull, humpback tubercles, raptor feather tips, winglets, dolphin, manta, shark-skin riblets, forward sweep): evidence in [`docs/research/BIOINSPIRED_FOILS.md`](docs/research/BIOINSPIRED_FOILS.md), tournament results in [`docs/SHAPE_STUDY.md`](docs/SHAPE_STUDY.md).
 
 ## Validation
 

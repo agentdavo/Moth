@@ -6,6 +6,10 @@ import { KNOT, DEG } from './physics/constants.js';
 import { SepCMAES, paretoInsert } from './physics/optimizer.js';
 import { buildControls } from './ui/controls.js';
 import { OPTIMISED } from './physics/optimised.js';
+import { CHIMERA } from './physics/chimera.js';
+import { SHAPES, applyShape } from './physics/shapes.js';
+import { SHAPE_RESULTS } from './physics/shapeResults.js';
+import { drawPlanform } from './ui/planform.js';
 import { lineChart, barList, polarChart, scatter, heatmap, divergingBars } from './ui/charts.js';
 import { renderDecisions } from './ui/decisions.js';
 import { MothScene } from './render/scene.js';
@@ -72,7 +76,10 @@ $('backend').textContent = scene.isWebGPU ? 'WebGPU ✓' : 'WebGL2 fallback';
 $('backend').className = `pill ${scene.isWebGPU ? 'ok' : 'warn'}`;
 
 // ---------------------------------------------------------------- controls & presets
-const refreshControls = buildControls($('controls'), () => state, (path) => onEdit(path));
+const refreshControls = buildControls($('controls'), () => state, (path) => onEdit(path), (key) => {
+  state.design = applyShape(state.design, key);
+  refreshControls(); onEdit('shape'); showShapeNote();
+});
 refreshControls();
 const presetBar = $('presets');
 const presetButtons = {};
@@ -83,7 +90,7 @@ for (const [k, d] of Object.entries(PRESETS)) {
 function loadDesign(d, key) {
   state.design = d;
   for (const [k, b] of Object.entries(presetButtons)) b.classList.toggle('on', k === key);
-  const bandKey = key?.replace('opt-', '');
+  const bandKey = key?.replace('opt-', '').replace('chimera-', '');
   if (bandKey && WIND_BANDS[bandKey]) { const band = WIND_BANDS[bandKey]; state.cond.tws = band.tws; state.cond.heel = band.heelUp; state.cond.twa = 45; state.autoTWA = bandKey; }
   refreshControls(); onEdit('*');
 }
@@ -91,11 +98,16 @@ for (const [k, d] of Object.entries(OPTIMISED)) {
   const b = document.createElement('button'); b.textContent = `★ opt ${k}`; b.title = d.name; b.onclick = () => loadDesign(cloneDesign(d), `opt-${k}`);
   presetBar.appendChild(b); presetButtons[`opt-${k}`] = b;
 }
+for (const [k, d] of Object.entries(CHIMERA)) {
+  const b = document.createElement('button'); b.textContent = `🧬 ${k}`; b.title = `${d.name}: optimiser free to combine gull, crescent, winglet, riblet and tubercle features`; b.onclick = () => loadDesign(cloneDesign(d), `chimera-${k}`);
+  presetBar.appendChild(b); presetButtons[`chimera-${k}`] = b;
+}
 presetButtons.medium.classList.add('on');
 
 let tDetail = 0, tEval = 0;
 function onEdit(path) {
   if (path === 'cond.twa' || path === 'cond.tws') state.autoTWA = null;
+  if (activeTab === 'shapes') drawShapeLab();
   updateDerived();
   clearTimeout(tDetail); tDetail = setTimeout(requestDetail, 60);
   if (!path.startsWith('cond.')) { clearTimeout(tEval); tEval = setTimeout(requestEval, 450); }
@@ -249,7 +261,7 @@ wireTabs($('dockTabs'), 'tab-', 'tabpane');
 wireTabs($('rightTabs'), 'r-', 'rpane');
 let activeTab = 'cfd';
 function onTab(t) {
-  if (['cfd', 'sim', 'opt', 'sweep', 'sens', 'decisions'].includes(t)) activeTab = t;
+  if (['cfd', 'sim', 'opt', 'sweep', 'sens', 'shapes', 'decisions'].includes(t)) activeTab = t;
   if (t === 'loads' && state.detail) renderDetail(state.detail);
   if (t === 'margins' && state.detail) renderDetail(state.detail);
   if (t === 'perf' && state.evalRes) renderEval(state.evalRes, state.polars);
@@ -257,6 +269,7 @@ function onTab(t) {
   if (t === 'sweep') drawSweep();
   if (t === 'sim' && simResult) drawSim(simResult);
   if (t === 'sens' && sens.rows) drawSens();
+  if (t === 'shapes') drawShapeLab();
 }
 window.__moth.tab = (t) => document.querySelector(`[data-tab="${t}"]`)?.click();
 renderDecisions($('decisions'));
@@ -544,11 +557,74 @@ function drawSens() {
 }
 window.__moth.runSens = runSens;
 
+// ---------------------------------------------------------------- shape lab
+function showShapeNote() {
+  const sh = SHAPES[state.design.shape || 'baseline'];
+  const el = document.getElementById('shapeNote');
+  if (el) el.innerHTML = `<b>${sh.label}</b> · <i>${sh.nature}</i><br>${sh.note}`;
+  document.querySelectorAll('#shapeList button').forEach((b) => b.classList.toggle('on', b.dataset.shape === (state.design.shape || 'baseline')));
+  drawShapeLab();
+}
+$('shapeList').innerHTML = Object.entries(SHAPES).filter(([, sh]) => !sh.noApply).map(([k, sh]) => {
+  const opt = SHAPE_RESULTS?.shapes?.[k] ? ['light', 'medium', 'strong'].map((b) => `<span class="mini" data-k="${k}" data-b="${b}" title="load the tournament optimum for ${b} air">${b[0].toUpperCase()}</span>`).join('') : '';
+  return `<button data-shape="${k}">${sh.label}<small>${sh.nature}</small><span class="minis">${opt}</span></button>`;
+}).join('');
+$('shapeList').querySelectorAll('button').forEach((b) => b.onclick = (e) => {
+  const m = e.target.closest('.mini');
+  if (m) { const d = cloneDesign(SHAPE_RESULTS.shapes[m.dataset.k][m.dataset.b].design); d.shape = m.dataset.k; loadDesign(d, `opt-${m.dataset.b}`); showShapeNote(); return; }
+  window.__moth.applyShape(b.dataset.shape);
+});
+function drawShapeLab() {
+  if (activeTab !== 'shapes') return;
+  const sh = state.design.shape || 'baseline';
+  drawPlanform($('planformCanvas'), state.design.main, sh === 'baseline' ? null : applyShape(state.design, 'baseline').main, { title: SHAPES[sh].label });
+  drawShapeResults();
+}
+function drawShapeResults() {
+  const R = SHAPE_RESULTS;
+  if (!R) { $('shapeReadout').textContent = 'Shape tournament results not generated yet (node tools/shape-tournament.mjs).'; return; }
+  const band = R.bandOrder || ['light', 'medium', 'strong'];
+  const mean = (k) => band.reduce((a, b) => a + (R.shapes[k][b]?.delta ?? 0), 0) / band.length;
+  const keys = Object.keys(R.shapes).filter((k) => k !== 'baseline').sort((a, b) => mean(b) - mean(a));
+  const cv = $('shapeBars');
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+  cv.width = w * dpr; cv.height = h * dpr;
+  const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+  ctx.font = '11px Inter, system-ui, sans-serif';
+  const lw = 150, top = 34, rowH = (h - top - 18) / keys.length;
+  const CLIP = 0.06; // clip the axis so small effects stay readable; clipped bars get a notch + label
+  const x0 = lw + (w - lw - 12) / 2, half = (w - lw - 40) / 2;
+  ctx.fillStyle = '#e6edf3'; ctx.textAlign = 'left'; ctx.fillText('Δ band score vs re-optimised baseline (1.0 ≈ fleet VMG)', 8, 12);
+  band.forEach((b, i) => { ctx.fillStyle = WIND_BANDS[b].color; ctx.fillRect(8 + i * 70, 20, 10, 8); ctx.fillStyle = '#9fb0c0'; ctx.fillText(WIND_BANDS[b].label, 22 + i * 70, 28); });
+  ctx.strokeStyle = 'rgba(160,180,200,0.35)'; ctx.beginPath(); ctx.moveTo(x0, top - 2); ctx.lineTo(x0, h - 14); ctx.stroke();
+  keys.forEach((k, i) => {
+    const y = top + i * rowH;
+    ctx.fillStyle = '#9fb0c0'; ctx.textAlign = 'right'; ctx.fillText(SHAPES[k].label.replace(/ \(.*\)/, ''), lw - 6, y + rowH * 0.62);
+    band.forEach((b, j) => {
+      const v = R.shapes[k][b]?.delta; if (!Number.isFinite(v)) return;
+      const vc = Math.max(-CLIP, Math.min(CLIP, v));
+      const bw = half * vc / CLIP, bh = Math.max(2, rowH / 3 - 2), yy = y + 2 + j * (bh + 1);
+      ctx.fillStyle = WIND_BANDS[b].color;
+      ctx.fillRect(bw >= 0 ? x0 : x0 + bw, yy, Math.max(1.5, Math.abs(bw)), bh);
+      if (v !== vc) { ctx.fillStyle = '#e6edf3'; ctx.textAlign = v < 0 ? 'right' : 'left'; ctx.font = '9px Inter, sans-serif'; ctx.fillText(v.toFixed(2), v < 0 ? x0 - half - 3 : x0 + half + 3, yy + bh); ctx.font = '11px Inter, system-ui, sans-serif'; }
+    });
+  });
+  ctx.fillStyle = '#5f7282'; ctx.textAlign = 'center'; ctx.fillText(`−${CLIP}`, x0 - half, h - 3); ctx.fillText('0', x0, h - 3); ctx.fillText(`+${CLIP}`, x0 + half, h - 3);
+  const best = keys[0], b0 = R.shapes.baseline;
+  $('shapeReadout').textContent = `${keys.length} families, each re-optimised per band (${R.gens} gen × λ${R.lambda}) with the same sizing freedom as the baseline.\nBaseline scores L ${b0.light.score.toFixed(3)} · M ${b0.medium.score.toFixed(3)} · S ${b0.strong.score.toFixed(3)}.\nBest: ${SHAPES[best].label} (mean ${mean(best) >= 0 ? '+' : ''}${mean(best).toFixed(3)}). Differences below ~0.004 are within optimiser noise.`;
+}
+window.__moth.applyShape = (k) => { state.design = applyShape(state.design, k); refreshControls(); onEdit('shape'); showShapeNote(); };
+
 // ---------------------------------------------------------------- go
 {
   const qp = new URLSearchParams(location.search);
   const pk = qp.get('preset');
   if (pk && presetButtons[pk]) presetButtons[pk].click();
+  if (qp.get('flow') === '0') { $('showFlow').checked = false; if (scene.flow) scene.flow.enabled = false; }
+  if (qp.get('forces') === '0') { $('showForces').checked = false; scene.showForces = false; }
+  if (qp.get('hud') === '0') { $('hud').style.display = 'none'; document.querySelector('.viewbar').style.display = 'none'; }
+  const shp = qp.get('shape');
+  if (shp && SHAPES[shp]) window.__moth.applyShape(shp);
   const tab = qp.get('tab');
   if (tab) window.__moth.tab(tab);
 }

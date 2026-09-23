@@ -60,7 +60,7 @@ export function conditionDetail(design, cond) {
   const deckWorld = P([b.wandX, 0, L + b.deckAboveKeel]);
   const psi = Math.acos(Math.min(1, Math.max(-1, deckWorld[2] / b.wandLength)));
   const awaDeg = r.sail.awa / DEG;
-  const mainStrips = h.strips.map((s, i) => ({ ...s, i })).filter((s) => s.surf === 'main');
+  const mainStrips = h.strips.map((s, i) => ({ ...s, i })).filter((s) => s.surf === 'main' && s.kind === 'main');
   const span = design.main.span;
   const Ltot = mainStrips.reduce((a, s) => a + s.lift, 0);
   const spanLoad = mainStrips.map((s) => ({ y: s.yb, lp: s.lift / s.ds, ell: (4 * Ltot / (Math.PI * span)) * Math.sqrt(Math.max(0, 1 - (2 * s.yb / span) ** 2)), cl: s.cl }));
@@ -74,7 +74,7 @@ export function conditionDetail(design, cond) {
     lift: { main: h.S.main.F[2], elev: h.S.elev.F[2], W: model.W, sailZ: r.sail.sail[2] },
     side: { mstrut: h.S.mstrut.F[1], rstrut: h.S.rstrut.F[1], main: h.S.main.F[1], elev: h.S.elev.F[1] },
     cavMin: h.cavMin, ventMax: h.ventMax, tipClear: h.tipClear, stallMax: h.stallMax,
-    strips: h.strips.map((s) => ({ surf: s.surf, yb: s.yb, eta: s.eta, cl: s.cl, cd: s.cd, cp: s.cp, cav: s.cav, stall: s.stall, depth: s.depth, re: s.re })),
+    strips: h.strips.map((s) => ({ surf: s.surf, kind: s.kind, pb: s.pb, yb: s.yb, eta: s.eta, cl: s.cl, cd: s.cd, cp: s.cp, cav: s.cav, stall: s.stall, depth: s.depth, re: s.re })),
     spanLoad, forces, segments: { data, n: k },
   };
 }

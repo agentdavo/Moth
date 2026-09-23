@@ -72,6 +72,7 @@ export function basisRHS(panels) {
     R[i * NB + 2] = p.surf === 'main' && p.flapped ? dRdEps * p.tau : 0;
     R[i * NB + 3] = p.surf === 'elev' ? dRdEps : 0;
     R[i * NB + 4] = n[1];                         // u = (0,-1,0)*beta
+    if (p.slopeF && p.slopeF !== 1) for (let k = 0; k < 4; k++) R[i * NB + k] *= p.slopeF; // reduced section lift slope
   }
   return R;
 }

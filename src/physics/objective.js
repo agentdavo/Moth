@@ -4,7 +4,7 @@ import { WIND_BANDS } from './design.js';
 import { structuralCheck } from './structure.js';
 import { planformStats } from './geometry.js';
 import { toKn, KNOT, DEG, RHO_WATER } from './constants.js';
-import { buildFlightModel, linearStability } from './dynamics.js';
+import { buildFlightModel, linearStability, simulate, makeSea } from './dynamics.js';
 import { chordAt, tcAt } from './geometry.js';
 
 // Reference VMGs (kn) used to normalise band scores: ~ published fleet speeds.
@@ -29,7 +29,9 @@ export function divergenceSpeed(f, Gmod = 12e9) {
   const e = 0.13, a0 = 5.8;
   const qD = (Math.PI / (2 * b2)) ** 2 * GJ / (c * c * e * a0);
   // aft sweep adds bend-twist wash-out -> raises divergence speed (approximate)
-  const sweepGain = 1 + 0.06 * Math.max(0, f.sweep || 0);
+  // crescent / raked tips add local aft sweep outboard (weighted by where divergence lives)
+  const effSweep = (f.sweep || 0) + 0.5 * (f.crescent || 0) * (1 - (f.crescentStart ?? 0.6));
+  const sweepGain = 1 + 0.06 * Math.max(0, effSweep);
   return Math.sqrt(2 * qD * sweepGain / RHO_WATER);
 }
 
@@ -56,12 +58,21 @@ export function evaluateDesign(design, target = 'allround', opts = {}) {
   }
   // pitch/heave stability at a medium-wind cruise speed
   let stab = { minZeta: 0, stable: false, freqHz: 0 };
-  try { stab = linearStability(buildFlightModel(design, 7.5)); } catch (e) { /* infeasible trim */ }
-
-  // foiling manoeuvres & lulls: tacks/gybes bleed speed to ~60% of the upwind speed [EST];
-  // if that is below the minimum flying speed (flap max, bow-up 3 deg, normal ride height)
-  // the boat touches down in every manoeuvre, costing up to ~8% of the band's VMG [EST]
+  // stability at a medium-wind cruise speed
+  try { stab = linearStability(buildFlightModel(design, 7.0)); } catch (e) { /* infeasible trim */ }
+  // seaway robustness where stall matters: slow flight at a fixed lull / tack-exit speed
+  // (11 kn, the same for every design) in a head sea Hs 0.3 m -> stall, touch-down, breach time
   const vMinFly = model.takeoffSpeed(0, design.boat.rideHeight);
+  let sea = { stallFrac: 0, touchFrac: 0, breachFrac: 0, rmsRide: 0 };
+  const vTest = 11 * KNOT;
+  if (!opts.skipSea && !(isFinite(vMinFly) && vMinFly < vTest)) sea = { stallFrac: 0, touchFrac: 1, breachFrac: 0, rmsRide: 0.5, cannotFly: true };
+  else if (!opts.skipSea) {
+    try {
+      const FM = buildFlightModel(design, vTest);
+      const runs = [11, 23].map((seed) => simulate(FM, { T: 10, dt: 0.005, record: 1, sea: makeSea({ hs: 0.3, tp: 2.4, heading: 180, seed }) }).metrics);
+      for (const k of ['stallFrac', 'touchFrac', 'breachFrac', 'rmsRide', 'touchdowns']) sea[k] = runs.reduce((a, r) => a + (r[k] || 0), 0) / runs.length;
+    } catch (e) { /* no trim */ }
+  }
   const bands = {};
   let score = 0, wsum = 0;
   const w = TARGETS[target] || TARGETS.allround;
@@ -93,6 +104,9 @@ export function evaluateDesign(design, target = 'allround', opts = {}) {
   if (st.main.stressMargin < 0) pen.stress = -st.main.stressMargin * 0.5;
   if (ventMax > 1) pen.ventilation = 0.1 * (ventMax - 1);
   if (tipClear < 0) pen.tipClearance = 2 * -tipClear;
+  // continuous seaway penalty: time stalled / hull touching / foil breached, and ride error
+  const seaPen = Math.min(0.15, 0.15 * sea.touchFrac + 0.3 * sea.breachFrac + 0.2 * sea.stallFrac + 0.3 * Math.max(0, sea.rmsRide - 0.06));
+  if (seaPen > 0) pen.seaway = seaPen;
   if (!stab.stable) pen.stability = 0.1; else if (stab.minZeta < 0.15) pen.stability = 0.3 * (0.15 - stab.minZeta);
   // tip Reynolds number at take-off >= 1.5e5 (laminar separation / tip stall), elevator >= 1.2e5
   const vto = ev.takeoffV || 5;
@@ -111,7 +125,7 @@ export function evaluateDesign(design, target = 'allround', opts = {}) {
   return {
     score: score - totalPen, rawScore: score, penalties: pen, bands,
     takeoffKn: toKn(ev.takeoffV), minTWSkn, minFlyKn: toKn(vMinFly), vmaxKn: toKn(vmax), cavAtMax, ventMax, tipClear, stallMax: stall,
-    divergenceKn: toKn(vdiv), structure: st, stability: stab, reTip, reTipE,
+    divergenceKn: toKn(vdiv), structure: st, stability: stab, reTip, reTipE, seaway: sea,
     main: { area: main.area, AR: main.AR, mass: main.mass }, elev: { area: elev.area, AR: elev.AR },
     evals: model.evals, ms: t1 - t0,
   };

@@ -2,6 +2,9 @@
 // or in the condition object ("cond." prefix).
 import { FAMILIES } from '../physics/sections.js';
 import { getPath, setPath } from '../physics/design.js';
+import { SHAPES } from '../physics/shapes.js';
+
+const SHAPE_DEFAULTS = { dihedralInner: 0, crescent: 0, crescentStart: 0.6, wingletHeight: 0, wingletCant: 90, feathers: 0, featherStart: 0.8, featherSpread: 24, featherFan: 14, tubercleAmp: 0, tubercleWave: 0.3, riblet: 0 };
 
 const fam = Object.entries(FAMILIES).map(([k, f]) => [k, f.label]);
 
@@ -28,6 +31,21 @@ export const SCHEMA = [
     ['main.flapFrac', 'Flap chord', 0.15, 0.5, 0.01, 100, '%', 0],
     ['main.flapSpan', 'Flap span', 0.4, 1.0, 0.01, 100, '%', 0],
     ['main.incidence', 'Incidence', -2, 4, 0.1, 1, '°', 1],
+  ] },
+  { title: 'Nature-inspired planform', items: [
+    ['shape', 'Shape library', 'SHAPES'],
+    ['main.dihedralInner', 'Gull inner dihedral', 0, 20, 0.5, 1, '°', 1],
+    ['main.crescent', 'Crescent tip rake', 0, 50, 0.5, 1, '°', 1],
+    ['main.crescentStart', 'Crescent from η', 0.2, 0.95, 0.01, 1, '', 2],
+    ['main.wingletHeight', 'Winglet height', 0, 0.15, 0.002, 1000, 'mm', 0],
+    ['main.wingletCant', 'Winglet cant', -90, 90, 1, 1, '°', 0],
+    ['main.feathers', 'Tip feathers (N)', 0, 7, 1, 1, '', 0],
+    ['main.featherStart', 'Feathers from η', 0.55, 0.95, 0.01, 1, '', 2],
+    ['main.featherSpread', 'Feather fan (dihedral)', 0, 50, 1, 1, '°', 0],
+    ['main.featherFan', 'Feather fan (plan)', 0, 30, 1, 1, '°', 0],
+    ['main.tubercleAmp', 'Tubercle amplitude A/c', 0, 0.15, 0.005, 100, '%', 1],
+    ['main.tubercleWave', 'Tubercle wavelength λ/c', 0.1, 0.8, 0.01, 1, '', 2],
+    ['main.riblet', 'Riblet spacing', 0, 150, 1, 1, 'µm', 0],
   ] },
   { title: 'Rudder elevator', items: [
     ['elevator.span', 'Span', 0.5, 0.95, 0.005, 1000, 'mm', 0],
@@ -71,7 +89,7 @@ export const SCHEMA = [
   ] },
 ];
 
-export function buildControls(root, getState, onChange) {
+export function buildControls(root, getState, onChange, onShape = null) {
   root.innerHTML = '';
   const outputs = [];
   for (const g of SCHEMA) {
@@ -87,9 +105,21 @@ export function buildControls(root, getState, onChange) {
       row.className = 'ctl';
       const lab = document.createElement('label'); lab.textContent = label; lab.title = path;
       row.appendChild(lab);
-      const read = () => { const s = getState(); return path.startsWith('cond.') ? s.cond[path.slice(5)] : getPath(s.design, path); };
+      const read = () => {
+        const s = getState();
+        if (path === 'shape') return s.design.shape || 'baseline';
+        const v = path.startsWith('cond.') ? s.cond[path.slice(5)] : getPath(s.design, path);
+        return v ?? SHAPE_DEFAULTS[path.split('.').pop()] ?? 0;
+      };
       const write = (v) => { const s = getState(); if (path.startsWith('cond.')) s.cond[path.slice(5)] = v; else setPath(s.design, path, v); onChange(path); };
-      if (Array.isArray(it[2])) {
+      if (it[2] === 'SHAPES') {
+        const sel = document.createElement('select');
+        sel.id = 'shapeSelect';
+        for (const [k, sh] of Object.entries(SHAPES)) { const o = document.createElement('option'); o.value = k; o.textContent = sh.label; sel.appendChild(o); }
+        sel.onchange = () => onShape && onShape(sel.value);
+        row.appendChild(sel);
+        outputs.push(() => { sel.value = read(); });
+      } else if (Array.isArray(it[2])) {
         const sel = document.createElement('select');
         for (const [k, l] of it[2]) { const o = document.createElement('option'); o.value = k; o.textContent = l; sel.appendChild(o); }
         sel.onchange = () => write(sel.value);
@@ -106,6 +136,9 @@ export function buildControls(root, getState, onChange) {
         outputs.push(show);
       }
       sec.appendChild(row);
+    }
+    if (g.title === 'Nature-inspired planform') {
+      const d = document.createElement('div'); d.className = 'derived shape-note'; d.id = 'shapeNote'; sec.appendChild(d);
     }
     if (g.title === 'Main foil' || g.title === 'Rudder elevator') {
       const d = document.createElement('div'); d.className = 'derived'; d.dataset.derived = g.title; sec.appendChild(d);

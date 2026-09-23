@@ -4,46 +4,65 @@
 // Z = -body y (starboard / windward).
 import * as THREE from 'three/webgpu';
 import { sectionCoords } from '../physics/sections.js';
-import { surfaceStations } from '../physics/geometry.js';
+import { halfPaths, planformStats } from '../physics/geometry.js';
 
 const toThree = (x, y, z) => [x, z, -y]; // body (x, y, z) -> three
 
 /**
- * Lofted horizontal foil. `colorFn(eta, yb)` returns [r,g,b] per station (e.g. from strip cl).
+ * Lofted horizontal foil from the generalised spanwise paths (main span, winglets,
+ * feather tips). Sections are streamwise, rotated into the local path frame; the
+ * main-foil flap is deflected in place and humpback tubercles bump the leading edge.
+ * `colorFn(pb)` takes the body-frame point of a station and returns [r,g,b].
  */
-export function foilGeometry(f, x0, z0, { flapDeg = 0, isMain = false, colorFn = null, nSpan = 48, nSec = 36 } = {}) {
-  const st = surfaceStations(f, x0, z0, nSpan);
-  const pos = [], col = [], idx = [];
+export function foilGeometry(f, x0, z0, { flapDeg = 0, isMain = false, colorFn = null, nSec = 30 } = {}) {
+  const tub = f.tubercleAmp || 0;
+  const dense = tub > 0 ? 8 : 3;
+  const paths = halfPaths(f, 16, dense);
   const flapHalf = (f.flapSpan || 0) * f.span / 2;
-  const ring = nSec * 2 - 1;
-  for (const s of st) {
-    const flapped = isMain && Math.abs(s.y) <= flapHalf && (f.flapFrac || 0) > 0;
-    const pts = sectionCoords({ family: f.family, tc: s.tc, cli: f.cli || 0 }, nSec - 1, flapped ? f.flapFrac : 0, flapped ? flapDeg * Math.PI / 180 : 0);
-    const c = s.chord, tw = s.twist;
-    const cs = Math.cos(tw), sn = Math.sin(tw);
-    const xq = s.xLE - 0.25 * c;
-    const rgb = colorFn ? colorFn(s.eta, s.y) : [0.8, 0.82, 0.86];
-    for (const [px, py] of pts) {
-      // section x runs LE(0) -> TE(1) aft; rotate by twist about the quarter chord (nose up = +)
-      const lx = -(px - 0.25) * c, lz = py * c;
-      const X = xq + lx * cs - lz * sn;
-      const Z = s.z + lx * sn + lz * cs;
-      pos.push(...toThree(X, s.y, Z));
-      col.push(...rgb);
-    }
-  }
-  const nS = st.length;
-  for (let i = 0; i < nS - 1; i++) {
-    for (let j = 0; j < ring - 1; j++) {
-      const a = i * ring + j, b = a + 1, c = a + ring, d = c + 1;
-      idx.push(a, c, b, b, c, d);
-    }
-  }
-  // tip caps (fan)
-  for (const i of [0, nS - 1]) {
-    const base = i * ring;
-    for (let j = 1; j < ring - 2; j++) {
-      if (i === 0) idx.push(base, base + j, base + j + 1); else idx.push(base, base + j + 1, base + j);
+  const cRef = planformStats(f).mac;
+  const lambda = Math.max(0.1, f.tubercleWave || 0.3) * cRef;
+  const pos = [], col = [], idx = [];
+  for (const side of [1, -1]) {
+    for (const path of paths) {
+      const base = pos.length / 3;
+      let ring = 0;
+      for (const st of path) {
+        const flapped = isMain && st.kind === 'main' && st.P[1] <= flapHalf && (f.flapFrac || 0) > 0;
+        const pts = sectionCoords({ family: f.family, tc: st.tc, cli: f.cli || 0 }, nSec - 1, flapped ? f.flapFrac : 0, flapped ? flapDeg * Math.PI / 180 : 0);
+        ring = pts.length;
+        const up = [0, -st.t[2], st.t[1]];
+        const c = st.chord, cs = Math.cos(st.twist), sn = Math.sin(st.twist);
+        const bump = tub > 0 && st.kind === 'main' ? tub * c * Math.cos(2 * Math.PI * st.s / lambda) : 0;
+        const pb = [x0 + st.P[0], side * st.P[1], z0 + st.P[2]];
+        const rgb = colorFn ? colorFn(pb) : [0.8, 0.82, 0.86];
+        for (const [px, py] of pts) {
+          let lx = -(px - 0.25) * c;
+          if (bump && px < 0.35) lx += bump * (1 - px / 0.35) ** 2;
+          const lz = py * c;
+          const a = lx * cs - lz * sn, b = lx * sn + lz * cs;   // along chord (x), along local up
+          const X = x0 + st.P[0] + a;
+          const Y = side * (st.P[1] + b * up[1]);
+          const Z = z0 + st.P[2] + b * up[2];
+          pos.push(...toThree(X, Y, Z));
+          col.push(...rgb);
+        }
+      }
+      const n = path.length;
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < ring - 1; j++) {
+          const a = base + i * ring + j, b = a + 1, c = a + ring, d = c + 1;
+          if (side > 0) idx.push(a, c, b, b, c, d); else idx.push(a, b, c, b, d, c);
+        }
+      }
+      // cap the outboard end (and the inboard end of tip devices)
+      const caps = path[0].kind === 'main' ? [n - 1] : [0, n - 1];
+      for (const i of caps) {
+        const b0 = base + i * ring;
+        for (let j = 1; j < ring - 2; j++) {
+          const flip = (i === n - 1) === (side > 0);
+          if (flip) idx.push(b0, b0 + j, b0 + j + 1); else idx.push(b0, b0 + j + 1, b0 + j);
+        }
+      }
     }
   }
   const g = new THREE.BufferGeometry();

@@ -49,7 +49,7 @@ export function hydroForces(sol, lat, design, st, opts = {}) {
     const Fp = [ev.f[i * 3] * rv2, ev.f[i * 3 + 1] * rv2, ev.f[i * 3 + 2] * rv2];
     const area = p.chord * p.ds;
     const cl = ev.cl[i];
-    const sp = sectionProps(p);
+    const sp = sectionProps(p, reynolds(V, p.chord));
     let dclFlap = 0, dRad = 0;
     if (p.flapped) { dRad = st.df; dclFlap = liftSlope2D(p.tc) * p.tau * etaF * st.df; }
     if (p.surf === 'elev') { dRad = 0; }
@@ -78,7 +78,7 @@ export function hydroForces(sol, lat, design, st, opts = {}) {
       const vent = Math.abs(cl) / (sp.a0 * 10 * DEG);
       ventMax = Math.max(ventMax, vent);
     }
-    strips[i] = { surf: p.surf, cl, cd, cp, sigma, cav, re, stall, gam: ev.gam[i] * V, eta: p.eta, yb: p.yb, depth: p.depth, chord: p.chord, ds: p.ds, lift: Fp[2] };
+    strips[i] = { surf: p.surf, kind: p.kind, pb: p.pb, cl, cd, cp, sigma, cav, re, stall, gam: ev.gam[i] * V, eta: p.eta, yb: p.yb, depth: p.depth, chord: p.chord, ds: p.ds, lift: Fp[2] };
   }
   // Lift components per surface, perpendicular to flow (world z for foils, y for struts)
   for (const s of SURFS) S[s].lift = s.endsWith('strut') ? S[s].F[1] : S[s].F[2];

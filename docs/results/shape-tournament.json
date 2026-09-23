@@ -1,0 +1,6798 @@
+{
+ "shapes": {
+  "baseline": {
+   "light": {
+    "start": 0.9070418469875962,
+    "score": 0.909306486240652,
+    "raw": 0.9130457684383628,
+    "r": {
+     "score": 0.909306486240652,
+     "raw": 0.9130457684383628,
+     "bands": {
+      "light": {
+       "upV": 12.214747242023979,
+       "upTWA": 57.264694116876,
+       "upVMG": 6.605231573640468,
+       "upFoil": true,
+       "downV": 13.99744800794645,
+       "downTWA": 118.03355750706233,
+       "downVMG": 6.578641201610312,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.328848345214387,
+        "vMinFlyKn": 8.766290645823451,
+        "foilingTacks": false
+       },
+       "score": 0.8969974582125363
+      },
+      "medium": {
+       "upV": 14.359903118706802,
+       "upTWA": 47.504902666666666,
+       "upVMG": 9.700503969035767,
+       "upFoil": true,
+       "downV": 19.352306311524092,
+       "downTWA": 133.08091065847472,
+       "downVMG": 13.218214802729326,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.61594187122408,
+        "vMinFlyKn": 8.766290645823451,
+        "foilingTacks": false
+       },
+       "score": 0.9772390093416695
+      },
+      "strong": {
+       "upV": 15.944893367645465,
+       "upTWA": 45.65686101469066,
+       "upVMG": 11.144746120032076,
+       "upFoil": true,
+       "downV": 20.26348615913526,
+       "downTWA": 146.55518149703363,
+       "downVMG": 16.90819743377405,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.566936020587278,
+        "vMinFlyKn": 8.766290645823451,
+        "foilingTacks": true
+       },
+       "score": 0.887130308507402
+      }
+     },
+     "penalties": {
+      "seaway": 0.002898897350367072,
+      "tipRe": 0.0008403848473437669
+     },
+     "takeoffKn": 8.665301762679707,
+     "minTWSkn": 6.987595467145112,
+     "minFlyKn": 8.766290645823451,
+     "vmaxKn": 20.26348615913526,
+     "cavAtMax": 0.6806154110885261,
+     "main": {
+      "area": 0.0956130883827546,
+      "AR": 14.457303312087399,
+      "mass": 1.0076868235588612
+     },
+     "defl": 0.04489229489215276,
+     "zeta": 0.30653674301834954
+    },
+    "design": {
+     "name": "Optimised light · Baseline (optimised planform)",
+     "main": {
+      "span": 1.1757157051578853,
+      "rootChord": 0.11004974528325195,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.11830303247844307,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.35017851713979475,
+      "flapSpan": 0.6202,
+      "incidence": 0.9222484123777634,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.98646701942553,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "baseline"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax"
+    ],
+    "delta": 0
+   },
+   "medium": {
+    "start": 0.9310308295604938,
+    "score": 0.9318897706066074,
+    "raw": 0.9485404919260452,
+    "r": {
+     "score": 0.9318897706066074,
+     "raw": 0.9485404919260452,
+     "bands": {
+      "light": {
+       "upV": 4.629521434129594,
+       "upTWA": 42.14708422435868,
+       "upVMG": 3.432441312871482,
+       "upFoil": false,
+       "downV": 3.291544488467439,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2349933759633047,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4797001722081805
+      },
+      "medium": {
+       "upV": 15.120094220501896,
+       "upTWA": 49.08331903858799,
+       "upVMG": 9.903069663034465,
+       "upFoil": true,
+       "downV": 20.208769539222132,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.691201377834197,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.072056532301136,
+        "vMinFlyKn": 9.331220939499731,
+        "foilingTacks": false
+       },
+       "score": 1.0366043652739112
+      },
+      "strong": {
+       "upV": 19.758049770723353,
+       "upTWA": 50.578416053278666,
+       "upVMG": 12.546787693576388,
+       "upFoil": true,
+       "downV": 26.43703769616549,
+       "downTWA": 145.63907587716582,
+       "downVMG": 21.823738013115427,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.854829862434011,
+        "vMinFlyKn": 9.331220939499731,
+        "foilingTacks": true
+       },
+       "score": 1.0651253182524463
+      }
+     },
+     "penalties": {
+      "takeoff": 0.00945502267982521,
+      "seaway": 0.0034593630669917164,
+      "tipRe": 0.003736335572620897
+     },
+     "takeoffKn": 9.282624785204998,
+     "minTWSkn": 7.756401814386017,
+     "minFlyKn": 9.331220939499731,
+     "vmaxKn": 26.43703769616549,
+     "cavAtMax": 0.05793560114655616,
+     "main": {
+      "area": 0.07042960596412047,
+      "AR": 12.144446362300542,
+      "mass": 0.6703858850475941
+     },
+     "defl": 0.041377281340588816,
+     "zeta": 0.36716028827967634
+    },
+    "design": {
+     "name": "Optimised medium · Baseline (optimised planform)",
+     "main": {
+      "span": 0.9248397547409083,
+      "rootChord": 0.09919922875592335,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.11390857868902785,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.4108845208600921,
+      "flapSpan": 0.9543,
+      "incidence": 1.3798335213191866,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.175599840162223,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "baseline"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax"
+    ],
+    "delta": 0
+   },
+   "strong": {
+    "start": 1.0231263585741297,
+    "score": 1.0233407223556958,
+    "raw": 1.029393192238664,
+    "r": {
+     "score": 1.0233407223556958,
+     "raw": 1.029393192238664,
+     "bands": {
+      "light": {
+       "upV": 4.500439936830679,
+       "upTWA": 41.60783305569599,
+       "upVMG": 3.365011867893042,
+       "upFoil": false,
+       "downV": 3.2701557240881134,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.213972086009732,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4731118724949853
+      },
+      "medium": {
+       "upV": 15.06707596575138,
+       "upTWA": 49.35294444035333,
+       "upVMG": 9.814656638672458,
+       "upFoil": true,
+       "downV": 20.35651569796202,
+       "downTWA": 137.1085016625707,
+       "downVMG": 14.914076999441964,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.040245579450827,
+        "vMinFlyKn": 9.622797865268135,
+        "foilingTacks": false
+       },
+       "score": 1.0288808305843955
+      },
+      "strong": {
+       "upV": 17.0389479467153,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.510271400785792,
+       "upFoil": true,
+       "downV": 26.918442970348647,
+       "downTWA": 145.63907587716582,
+       "downVMG": 22.221137400393566,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.223368768029179,
+        "vMinFlyKn": 9.622797865268135,
+        "foilingTacks": true
+       },
+       "score": 1.029521282652231
+      }
+     },
+     "penalties": {
+      "seaway": 0.0060524698829682935
+     },
+     "takeoffKn": 9.524846241767811,
+     "minTWSkn": 8.041144905956722,
+     "minFlyKn": 9.622797865268135,
+     "vmaxKn": 26.918442970348647,
+     "cavAtMax": 0.18926827716762196,
+     "main": {
+      "area": 0.0665270238884375,
+      "AR": 10.0758728821028,
+      "mass": 0.5721587436203129
+     },
+     "defl": 0.040972616399199455,
+     "zeta": 0.3525337943596435
+    },
+    "design": {
+     "name": "Optimised strong · Baseline (optimised planform)",
+     "main": {
+      "span": 0.8187294033589563,
+      "rootChord": 0.10971769417908014,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09317075582486326,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.42991230770423505,
+      "flapSpan": 0.9585,
+      "incidence": 1.9897174508863258,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.52827763863977,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "baseline"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax"
+    ],
+    "delta": 0
+   }
+  },
+  "tuna": {
+   "light": {
+    "start": 0.8032224551731735,
+    "score": 0.8244237510767992,
+    "raw": 0.894442459167897,
+    "r": {
+     "score": 0.8244237510767992,
+     "raw": 0.894442459167897,
+     "bands": {
+      "light": {
+       "upV": 12.236886866877159,
+       "upTWA": 57.534319669084006,
+       "upVMG": 6.568691461463112,
+       "upFoil": true,
+       "downV": 13.60502955466242,
+       "downTWA": 118.03355777231648,
+       "downVMG": 6.394209051879332,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.342132120126295,
+        "vMinFlyKn": 8.825517208870156,
+        "foilingTacks": false
+       },
+       "score": 0.8814600680635096
+      },
+      "medium": {
+       "upV": 13.984464040303713,
+       "upTWA": 46.36275009232933,
+       "upVMG": 9.650541675584515,
+       "upFoil": true,
+       "downV": 17.697178123202534,
+       "downTWA": 135.86390733333332,
+       "downVMG": 12.701048388837053,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.390678424182227,
+        "vMinFlyKn": 8.825517208870156,
+        "foilingTacks": false
+       },
+       "score": 0.9463720235854467
+      },
+      "strong": {
+       "upV": 15.957839669623914,
+       "upTWA": 46.009805651976,
+       "upVMG": 11.083282193396387,
+       "upFoil": true,
+       "downV": 18.13382787263921,
+       "downTWA": 148.27516832923737,
+       "downVMG": 15.424331027491064,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.57470380177435,
+        "vMinFlyKn": 8.825517208870156,
+        "foilingTacks": true
+       },
+       "score": 0.8491278113405205
+      }
+     },
+     "penalties": {
+      "seaway": 0.0031217294804745635,
+      "tipRe": 0.06689697861062319
+     },
+     "takeoffKn": 8.719972436261285,
+     "minTWSkn": 6.987595467145112,
+     "minFlyKn": 8.825517208870156,
+     "vmaxKn": 18.13382787263921,
+     "cavAtMax": 1.401792090945111,
+     "main": {
+      "area": 0.09617008105070073,
+      "AR": 14.316364786728661,
+      "mass": 1.10176191686571
+     },
+     "defl": 0.034576528668444226,
+     "zeta": 0.2915250866369999
+    },
+    "design": {
+     "name": "Optimised light · Tuna / swordfish lunate",
+     "main": {
+      "span": 1.1733737520036371,
+      "rootChord": 0.10557388138377015,
+      "taper": 0.3,
+      "ellipticity": 0.928873319117044,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.13045461102159303,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.26633995800144755,
+      "flapSpan": 0.6202,
+      "incidence": 1.4512731345242593,
+      "nHalf": 12,
+      "crescent": 18.42484647906365,
+      "crescentStart": 0.4382642637399045
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 11.2131843102535,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "tuna"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.crescent",
+     "main.crescentStart",
+     "main.ellipticity"
+    ],
+    "delta": -0.08488273516385281
+   },
+   "medium": {
+    "start": 0.7377513072569148,
+    "score": 0.9190096854508886,
+    "raw": 0.9322970925725901,
+    "r": {
+     "score": 0.9190096854508886,
+     "raw": 0.9322970925725901,
+     "bands": {
+      "light": {
+       "upV": 4.542586830020585,
+       "upTWA": 42.31372222631333,
+       "upVMG": 3.3591061771362627,
+       "upFoil": false,
+       "downV": 3.258447383734594,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.202464903402945,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4718904430834986
+      },
+      "medium": {
+       "upV": 15.110506173822497,
+       "upTWA": 49.519582546261304,
+       "upVMG": 9.809561078942899,
+       "upFoil": true,
+       "downV": 20.041589103906833,
+       "downTWA": 135.86390733333332,
+       "downVMG": 14.383603488975119,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.0663037042935,
+        "vMinFlyKn": 9.43448776737604,
+        "foilingTacks": false
+       },
+       "score": 1.0171301516999194
+      },
+      "strong": {
+       "upV": 19.509879988266164,
+       "upTWA": 50.411778201766666,
+       "upVMG": 12.432975047059294,
+       "upFoil": true,
+       "downV": 26.240549331144774,
+       "downTWA": 145.1636834561675,
+       "downVMG": 21.537909669004062,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.705927992959698,
+        "vMinFlyKn": 9.43448776737604,
+        "foilingTacks": true
+       },
+       "score": 1.0533715055523643
+      }
+     },
+     "penalties": {
+      "takeoff": 0.009810951544288593,
+      "seaway": 0.0034764555774128764
+     },
+     "takeoffKn": 9.424616673534922,
+     "minTWSkn": 7.7848761235430874,
+     "minFlyKn": 9.43448776737604,
+     "vmaxKn": 26.240549331144774,
+     "cavAtMax": 0.007576348397368982,
+     "main": {
+      "area": 0.07879884177928584,
+      "AR": 10.613211512830972,
+      "mass": 0.7372007799032444
+     },
+     "defl": 0.03968191856888129,
+     "zeta": 0.37542451967000967
+    },
+    "design": {
+     "name": "Optimised medium · Tuna / swordfish lunate",
+     "main": {
+      "span": 0.9144991934220952,
+      "rootChord": 0.11703327145569295,
+      "taper": 0.3,
+      "ellipticity": 0.6349622919920115,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.08870579081229414,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.44748115263243954,
+      "flapSpan": 0.9543,
+      "incidence": 0.7338889445703207,
+      "nHalf": 12,
+      "crescent": 31.39128714238245,
+      "crescentStart": 0.6314427464756968
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 13.619793263318392,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "tuna"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.crescent",
+     "main.crescentStart",
+     "main.ellipticity"
+    ],
+    "delta": -0.012880085155718812
+   },
+   "strong": {
+    "start": 0.8303238217618952,
+    "score": 1.0157963854281242,
+    "raw": 1.0192043909255228,
+    "r": {
+     "score": 1.0157963854281242,
+     "raw": 1.0192043909255228,
+     "bands": {
+      "light": {
+       "upV": 4.448948667782765,
+       "upTWA": 41.60783305569599,
+       "upVMG": 3.326511469293983,
+       "upFoil": false,
+       "downV": 3.252953653356482,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.197065559282034,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4690232015901342
+      },
+      "medium": {
+       "upV": 15.064961651863472,
+       "upTWA": 49.519582442307986,
+       "upVMG": 9.779994137195189,
+       "upFoil": true,
+       "downV": 20.282211463652978,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.744591570606458,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.038976991118082,
+        "vMinFlyKn": 10.14520652393652,
+        "foilingTacks": false
+       },
+       "score": 1.0049943263425731
+      },
+      "strong": {
+       "upV": 16.980158852324067,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.470557773279822,
+       "upFoil": true,
+       "downV": 26.66213334938484,
+       "downTWA": 145.63907587716582,
+       "downVMG": 22.009554163177604,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.188095311394441,
+        "vMinFlyKn": 10.14520652393652,
+        "foilingTacks": true
+       },
+       "score": 1.0227569070712603
+      }
+     },
+     "penalties": {
+      "seaway": 0.0034080054973987138
+     },
+     "takeoffKn": 10.126982966075998,
+     "minTWSkn": 8.098093524270864,
+     "minFlyKn": 10.14520652393652,
+     "vmaxKn": 26.66213334938484,
+     "cavAtMax": 0.36186088522327076,
+     "main": {
+      "area": 0.07003307186141258,
+      "AR": 9.414059711033174,
+      "mass": 0.646126651047452
+     },
+     "defl": 0.031533094140435994,
+     "zeta": 0.3580416788226985
+    },
+    "design": {
+     "name": "Optimised strong · Tuna / swordfish lunate",
+     "main": {
+      "span": 0.8119701473886926,
+      "rootChord": 0.11188190511465126,
+      "taper": 0.3,
+      "ellipticity": 0.8845426006474644,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09440475559653155,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4420253791113949,
+      "flapSpan": 0.9585,
+      "incidence": 2.1427127056896715,
+      "nHalf": 12,
+      "crescent": 19.88599577601685,
+      "crescentStart": 0.8286522942089039
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.663260085760808,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "tuna"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.crescent",
+     "main.crescentStart",
+     "main.ellipticity"
+    ],
+    "delta": -0.0075443369275716154
+   }
+  },
+  "swift": {
+   "light": {
+    "start": 0.9015890999192134,
+    "score": 0.9024468197780572,
+    "raw": 0.9131361748731063,
+    "r": {
+     "score": 0.9024468197780572,
+     "raw": 0.9131361748731063,
+     "bands": {
+      "light": {
+       "upV": 12.357059340855129,
+       "upTWA": 57.534319669084006,
+       "upVMG": 6.63319936386586,
+       "upFoil": true,
+       "downV": 13.574014288970227,
+       "downTWA": 118.80275933333333,
+       "downVMG": 6.539904105087335,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.414235604513077,
+        "vMinFlyKn": 8.641763000443197,
+        "foilingTacks": false
+       },
+       "score": 0.9032286672717877
+      },
+      "medium": {
+       "upV": 14.125941859530633,
+       "upTWA": 46.799013589028,
+       "upVMG": 9.670049897748612,
+       "upFoil": true,
+       "downV": 17.32124010557884,
+       "downTWA": 136.63310915960432,
+       "downVMG": 12.592049506576332,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 8.475565115718378,
+        "vMinFlyKn": 8.641763000443197,
+        "foilingTacks": false
+       },
+       "score": 0.9527662052783801
+      },
+      "strong": {
+       "upV": 15.632769394968163,
+       "upTWA": 44.867653077638664,
+       "upVMG": 11.07954134043587,
+       "upFoil": true,
+       "downV": 17.7309219042617,
+       "downTWA": 148.56897717269274,
+       "downVMG": 15.129238400315701,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.379661636980897,
+        "vMinFlyKn": 8.641763000443197,
+        "foilingTacks": true
+       },
+       "score": 0.8419391506268816
+      }
+     },
+     "penalties": {
+      "seaway": 0.002745985760082434,
+      "tipRe": 0.007943369334966689
+     },
+     "takeoffKn": 8.538496172566884,
+     "minTWSkn": 6.959121157988041,
+     "minFlyKn": 8.641763000443197,
+     "vmaxKn": 17.7309219042617,
+     "cavAtMax": 1.2971755300768129,
+     "main": {
+      "area": 0.09608703420356085,
+      "AR": 14.645605877701328,
+      "mass": 1.0206195897370198
+     },
+     "defl": 0.044633518692495586,
+     "zeta": 0.3137224075511696
+    },
+    "design": {
+     "name": "Optimised light · Raked tips (swift / albatross primaries)",
+     "main": {
+      "span": 1.1862768786849718,
+      "rootChord": 0.10961064609640601,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.12041090471091281,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3812637559597707,
+      "flapSpan": 0.6202,
+      "incidence": 1.8488423659853592,
+      "nHalf": 12,
+      "crescent": 18.354678902709296,
+      "crescentStart": 0.6262686512488085
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 8.807531589105094,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "swift"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.crescent",
+     "main.crescentStart"
+    ],
+    "delta": -0.006859666462594838
+   },
+   "medium": {
+    "start": 0.9088840311320191,
+    "score": 0.9320671356822184,
+    "raw": 0.9482217139100273,
+    "r": {
+     "score": 0.9320671356822184,
+     "raw": 0.9482217139100273,
+     "bands": {
+      "light": {
+       "upV": 4.619333312359033,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.430453756132983,
+       "upFoil": false,
+       "downV": 3.291759386529714,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.235204581921602,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4795613636255157
+      },
+      "medium": {
+       "upV": 15.163040194851144,
+       "upTWA": 49.08331903858799,
+       "upVMG": 9.931197594615131,
+       "upFoil": true,
+       "downV": 20.26113655854309,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.729270713273348,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.097824116910685,
+        "vMinFlyKn": 9.476250087473078,
+        "foilingTacks": false
+       },
+       "score": 1.0353382207747852
+      },
+      "strong": {
+       "upV": 19.761178148156077,
+       "upTWA": 50.411778201766666,
+       "upVMG": 12.593118715455116,
+       "upFoil": true,
+       "downV": 26.501975057118372,
+       "downTWA": 145.63907587716582,
+       "downVMG": 21.87734371466891,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.856706888893644,
+        "vMinFlyKn": 9.476250087473078,
+        "foilingTacks": true
+       },
+       "score": 1.0684160367355071
+      }
+     },
+     "penalties": {
+      "takeoff": 0.009810951544288593,
+      "seaway": 0.00511859557801121,
+      "tipRe": 0.0012250311055090335
+     },
+     "takeoffKn": 9.348685182449401,
+     "minTWSkn": 7.7848761235430874,
+     "minFlyKn": 9.476250087473078,
+     "vmaxKn": 26.501975057118372,
+     "cavAtMax": 0.04307925182203842,
+     "main": {
+      "area": 0.06933703657753253,
+      "AR": 12.049095397055492,
+      "mass": 0.6651401701818506
+     },
+     "defl": 0.0394121117105714,
+     "zeta": 0.3616102146388318
+    },
+    "design": {
+     "name": "Optimised medium · Raked tips (swift / albatross primaries)",
+     "main": {
+      "span": 0.9140287568079111,
+      "rootChord": 0.09881547066931819,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1159520127700045,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.3935439768108767,
+      "flapSpan": 0.9543,
+      "incidence": 1.3464181831342583,
+      "nHalf": 12,
+      "crescent": 10.105493712470539,
+      "crescentStart": 0.7356092579765509
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.301081812854216,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "swift"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.crescent",
+     "main.crescentStart"
+    ],
+    "delta": 0.00017736507561105785
+   },
+   "strong": {
+    "start": 1.018980408703294,
+    "score": 1.0223330898550456,
+    "raw": 1.027328987892926,
+    "r": {
+     "score": 1.0223330898550456,
+     "raw": 1.027328987892926,
+     "bands": {
+      "light": {
+       "upV": 4.539660091749589,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.380113913602467,
+       "upFoil": false,
+       "downV": 3.275048995585314,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2187812875671455,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4745941817559482
+      },
+      "medium": {
+       "upV": 15.063133115254049,
+       "upTWA": 49.08331888814533,
+       "upVMG": 9.865762399387657,
+       "upFoil": true,
+       "downV": 20.392009526889254,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.82441164350944,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.03787986915243,
+        "vMinFlyKn": 9.574201710973401,
+        "foilingTacks": false
+       },
+       "score": 1.0298954928885269
+      },
+      "strong": {
+       "upV": 17.197288541503674,
+       "upTWA": 47.94116638902932,
+       "upVMG": 11.520349136653534,
+       "upFoil": true,
+       "downV": 26.658848862918003,
+       "downTWA": 145.93288480258923,
+       "downVMG": 22.083709896029575,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.318373124902203,
+        "vMinFlyKn": 9.574201710973401,
+        "foilingTacks": true
+       },
+       "score": 1.0266873616440257
+      }
+     },
+     "penalties": {
+      "seaway": 0.004995898037880362
+     },
+     "takeoffKn": 9.561293357488864,
+     "minTWSkn": 7.984196287642581,
+     "minFlyKn": 9.574201710973401,
+     "vmaxKn": 26.658848862918003,
+     "cavAtMax": 0.1686198372048584,
+     "main": {
+      "area": 0.06755071009727774,
+      "AR": 10.475698919216487,
+      "mass": 0.6001912774666722
+     },
+     "defl": 0.038989215026429415,
+     "zeta": 0.35497703017381865
+    },
+    "design": {
+     "name": "Optimised strong · Raked tips (swift / albatross primaries)",
+     "main": {
+      "span": 0.8412139447003709,
+      "rootChord": 0.10842824275391226,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09966546548325259,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4479652973705157,
+      "flapSpan": 0.9585,
+      "incidence": 2.097092335778597,
+      "nHalf": 12,
+      "crescent": 22.68365880547902,
+      "crescentStart": 0.7195598140750835
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 13.578385677409052,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "swift"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.crescent",
+     "main.crescentStart"
+    ],
+    "delta": -0.0010076325006502795
+   }
+  },
+  "albatross": {
+   "light": {
+    "start": 0.3618371098305643,
+    "score": 0.9023905421962396,
+    "raw": 0.9111982667920533,
+    "r": {
+     "score": 0.9023905421962396,
+     "raw": 0.9111982667920533,
+     "bands": {
+      "light": {
+       "upV": 12.273044066673807,
+       "upTWA": 57.264694116876,
+       "upVMG": 6.6367560922563955,
+       "upFoil": true,
+       "downV": 13.986469649332582,
+       "downTWA": 118.32736661577185,
+       "downVMG": 6.636701586822136,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.363826440004283,
+        "vMinFlyKn": 8.996363063812582,
+        "foilingTacks": false
+       },
+       "score": 0.8976284591787342
+      },
+      "medium": {
+       "upV": 14.373048599783825,
+       "upTWA": 47.504902666666666,
+       "upVMG": 9.709384097982905,
+       "upFoil": true,
+       "downV": 18.73078663707615,
+       "downTWA": 134.32550458983084,
+       "downVMG": 13.087833705577792,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.623829159870295,
+        "vMinFlyKn": 8.996363063812582,
+        "foilingTacks": false
+       },
+       "score": 0.9654774972453292
+      },
+      "strong": {
+       "upV": 16.043554753940064,
+       "upTWA": 46.009805651976,
+       "upVMG": 11.142814341066414,
+       "upFoil": true,
+       "downV": 19.249566649061133,
+       "downTWA": 147.3243831787186,
+       "downVMG": 16.203142051461842,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.626132852364039,
+        "vMinFlyKn": 8.996363063812582,
+        "foilingTacks": true
+       },
+       "score": 0.8702592852053952
+      }
+     },
+     "penalties": {
+      "deflection": 0.0046270784938874515,
+      "seaway": 0.0041806461019262
+     },
+     "takeoffKn": 8.896133495579694,
+     "minTWSkn": 6.987595467145112,
+     "minFlyKn": 8.996363063812582,
+     "vmaxKn": 19.249566649061133,
+     "cavAtMax": 0.8590617703968757,
+     "main": {
+      "area": 0.09338641013888582,
+      "AR": 15.324594392639856,
+      "mass": 0.993803199141177
+     },
+     "defl": 0.04654235949796248,
+     "zeta": 0.28788492378112623
+    },
+    "design": {
+     "name": "Optimised light · Albatross (very high AR)",
+     "main": {
+      "span": 1.1962896209376455,
+      "rootChord": 0.10325127384114838,
+      "taper": 0.45,
+      "ellipticity": 0.5,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.12933136621507227,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.2718498725825107,
+      "flapSpan": 0.6202,
+      "incidence": 0.9373776123382993,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.935371100083714,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "albatross"
+    },
+    "vars": [
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.span",
+     "main.rootChord"
+    ],
+    "delta": -0.006915944044412425
+   },
+   "medium": {
+    "start": 0.6335145059019461,
+    "score": 0.9147348993366036,
+    "raw": 0.9357528174141249,
+    "r": {
+     "score": 0.9147348993366036,
+     "raw": 0.9357528174141249,
+     "bands": {
+      "light": {
+       "upV": 4.790923336842438,
+       "upTWA": 42.749985554812,
+       "upVMG": 3.518083667126303,
+       "upFoil": false,
+       "downV": 3.3161438808113686,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.25917013297332,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4878998294130651
+      },
+      "medium": {
+       "upV": 14.718094826647802,
+       "upTWA": 47.67154070832795,
+       "upVMG": 9.910867918643476,
+       "upFoil": true,
+       "downV": 20.025164728145008,
+       "downTWA": 135.86390733333332,
+       "downVMG": 14.371815915280873,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.830856895988681,
+        "vMinFlyKn": 9.230991371266843,
+        "foilingTacks": false
+       },
+       "score": 1.0205486224929974
+      },
+      "strong": {
+       "upV": 20.095966591613198,
+       "upTWA": 52.25981997545333,
+       "upVMG": 12.30037448056993,
+       "upFoil": true,
+       "downV": 26.077639288660244,
+       "downTWA": 145.1636834561675,
+       "downVMG": 21.40419517488557,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 12.057579954967919,
+        "vMinFlyKn": 9.230991371266843,
+        "foilingTacks": true
+       },
+       "score": 1.0444225850996949
+      }
+     },
+     "penalties": {
+      "takeoff": 0.005895734035191391,
+      "seaway": 0.0030428069977953497,
+      "tipRe": 0.0120793770445346
+     },
+     "takeoffKn": 9.234028630910263,
+     "minTWSkn": 7.471658722815311,
+     "minFlyKn": 9.230991371266843,
+     "vmaxKn": 26.077639288660244,
+     "cavAtMax": 0.04030731028634427,
+     "main": {
+      "area": 0.07537057395326764,
+      "AR": 15.111417620444948,
+      "mass": 0.7773954200497603
+     },
+     "defl": 0.0438306857500928,
+     "zeta": 0.3662983610174153
+    },
+    "design": {
+     "name": "Optimised medium · Albatross (very high AR)",
+     "main": {
+      "span": 1.06721891817024,
+      "rootChord": 0.0934483894551348,
+      "taper": 0.45,
+      "ellipticity": 0.5,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.14380933357074926,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.37106219902700716,
+      "flapSpan": 0.9543,
+      "incidence": 0.6266395069353858,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.84810025154805,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "albatross"
+    },
+    "vars": [
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.span",
+     "main.rootChord"
+    ],
+    "delta": -0.017154871270003813
+   },
+   "strong": {
+    "start": 0.7664651271479599,
+    "score": 1.0193155573274182,
+    "raw": 1.0231611534811802,
+    "r": {
+     "score": 1.0193155573274182,
+     "raw": 1.0231611534811802,
+     "bands": {
+      "light": {
+       "upV": 4.709882011039517,
+       "upTWA": 42.31372222631333,
+       "upVMG": 3.4828159260071017,
+       "upFoil": false,
+       "downV": 3.310836330585971,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2539537702955834,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.48483916873820054
+      },
+      "medium": {
+       "upV": 15.09505086778153,
+       "upTWA": 49,
+       "upVMG": 9.903244414879065,
+       "upFoil": true,
+       "downV": 20.226867278558764,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.70435792022348,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.057030520668917,
+        "vMinFlyKn": 9.360834221023085,
+        "foilingTacks": false
+       },
+       "score": 1.035511833983366
+      },
+      "strong": {
+       "upV": 16.93899378503783,
+       "upTWA": 47.23527717192264,
+       "upVMG": 11.501397497268814,
+       "upFoil": true,
+       "downV": 26.60924982143604,
+       "downTWA": 145.1636834561675,
+       "downVMG": 21.840534349402258,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.163396271022696,
+        "vMinFlyKn": 9.360834221023085,
+        "foilingTacks": true
+       },
+       "score": 1.0200734833556337
+      }
+     },
+     "penalties": {
+      "seaway": 0.003180063344085818,
+      "tipRe": 0.0006655328096761392
+     },
+     "takeoffKn": 9.331220939499731,
+     "minTWSkn": 7.642504577757735,
+     "minFlyKn": 9.360834221023085,
+     "vmaxKn": 26.60924982143604,
+     "cavAtMax": 0.12246894731133917,
+     "main": {
+      "area": 0.06882057426262983,
+      "AR": 13.49555183641316,
+      "mass": 0.6679932697033774
+     },
+     "defl": 0.04183268234736705,
+     "zeta": 0.3567764409261931
+    },
+    "design": {
+     "name": "Optimised strong · Albatross (very high AR)",
+     "main": {
+      "span": 0.9637279841184659,
+      "rootChord": 0.0943907276372611,
+      "taper": 0.45,
+      "ellipticity": 0.5,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.13767842441941344,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.42169924498852224,
+      "flapSpan": 0.9585,
+      "incidence": 1.5651735546561003,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.90459476387458,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "albatross"
+    },
+    "vars": [
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.span",
+     "main.rootChord"
+    ],
+    "delta": -0.004025165028277655
+   }
+  },
+  "gull": {
+   "light": {
+    "start": 0.9056501918511649,
+    "score": 0.9056501918511649,
+    "raw": 0.9095029618228917,
+    "r": {
+     "score": 0.9056501918511649,
+     "raw": 0.9095029618228917,
+     "bands": {
+      "light": {
+       "upV": 12.186308091520136,
+       "upTWA": 57.09805616141069,
+       "upVMG": 6.619638320953177,
+       "upFoil": true,
+       "downV": 13.934375101201496,
+       "downTWA": 118.03355750706233,
+       "downVMG": 6.548997653530539,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.311784854912082,
+        "vMinFlyKn": 8.76325338618003,
+        "foilingTacks": false
+       },
+       "score": 0.8956733545907724
+      },
+      "medium": {
+       "upV": 14.113428701742198,
+       "upTWA": 46.799013589028,
+       "upVMG": 9.661483894759515,
+       "upFoil": true,
+       "downV": 19.13736286802069,
+       "downTWA": 133.08091065847472,
+       "downVMG": 13.071401882298526,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.468057221045319,
+        "vMinFlyKn": 8.76325338618003,
+        "foilingTacks": false
+       },
+       "score": 0.9648213907513687
+      },
+      "strong": {
+       "upV": 15.951597374118956,
+       "upTWA": 46.009805651976,
+       "upVMG": 11.078946699115935,
+       "upFoil": true,
+       "downV": 19.721231508226214,
+       "downTWA": 146.55518168031975,
+       "downVMG": 16.455730966730883,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.570958424471373,
+        "vMinFlyKn": 8.76325338618003,
+        "foilingTacks": true
+       },
+       "score": 0.8734964529996683
+      }
+     },
+     "penalties": {
+      "seaway": 0.003012385124383007,
+      "tipRe": 0.0008403848473437669
+     },
+     "takeoffKn": 8.665301762679707,
+     "minTWSkn": 6.930646848830971,
+     "minFlyKn": 8.76325338618003,
+     "vmaxKn": 19.721231508226214,
+     "cavAtMax": 0.8154372028825803,
+     "main": {
+      "area": 0.0972748904302212,
+      "AR": 14.508821277083916,
+      "mass": 1.0380279298796051
+     },
+     "defl": 0.04387782039134436,
+     "zeta": 0.3081917983645059
+    },
+    "design": {
+     "name": "Optimised light · Seagull wing",
+     "main": {
+      "span": 1.188,
+      "rootChord": 0.1091,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1225,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3529,
+      "flapSpan": 0.6202,
+      "incidence": 1.032,
+      "nHalf": 12,
+      "dihedralInner": 6
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.22,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "gull"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.dihedralInner",
+     "main.dihedral",
+     "main.dihedralStart"
+    ],
+    "delta": -0.0036562943894871136
+   },
+   "medium": {
+    "start": 0.9221602499961512,
+    "score": 0.9301979678968513,
+    "raw": 0.9461403145935523,
+    "r": {
+     "score": 0.9301979678968513,
+     "raw": 0.9461403145935523,
+     "bands": {
+      "light": {
+       "upV": 4.585495777539665,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.414241984019043,
+       "upFoil": false,
+       "downV": 3.2866767169865465,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.230209236313495,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47798128119159533
+      },
+      "medium": {
+       "upV": 15.167659165921128,
+       "upTWA": 49.35294444035333,
+       "upVMG": 9.880176290629405,
+       "upFoil": true,
+       "downV": 20.22713002032984,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.704548926027261,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.100595499552677,
+        "vMinFlyKn": 9.38513229817045,
+        "foilingTacks": false
+       },
+       "score": 1.0350317932464141
+      },
+      "strong": {
+       "upV": 19.173340142255675,
+       "upTWA": 49.705889077638666,
+       "upVMG": 12.399617380505692,
+       "upFoil": true,
+       "downV": 26.056575675416372,
+       "downTWA": 146.883669941149,
+       "downVMG": 21.8240246377289,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.504004085353406,
+        "vMinFlyKn": 9.38513229817045,
+        "foilingTacks": true
+       },
+       "score": 1.058733433384062
+      }
+     },
+     "penalties": {
+      "takeoff": 0.01052280927321535,
+      "seaway": 0.003636365943985978,
+      "tipRe": 0.0017831714794997232
+     },
+     "takeoffKn": 9.331220939499731,
+     "minTWSkn": 7.841824741857228,
+     "minFlyKn": 9.38513229817045,
+     "vmaxKn": 26.056575675416372,
+     "cavAtMax": 0.100149797732902,
+     "main": {
+      "area": 0.06843465910179587,
+      "AR": 11.55697608933289,
+      "mass": 0.6512686027977413
+     },
+     "defl": 0.03809241298554922,
+     "zeta": 0.37010922335348617
+    },
+    "design": {
+     "name": "Optimised medium · Seagull wing",
+     "main": {
+      "span": 0.8893243046949196,
+      "rootChord": 0.09920195757555572,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -11.370167485940986,
+      "dihedralStart": 0.4074492725054405,
+      "tcRoot": 0.11412260837343938,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.44832102691469433,
+      "flapSpan": 0.9543,
+      "incidence": 1.6518511125299673,
+      "nHalf": 12,
+      "dihedralInner": 3.915198871535989
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.627401506577305,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "gull"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.dihedralInner",
+     "main.dihedral",
+     "main.dihedralStart"
+    ],
+    "delta": -0.0016918027097561072
+   },
+   "strong": {
+    "start": 1.0197137590520597,
+    "score": 1.0223721818018567,
+    "raw": 1.0264989623519745,
+    "r": {
+     "score": 1.0223721818018567,
+     "raw": 1.0264989623519745,
+     "bands": {
+      "light": {
+       "upV": 4.5120790281214065,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.359577764411252,
+       "upFoil": false,
+       "downV": 3.2667957286696034,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.210669817740161,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47247371331687626
+      },
+      "medium": {
+       "upV": 15.086722332447755,
+       "upTWA": 49.519582442307986,
+       "upVMG": 9.794120912520192,
+       "upFoil": true,
+       "downV": 20.354232859623153,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.796949079541228,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.052033399468652,
+        "vMinFlyKn": 9.427653933178343,
+        "foilingTacks": false
+       },
+       "score": 1.0306326928804872
+      },
+      "strong": {
+       "upV": 16.99119741030487,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.47801461853985,
+       "upFoil": true,
+       "downV": 26.6902227595972,
+       "downTWA": 145.93288480258923,
+       "downVMG": 22.109699466552076,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.194718446182922,
+        "vMinFlyKn": 9.427653933178343,
+        "foilingTacks": true
+       },
+       "score": 1.0254655297198463
+      }
+     },
+     "penalties": {
+      "seaway": 0.003461247740441553,
+      "tipRe": 0.0006655328096761392
+     },
+     "takeoffKn": 9.331220939499731,
+     "minTWSkn": 8.041144905956722,
+     "minFlyKn": 9.427653933178343,
+     "vmaxKn": 26.6902227595972,
+     "cavAtMax": 0.20893132556571814,
+     "main": {
+      "area": 0.06828786799173343,
+      "AR": 10.033119043533512,
+      "mass": 0.5879995141053985
+     },
+     "defl": 0.0414050303242829,
+     "zeta": 0.3579217467164738
+    },
+    "design": {
+     "name": "Optimised strong · Seagull wing",
+     "main": {
+      "span": 0.8277320271622715,
+      "rootChord": 0.11106653523821244,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -6.65971406234091,
+      "dihedralStart": 0.47662859987327044,
+      "tcRoot": 0.09162274755784802,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4443340321353283,
+      "flapSpan": 0.9585,
+      "incidence": 2.105432285697957,
+      "nHalf": 12,
+      "dihedralInner": 4.465519424687747
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.69967400452803,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "gull"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.dihedralInner",
+     "main.dihedral",
+     "main.dihedralStart"
+    ],
+    "delta": -0.0009685405538391034
+   }
+  },
+  "humpback": {
+   "light": {
+    "start": 0.8420820712728454,
+    "score": 0.8420820712728454,
+    "raw": 0.8458239898781613,
+    "r": {
+     "score": 0.8420820712728454,
+     "raw": 0.8458239898781613,
+     "bands": {
+      "light": {
+       "upV": 12.061034416867106,
+       "upTWA": 58.156889772381355,
+       "upVMG": 6.363342884035962,
+       "upFoil": true,
+       "downV": 13.235332847665395,
+       "downTWA": 116.01976231125252,
+       "downVMG": 5.806090774988817,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.236620650120263,
+        "vMinFlyKn": 8.917394313083639,
+        "foilingTacks": false
+       },
+       "score": 0.8236913759022896
+      },
+      "medium": {
+       "upV": 13.987238598248792,
+       "upTWA": 47.23527717192264,
+       "upVMG": 9.497186966896402,
+       "upFoil": true,
+       "downV": 18.938882196266274,
+       "downTWA": 131.98322132843688,
+       "downVMG": 12.668463613843572,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.392343158949275,
+        "vMinFlyKn": 8.917394313083639,
+        "foilingTacks": false
+       },
+       "score": 0.9343544457816486
+      },
+      "strong": {
+       "upV": 15.547730628312438,
+       "upTWA": 45.22059744277067,
+       "upVMG": 10.951496174088513,
+       "upFoil": true,
+       "downV": 20.12775117585153,
+       "downTWA": 145.6390760097929,
+       "downVMG": 16.615430752813452,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.328638376987463,
+        "vMinFlyKn": 8.917394313083639,
+        "foilingTacks": true
+       },
+       "score": 0.8717575016836718
+      }
+     },
+     "penalties": {
+      "seaway": 0.003741918605315908
+     },
+     "takeoffKn": 8.81412748520733,
+     "minTWSkn": 6.959121157988041,
+     "minFlyKn": 8.917394313083639,
+     "vmaxKn": 20.12775117585153,
+     "cavAtMax": 0.5516361722534135,
+     "main": {
+      "area": 0.09577831150634922,
+      "AR": 14.735528094024094,
+      "mass": 1.0243792614050702
+     },
+     "defl": 0.04387782039134436,
+     "zeta": 0.3050887533925492
+    },
+    "design": {
+     "name": "Optimised light · Humpback tubercles",
+     "main": {
+      "span": 1.188,
+      "rootChord": 0.1091,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1225,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3529,
+      "flapSpan": 0.6202,
+      "incidence": 1.032,
+      "nHalf": 12,
+      "tubercleAmp": 0.05,
+      "tubercleWave": 0.3
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.22,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "humpback"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.tubercleAmp",
+     "main.tubercleWave"
+    ],
+    "delta": -0.06722441496780662
+   },
+   "medium": {
+    "start": 0.8574979219196779,
+    "score": 0.9026456565764789,
+    "raw": 0.9195873240295286,
+    "r": {
+     "score": 0.9026456565764789,
+     "raw": 0.9195873240295286,
+     "bands": {
+      "light": {
+       "upV": 4.631585419465231,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.4395525338138553,
+       "upFoil": false,
+       "downV": 3.2965606262798914,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.239923332903901,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.48057585299978733
+      },
+      "medium": {
+       "upV": 15.00056978990911,
+       "upTWA": 49.519582442307986,
+       "upVMG": 9.738191705370289,
+       "upFoil": true,
+       "downV": 20.004155723839997,
+       "downTWA": 135.38851501365306,
+       "downVMG": 14.240664089197919,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.000341873945466,
+        "vMinFlyKn": 9.671394019562866,
+        "foilingTacks": false
+       },
+       "score": 0.9984590800167717
+      },
+      "strong": {
+       "upV": 19.802406252247575,
+       "upTWA": 51.553930776104,
+       "upVMG": 12.312694924896158,
+       "upFoil": true,
+       "downV": 25.602175968732556,
+       "downTWA": 146.40827743818267,
+       "downVMG": 21.326642784648175,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.881443751348543,
+        "vMinFlyKn": 9.671394019562866,
+        "foilingTacks": true
+       },
+       "score": 1.0431117711102968
+      }
+     },
+     "penalties": {
+      "takeoff": 0.009810951544288593,
+      "seaway": 0.005712576578872555,
+      "tipRe": 0.0014181393298885682
+     },
+     "takeoffKn": 9.5013074795313,
+     "minTWSkn": 7.7848761235430874,
+     "minFlyKn": 9.671394019562866,
+     "vmaxKn": 25.602175968732556,
+     "cavAtMax": 0.05949888199071962,
+     "main": {
+      "area": 0.0675040720797318,
+      "AR": 12.257257709720628,
+      "mass": 0.6514583170934279
+     },
+     "defl": 0.03868984201606809,
+     "zeta": 0.36004824129871066
+    },
+    "design": {
+     "name": "Optimised medium · Humpback tubercles",
+     "main": {
+      "span": 0.9096234429349486,
+      "rootChord": 0.09666913981233491,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.12095364629476489,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.4106427770329366,
+      "flapSpan": 0.9543,
+      "incidence": 1.6368234555100507,
+      "nHalf": 12,
+      "tubercleAmp": 0.03607350529251363,
+      "tubercleWave": 0.25874767840451607
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.459894315249526,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "humpback"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.tubercleAmp",
+     "main.tubercleWave"
+    ],
+    "delta": -0.0292441140301285
+   },
+   "strong": {
+    "start": 0.8582947786596732,
+    "score": 1.001334617279918,
+    "raw": 1.005677265232196,
+    "r": {
+     "score": 1.001334617279918,
+     "raw": 1.005677265232196,
+     "bands": {
+      "light": {
+       "upV": 4.527157232099409,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.370804606515754,
+       "upFoil": false,
+       "downV": 3.2712707598544677,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.215067964655989,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47363052635007263
+      },
+      "medium": {
+       "upV": 14.864754412044851,
+       "upTWA": 49.519582442307986,
+       "upVMG": 9.650021975506485,
+       "upFoil": true,
+       "downV": 20.004702743592894,
+       "downTWA": 135.86390733333332,
+       "downVMG": 14.357130599118108,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.918852647226911,
+        "vMinFlyKn": 9.513456518104984,
+        "foilingTacks": false
+       },
+       "score": 1.0002371057871677
+      },
+      "strong": {
+       "upV": 16.79226658758352,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.343631453178647,
+       "upFoil": true,
+       "downV": 25.996541270943727,
+       "downTWA": 146.11446849340922,
+       "downVMG": 21.581109377685756,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.075359952550112,
+        "vMinFlyKn": 9.513456518104984,
+        "foilingTacks": true
+       },
+       "score": 1.007037305093453
+      }
+     },
+     "penalties": {
+      "seaway": 0.004088483900435333,
+      "tipRe": 0.00025416405184257583
+     },
+     "takeoffKn": 9.427653933178343,
+     "minTWSkn": 8.012670596799651,
+     "minFlyKn": 9.513456518104984,
+     "vmaxKn": 25.996541270943727,
+     "cavAtMax": 0.22430967634459598,
+     "main": {
+      "area": 0.06794433744213328,
+      "AR": 10.27330508706482,
+      "mass": 0.5754031015421963
+     },
+     "defl": 0.044978810990517634,
+     "zeta": 0.35264135816169995
+    },
+    "design": {
+     "name": "Optimised strong · Humpback tubercles",
+     "main": {
+      "span": 0.835471667671332,
+      "rootChord": 0.10980964947567196,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09086208134116759,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4321215271466908,
+      "flapSpan": 0.9585,
+      "incidence": 2.2996609144512403,
+      "nHalf": 12,
+      "tubercleAmp": 0.029410737564609747,
+      "tubercleWave": 0.17088960923532828
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 13.961369631158986,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "humpback"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.tubercleAmp",
+     "main.tubercleWave"
+    ],
+    "delta": -0.022006105075777826
+   }
+  },
+  "raptor": {
+   "light": {
+    "start": 0.8518041284076,
+    "score": 0.8627621498118461,
+    "raw": 0.8652513341719068,
+    "r": {
+     "score": 0.8627621498118461,
+     "raw": 0.8652513341719068,
+     "bands": {
+      "light": {
+       "upV": 12.055039292116833,
+       "upTWA": 56.82843066666667,
+       "upVMG": 6.595889991621307,
+       "upFoil": true,
+       "downV": 13.537145472466396,
+       "downTWA": 118.03355750706233,
+       "downVMG": 6.3623042505178224,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.233023575270099,
+        "vMinFlyKn": 10.472471250515119,
+        "foilingTacks": false
+       },
+       "score": 0.857007388310601
+      },
+      "medium": {
+       "upV": 13.992144156847004,
+       "upTWA": 46.63237573751601,
+       "upVMG": 9.608081341622004,
+       "upFoil": true,
+       "downV": 18.325725109365276,
+       "downTWA": 133.85011200489643,
+       "downVMG": 12.695589086858734,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.395286494108204,
+        "vMinFlyKn": 10.472471250515119,
+        "foilingTacks": false
+       },
+       "score": 0.8982271176171305
+      },
+      "strong": {
+       "upV": 15.864119087791874,
+       "upTWA": 46.009805651976,
+       "upVMG": 11.01818994549324,
+       "upFoil": true,
+       "downV": 18.942210340742623,
+       "downTWA": 147.030574,
+       "downVMG": 15.891777191190686,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.518471452675124,
+        "vMinFlyKn": 10.472471250515119,
+        "foilingTacks": false
+       },
+       "score": 0.8324327701852846
+      }
+     },
+     "penalties": {
+      "seaway": 0.0024891843600607613
+     },
+     "takeoffKn": 9.953859166401008,
+     "minTWSkn": 6.9021725396739,
+     "minFlyKn": 10.472471250515119,
+     "vmaxKn": 18.942210340742623,
+     "cavAtMax": 0.4034333602589295,
+     "main": {
+      "area": 0.09517541901768958,
+      "AR": 15.486423744801982,
+      "mass": 1.0444682057261223
+     },
+     "defl": 0.03942624159170524,
+     "zeta": 0.3194122722209511
+    },
+    "design": {
+     "name": "Optimised light · Raptor slotted tips",
+     "main": {
+      "span": 1.2140538987199152,
+      "rootChord": 0.10642233714509984,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1368530865274666,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.4301071916445436,
+      "flapSpan": 0.6202,
+      "incidence": 1.4045910976582259,
+      "nHalf": 12,
+      "feathers": 5.211235887665143,
+      "featherStart": 0.8545692452905227,
+      "featherSpread": 28.927111560025637,
+      "featherFan": 7.992107478830077,
+      "featherChord": 0.9,
+      "featherLength": 1.1
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 13.901883861874198,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "raptor"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.feathers",
+     "main.featherStart",
+     "main.featherSpread",
+     "main.featherFan"
+    ],
+    "delta": -0.046544336428805955
+   },
+   "medium": {
+    "start": 0.621463252389919,
+    "score": 0.8922897254105155,
+    "raw": 0.9073364222836459,
+    "r": {
+     "score": 0.8922897254105155,
+     "raw": 0.9073364222836459,
+     "bands": {
+      "light": {
+       "upV": 4.774272426867091,
+       "upTWA": 43.18624910897466,
+       "upVMG": 3.4810790836807866,
+       "upFoil": false,
+       "downV": 3.295164661281723,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2385513515930073,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.48367873756882507
+      },
+      "medium": {
+       "upV": 14.365825332710541,
+       "upTWA": 47.23527717192264,
+       "upVMG": 9.754243352623615,
+       "upFoil": true,
+       "downV": 19.66169203851305,
+       "downTWA": 134.61931356591327,
+       "downVMG": 13.810235379467704,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.619495199626323,
+        "vMinFlyKn": 9.282624785204998,
+        "foilingTacks": false
+       },
+       "score": 0.9835928834803234
+      },
+      "strong": {
+       "upV": 18.27754515068696,
+       "upTWA": 47.774528311853345,
+       "upVMG": 12.283421634047615,
+       "upFoil": true,
+       "downV": 25.563505584556832,
+       "downTWA": 143.9190893921843,
+       "downVMG": 20.660070985502518,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.966527090412177,
+        "vMinFlyKn": 9.282624785204998,
+        "foilingTacks": true
+       },
+       "score": 1.0259682622117574
+      }
+     },
+     "penalties": {
+      "takeoff": 0.00482794744180124,
+      "seaway": 0.005329405435707296,
+      "tipRe": 0.004889343995621809
+     },
+     "takeoffKn": 9.234028630910263,
+     "minTWSkn": 7.386235795344099,
+     "minFlyKn": 9.282624785204998,
+     "vmaxKn": 25.563505584556832,
+     "cavAtMax": 0.025481854041160545,
+     "main": {
+      "area": 0.08460039975419491,
+      "AR": 13.943711246003629,
+      "mass": 0.9035412386461711
+     },
+     "defl": 0.030722361459022397,
+     "zeta": 0.352924612938533
+    },
+    "design": {
+     "name": "Optimised medium · Raptor slotted tips",
+     "main": {
+      "span": 1.0861139652306153,
+      "rootChord": 0.10121766676948936,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.14400698009694868,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.43696648088005385,
+      "flapSpan": 0.9543,
+      "incidence": -0.059155123291092404,
+      "nHalf": 12,
+      "feathers": 3.312118020808049,
+      "featherStart": 0.7396220042251794,
+      "featherSpread": 42.93981314818403,
+      "featherFan": 10.997735684230111,
+      "featherChord": 0.9,
+      "featherLength": 1.1
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 13.8802822989156,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "raptor"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.feathers",
+     "main.featherStart",
+     "main.featherSpread",
+     "main.featherFan"
+    ],
+    "delta": -0.03960004519609184
+   },
+   "strong": {
+    "start": 0.5763357366299284,
+    "score": 0.9936410851212395,
+    "raw": 0.9988760108521306,
+    "r": {
+     "score": 0.9936410851212395,
+     "raw": 0.9988760108521306,
+     "bands": {
+      "light": {
+       "upV": 4.554120746258071,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.3820249727564766,
+       "upFoil": false,
+       "downV": 3.2711990937962976,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2149975298724787,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4744889357932788
+      },
+      "medium": {
+       "upV": 15.17139835904759,
+       "upTWA": 49.789208133984,
+       "upVMG": 9.794678144570012,
+       "upFoil": true,
+       "downV": 20.23053797185001,
+       "downTWA": 136.3393000508948,
+       "downVMG": 14.635597841361415,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.102839015428554,
+        "vMinFlyKn": 10.728360375473327,
+        "foilingTacks": false
+       },
+       "score": 0.9878715002025947
+      },
+      "strong": {
+       "upV": 16.97151354218402,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.464717631836399,
+       "upFoil": true,
+       "downV": 26.442827449712404,
+       "downTWA": 145.6390760097929,
+       "downVMG": 21.82851748119862,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.182908125310412,
+        "vMinFlyKn": 10.728360375473327,
+        "foilingTacks": false
+       },
+       "score": 1.0016271385145146
+      }
+     },
+     "penalties": {
+      "seaway": 0.005234925730891176
+     },
+     "takeoffKn": 10.779234474500628,
+     "minTWSkn": 7.870299051014299,
+     "minFlyKn": 10.728360375473327,
+     "vmaxKn": 26.442827449712404,
+     "cavAtMax": 0.04705987187367655,
+     "main": {
+      "area": 0.07340196968152958,
+      "AR": 10.768410290217359,
+      "mass": 0.6690621307143111
+     },
+     "defl": 0.03419843444338594,
+     "zeta": 0.33210512224910593
+    },
+    "design": {
+     "name": "Optimised strong · Raptor slotted tips",
+     "main": {
+      "span": 0.8890570992016237,
+      "rootChord": 0.11106584005938447,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.1063332751372241,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.3846179674510176,
+      "flapSpan": 0.9585,
+      "incidence": 0.2830730324425481,
+      "nHalf": 12,
+      "feathers": 3.2354378262294095,
+      "featherStart": 0.7958987309475071,
+      "featherSpread": 34.38903329930169,
+      "featherFan": 11.444960679515484,
+      "featherChord": 0.9,
+      "featherLength": 1.1
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 13.399175280428718,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "raptor"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.feathers",
+     "main.featherStart",
+     "main.featherSpread",
+     "main.featherFan"
+    ],
+    "delta": -0.029699637234456344
+   }
+  },
+  "wingletUp": {
+   "light": {
+    "start": 0.9054361658491406,
+    "score": 0.9107115151518443,
+    "raw": 0.914756460225892,
+    "r": {
+     "score": 0.9107115151518443,
+     "raw": 0.914756460225892,
+     "bands": {
+      "light": {
+       "upV": 12.244917753913237,
+       "upTWA": 57.09805616141069,
+       "upVMG": 6.651475261578819,
+       "upFoil": true,
+       "downV": 13.7051512409514,
+       "downTWA": 118.80275933333333,
+       "downVMG": 6.6030853477420735,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.346950652347942,
+        "vMinFlyKn": 8.768568590556018,
+        "foilingTacks": false
+       },
+       "score": 0.9024747812207013
+      },
+      "medium": {
+       "upV": 14.097551912538101,
+       "upTWA": 46.5293880013053,
+       "upVMG": 9.698867994181324,
+       "upFoil": true,
+       "downV": 18.771656596440433,
+       "downTWA": 133.85011200489643,
+       "downVMG": 13.004518904751988,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.45853114752286,
+        "vMinFlyKn": 8.768568590556018,
+        "foilingTacks": false
+       },
+       "score": 0.9638831762466545
+      },
+      "strong": {
+       "upV": 15.933838670365493,
+       "upTWA": 45.74018005327866,
+       "upVMG": 11.120436603536806,
+       "upFoil": true,
+       "downV": 19.43137263275286,
+       "downTWA": 147.030574,
+       "downVMG": 16.30216531459984,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.560303202219297,
+        "vMinFlyKn": 8.768568590556018,
+        "foilingTacks": true
+       },
+       "score": 0.8716440368367931
+      }
+     },
+     "penalties": {
+      "seaway": 0.003204560226703901,
+      "tipRe": 0.0008403848473437669
+     },
+     "takeoffKn": 8.665301762679707,
+     "minTWSkn": 6.959121157988041,
+     "minFlyKn": 8.768568590556018,
+     "vmaxKn": 19.43137263275286,
+     "cavAtMax": 1.1316104947939079,
+     "main": {
+      "area": 0.09717658163631326,
+      "AR": 14.12939691064079,
+      "mass": 1.0176876498043268
+     },
+     "defl": 0.04283698106837456,
+     "zeta": 0.3115600919895868
+    },
+    "design": {
+     "name": "Optimised light · Winglet up (anti-vent tip)",
+     "main": {
+      "span": 1.1717706654285032,
+      "rootChord": 0.10940259117532747,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.12170794977806187,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.39187573021300415,
+      "flapSpan": 0.6202,
+      "incidence": 1.1450597068271384,
+      "nHalf": 12,
+      "wingletHeight": 0.05562159490168707,
+      "wingletCant": 64.96287301890077,
+      "wingletTaper": 0.5,
+      "wingletSweep": 30
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 9.042204155405424,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "wingletUp"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.wingletHeight",
+     "main.wingletCant"
+    ],
+    "delta": 0.0014050289111923187
+   },
+   "medium": {
+    "start": 0.9298054551796371,
+    "score": 0.931162259582802,
+    "raw": 0.9535540061189546,
+    "r": {
+     "score": 0.931162259582802,
+     "raw": 0.9535540061189546,
+     "bands": {
+      "light": {
+       "upV": 4.577759719030991,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.408481914217972,
+       "upFoil": false,
+       "downV": 3.285197158272551,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.22875509748721,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4774412563107862
+      },
+      "medium": {
+       "upV": 15.238795535887418,
+       "upTWA": 49.08331903858799,
+       "upVMG": 9.98081437667274,
+       "upFoil": true,
+       "downV": 20.390817712986674,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.823545228658515,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.143277321532452,
+        "vMinFlyKn": 9.519531037391827,
+        "foilingTacks": false
+       },
+       "score": 1.0413784755425786
+      },
+      "strong": {
+       "upV": 18.225623861483225,
+       "upTWA": 45.49022310571469,
+       "upVMG": 12.776726636599474,
+       "upFoil": true,
+       "downV": 26.602199710947076,
+       "downTWA": 145.63907587716582,
+       "downVMG": 21.960079027632133,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.935374316889934,
+        "vMinFlyKn": 9.519531037391827,
+        "foilingTacks": true
+       },
+       "score": 1.0783688782326262
+      }
+     },
+     "penalties": {
+      "takeoff": 0.010878738137678735,
+      "seaway": 0.005428968982867,
+      "tipRe": 0.006084039415606846
+     },
+     "takeoffKn": 9.388928872724724,
+     "minTWSkn": 7.870299051014299,
+     "minFlyKn": 9.519531037391827,
+     "vmaxKn": 26.602199710947076,
+     "cavAtMax": 0.14780318039009144,
+     "main": {
+      "area": 0.06767226958111597,
+      "AR": 11.369558520351726,
+      "mass": 0.5987076548791067
+     },
+     "defl": 0.04397606847087471,
+     "zeta": 0.3654477997292413
+    },
+    "design": {
+     "name": "Optimised medium · Winglet up (anti-vent tip)",
+     "main": {
+      "span": 0.8771566731248848,
+      "rootChord": 0.09668102043577148,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1107639254901317,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.44334883471198505,
+      "flapSpan": 0.9543,
+      "incidence": 1.3564822963297125,
+      "nHalf": 12,
+      "wingletHeight": 0.06541908300815213,
+      "wingletCant": 64.21461878548669,
+      "wingletTaper": 0.5,
+      "wingletSweep": 30
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 13.586885065119535,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "wingletUp"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.wingletHeight",
+     "main.wingletCant"
+    ],
+    "delta": -0.0007275110238054161
+   },
+   "strong": {
+    "start": 1.0191943521002431,
+    "score": 1.0235917067765705,
+    "raw": 1.0272510295083062,
+    "r": {
+     "score": 1.0235917067765705,
+     "raw": 1.0272510295083062,
+     "bands": {
+      "light": {
+       "upV": 4.514975975851758,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.3617347570345846,
+       "upFoil": false,
+       "downV": 3.2677409740862093,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.211598823157555,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4727015695208563
+      },
+      "medium": {
+       "upV": 15.20151419276504,
+       "upTWA": 49.35294444035333,
+       "upVMG": 9.902229372774961,
+       "upFoil": true,
+       "downV": 20.336679986418346,
+       "downTWA": 137.1085016625707,
+       "downVMG": 14.899544486427924,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.120908515659023,
+        "vMinFlyKn": 9.975119983904952,
+        "foilingTacks": false
+       },
+       "score": 1.0244331276159935
+      },
+      "strong": {
+       "upV": 17.010887574285302,
+       "upTWA": 47.23527706796932,
+       "upVMG": 11.550212641900274,
+       "upFoil": true,
+       "downV": 26.65731413947516,
+       "downTWA": 145.93288480258923,
+       "downVMG": 22.08243855879155,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.20653254457118,
+        "vMinFlyKn": 9.975119983904952,
+        "foilingTacks": true
+       },
+       "score": 1.0279555049813842
+      }
+     },
+     "penalties": {
+      "seaway": 0.003659322731735563
+     },
+     "takeoffKn": 10.025994082932254,
+     "minTWSkn": 8.041144905956722,
+     "minFlyKn": 9.975119983904952,
+     "vmaxKn": 26.65731413947516,
+     "cavAtMax": 0.25396660775279156,
+     "main": {
+      "area": 0.06811074706684496,
+      "AR": 10.073518658016363,
+      "mass": 0.5654376090458945
+     },
+     "defl": 0.04446170967129783,
+     "zeta": 0.3536482226580913
+    },
+    "design": {
+     "name": "Optimised strong · Winglet up (anti-vent tip)",
+     "main": {
+      "span": 0.8283205185127892,
+      "rootChord": 0.10823667449686913,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09300155851371648,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.434407058659409,
+      "flapSpan": 0.9585,
+      "incidence": 1.982567922446194,
+      "nHalf": 12,
+      "wingletHeight": 0.05174052866780286,
+      "wingletCant": 56.309304569772905,
+      "wingletTaper": 0.5,
+      "wingletSweep": 30
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.46050826595214,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "wingletUp"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.wingletHeight",
+     "main.wingletCant"
+    ],
+    "delta": 0.0002509844208746781
+   }
+  },
+  "wingletDown": {
+   "light": {
+    "start": 0.9088201955373884,
+    "score": 0.9088201955373884,
+    "raw": 0.9171338542691553,
+    "r": {
+     "score": 0.9088201955373884,
+     "raw": 0.9171338542691553,
+     "bands": {
+      "light": {
+       "upV": 12.262151936309213,
+       "upTWA": 57.09805616141069,
+       "upVMG": 6.660836920036977,
+       "upFoil": true,
+       "downV": 13.693269081583715,
+       "downTWA": 118.80275933333333,
+       "downVMG": 6.597360572360839,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.357291161785527,
+        "vMinFlyKn": 8.692637099470495,
+        "foilingTacks": false
+       },
+       "score": 0.9053882667011179
+      },
+      "medium": {
+       "upV": 14.035067969770521,
+       "upTWA": 46.36275009232933,
+       "upVMG": 9.685462951713534,
+       "upFoil": true,
+       "downV": 18.92137018032984,
+       "downTWA": 133.3747195019301,
+       "downVMG": 12.994569964763038,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 8.421040781862311,
+        "vMinFlyKn": 8.692637099470495,
+        "foilingTacks": false
+       },
+       "score": 0.9641162045413044
+      },
+      "strong": {
+       "upV": 15.905627087812286,
+       "upTWA": 45.74018005327866,
+       "upVMG": 11.100747367204077,
+       "upFoil": true,
+       "downV": 19.429945643428958,
+       "downTWA": 147.030574,
+       "downVMG": 16.30096812609957,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.54337625268737,
+        "vMinFlyKn": 8.692637099470495,
+        "foilingTacks": true
+       },
+       "score": 0.8707594785950945
+      }
+     },
+     "penalties": {
+      "seaway": 0.002877396896130291,
+      "tipRe": 0.005436261835636624
+     },
+     "takeoffKn": 8.592407531237606,
+     "minTWSkn": 6.9021725396739,
+     "minFlyKn": 8.692637099470495,
+     "vmaxKn": 19.429945643428958,
+     "cavAtMax": 1.121555432801325,
+     "main": {
+      "area": 0.09840814671702222,
+      "AR": 14.341739450275327,
+      "mass": 1.0309436155875216
+     },
+     "defl": 0.04387782039134436,
+     "zeta": 0.30598598174551883
+    },
+    "design": {
+     "name": "Optimised light · Winglet down (keel-winglet style)",
+     "main": {
+      "span": 1.188,
+      "rootChord": 0.1091,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1225,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3529,
+      "flapSpan": 0.6202,
+      "incidence": 1.032,
+      "nHalf": 12,
+      "wingletHeight": 0.06,
+      "wingletCant": -75,
+      "wingletTaper": 0.5,
+      "wingletSweep": 30
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.22,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "wingletDown"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.wingletHeight",
+     "main.wingletCant"
+    ],
+    "delta": -0.00048629070326366985
+   },
+   "medium": {
+    "start": 0.9235932341536803,
+    "score": 0.9313063624022742,
+    "raw": 0.9500326867734247,
+    "r": {
+     "score": 0.9313063624022742,
+     "raw": 0.9500326867734247,
+     "bands": {
+      "light": {
+       "upV": 4.582330014157877,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.402974010741188,
+       "upFoil": false,
+       "downV": 3.2811796256977037,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.224806589024728,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4767543375304579
+      },
+      "medium": {
+       "upV": 15.14863088839602,
+       "upTWA": 49.08331903858799,
+       "upVMG": 9.921760063106392,
+       "upFoil": true,
+       "downV": 20.245490501437555,
+       "downTWA": 136.63310915960432,
+       "downVMG": 14.717896474220328,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.089178533037613,
+        "vMinFlyKn": 9.336536143875717,
+        "foilingTacks": false
+       },
+       "score": 1.0389535758517667
+      },
+      "strong": {
+       "upV": 18.899486136671346,
+       "upTWA": 48.210791790794666,
+       "upVMG": 12.594467241046006,
+       "upFoil": true,
+       "downV": 26.45887150770818,
+       "downTWA": 145.63907587716582,
+       "downVMG": 21.841761794312536,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.339691682002808,
+        "vMinFlyKn": 9.336536143875717,
+        "foilingTacks": true
+       },
+       "score": 1.0676274797030234
+      }
+     },
+     "penalties": {
+      "takeoff": 0.010878738137678735,
+      "deflection": 0.0008759044713090025,
+      "seaway": 0.0036354240246020213,
+      "tipRe": 0.003336257737560766
+     },
+     "takeoffKn": 9.282624785204998,
+     "minTWSkn": 7.870299051014299,
+     "minFlyKn": 9.336536143875717,
+     "vmaxKn": 26.45887150770818,
+     "cavAtMax": 0.15891845924714776,
+     "main": {
+      "area": 0.07016665550562591,
+      "AR": 11.320460676475024,
+      "mass": 0.6274240186504951
+     },
+     "defl": 0.045291968157103,
+     "zeta": 0.37067164109145606
+    },
+    "design": {
+     "name": "Optimised medium · Winglet down (keel-winglet style)",
+     "main": {
+      "span": 0.8912456813085873,
+      "rootChord": 0.10059371656730783,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.10342067185958151,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.44485225350942953,
+      "flapSpan": 0.9543,
+      "incidence": 1.486692993416605,
+      "nHalf": 12,
+      "wingletHeight": 0.032818714436830265,
+      "wingletCant": -85.01719211662324,
+      "wingletTaper": 0.5,
+      "wingletSweep": 30
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 13.52058540292252,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "wingletDown"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.wingletHeight",
+     "main.wingletCant"
+    ],
+    "delta": -0.0005834082043332245
+   },
+   "strong": {
+    "start": 1.0192153609530386,
+    "score": 1.0205309070900483,
+    "raw": 1.0255738599889612,
+    "r": {
+     "score": 1.0205309070900483,
+     "raw": 1.0255738599889612,
+     "bands": {
+      "light": {
+       "upV": 4.456349264495304,
+       "upTWA": 41.60783305569599,
+       "upVMG": 3.332044949601849,
+       "upFoil": false,
+       "downV": 3.255930905400668,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.1999916599849905,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4696439273017057
+      },
+      "medium": {
+       "upV": 15.132873173057957,
+       "upTWA": 49.35294444035333,
+       "upVMG": 9.857516779483158,
+       "upFoil": true,
+       "downV": 20.310572930306005,
+       "downTWA": 137.1085016625707,
+       "downVMG": 14.880417311086854,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.079723903834774,
+        "vMinFlyKn": 9.931839033986206,
+        "foilingTacks": false
+       },
+       "score": 1.0214254458786047
+      },
+      "strong": {
+       "upV": 17.05126511165757,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.518591979721602,
+       "upFoil": true,
+       "downV": 26.658848862918003,
+       "downTWA": 145.93288480258923,
+       "downVMG": 22.083709896029575,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.230759066994542,
+        "vMinFlyKn": 9.931839033986206,
+        "foilingTacks": true
+       },
+       "score": 1.0266109635165503
+      }
+     },
+     "penalties": {
+      "seaway": 0.005042952898912767
+     },
+     "takeoffKn": 9.89615123317601,
+     "minTWSkn": 8.126567833427934,
+     "minFlyKn": 9.931839033986206,
+     "vmaxKn": 26.658848862918003,
+     "cavAtMax": 0.2609286152618573,
+     "main": {
+      "area": 0.06882311889512992,
+      "AR": 9.469494494297297,
+      "mass": 0.5748594638002937
+     },
+     "defl": 0.040177003423436566,
+     "zeta": 0.3556818084213601
+    },
+    "design": {
+     "name": "Optimised strong · Winglet down (keel-winglet style)",
+     "main": {
+      "span": 0.8072918589071744,
+      "rootChord": 0.11173598438552088,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.0898404334285957,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.44936276983483775,
+      "flapSpan": 0.9585,
+      "incidence": 1.877114785375369,
+      "nHalf": 12,
+      "wingletHeight": 0.05906977972965696,
+      "wingletCant": -70.93211569949219,
+      "wingletTaper": 0.5,
+      "wingletSweep": 30
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.629414731046097,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "wingletDown"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.wingletHeight",
+     "main.wingletCant"
+    ],
+    "delta": -0.0028098152656474973
+   }
+  },
+  "dolphin": {
+   "light": {
+    "start": 0.8263804532524329,
+    "score": 0.8796382807240116,
+    "raw": 0.9020062945006379,
+    "r": {
+     "score": 0.8796382807240116,
+     "raw": 0.9020062945006379,
+     "bands": {
+      "light": {
+       "upV": 12.266926172661652,
+       "upTWA": 57.534319669084006,
+       "upVMG": 6.584816390422697,
+       "upFoil": true,
+       "downV": 13.484842449263187,
+       "downTWA": 118.32736661577185,
+       "downVMG": 6.398675114226705,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.360155703596991,
+        "vMinFlyKn": 8.67137628196655,
+        "foilingTacks": false
+       },
+       "score": 0.8879517030782151
+      },
+      "medium": {
+       "upV": 14.154105155578161,
+       "upTWA": 47.06863921645733,
+       "upVMG": 9.640668498747917,
+       "upFoil": true,
+       "downV": 18.3804605580798,
+       "downTWA": 134.14392094966988,
+       "downVMG": 12.801312221503679,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.492463093346895,
+        "vMinFlyKn": 8.67137628196655,
+        "foilingTacks": false
+       },
+       "score": 0.9582246601903283
+      },
+      "strong": {
+       "upV": 16.053563451634204,
+       "upTWA": 46.446069223896,
+       "upVMG": 11.061499898482094,
+       "upFoil": true,
+       "downV": 18.9050061059581,
+       "downTWA": 147.3243831787186,
+       "downVMG": 15.91311144833138,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.632138070980522,
+        "vMinFlyKn": 8.67137628196655,
+        "foilingTacks": true
+       },
+       "score": 0.8598183841075255
+      }
+     },
+     "penalties": {
+      "deflection": 0.0010097297475991848,
+      "seaway": 0.0028013748827844173,
+      "tipRe": 0.018556909146242608
+     },
+     "takeoffKn": 8.56507219444682,
+     "minTWSkn": 6.87369823051683,
+     "minFlyKn": 8.67137628196655,
+     "vmaxKn": 18.9050061059581,
+     "cavAtMax": 1.0340910956352412,
+     "main": {
+      "area": 0.0997372400593768,
+      "AR": 13.977168452075823,
+      "mass": 1.0384352926159754
+     },
+     "defl": 0.04533657658253306,
+     "zeta": 0.30847006137187305
+    },
+    "design": {
+     "name": "Optimised light · Dolphin fluke",
+     "main": {
+      "span": 1.180696491590889,
+      "rootChord": 0.11987364942049829,
+      "taper": 0.3,
+      "ellipticity": 0.4,
+      "sweep": 17.905005926507513,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.10691852391658623,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.36415552760689945,
+      "flapSpan": 0.6202,
+      "incidence": 1.4865483229982495,
+      "nHalf": 12,
+      "crescent": 6.9636875154437865,
+      "crescentStart": 0.5
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.188924654801003,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "dolphin"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep",
+     "main.crescent"
+    ],
+    "delta": -0.0296682055166404
+   },
+   "medium": {
+    "start": 0.7560161722190639,
+    "score": 0.9135072648112865,
+    "raw": 0.9326468232147774,
+    "r": {
+     "score": 0.9135072648112865,
+     "raw": 0.9326468232147774,
+     "bands": {
+      "light": {
+       "upV": 4.5232965896978055,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.359134040991738,
+       "upFoil": false,
+       "downV": 3.261326296960985,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.205294354820046,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4720812165514701
+      },
+      "medium": {
+       "upV": 15.0832152649268,
+       "upTWA": 49.519582546261304,
+       "upVMG": 9.79184414513323,
+       "upFoil": true,
+       "downV": 19.994627242758416,
+       "downTWA": 135.86390733333332,
+       "downVMG": 14.349899535343443,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.049929158956079,
+        "vMinFlyKn": 9.282624785204998,
+        "foilingTacks": false
+       },
+       "score": 1.0196114538805
+      },
+      "strong": {
+       "upV": 19.59104280790433,
+       "upTWA": 51.11766729716268,
+       "upVMG": 12.297749233681563,
+       "upFoil": true,
+       "downV": 26.225073235057796,
+       "downTWA": 144.86987453074408,
+       "downVMG": 21.448104632837065,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.754625684742598,
+        "vMinFlyKn": 9.282624785204998,
+        "foilingTacks": true
+       },
+       "score": 1.0453539072151947
+      }
+     },
+     "penalties": {
+      "takeoff": 0.010878738137678735,
+      "seaway": 0.003371476270190367,
+      "tipRe": 0.004889343995621809
+     },
+     "takeoffKn": 9.234028630910263,
+     "minTWSkn": 7.870299051014299,
+     "minFlyKn": 9.282624785204998,
+     "vmaxKn": 26.225073235057796,
+     "cavAtMax": 0.061489444941408955,
+     "main": {
+      "area": 0.07504649303757095,
+      "AR": 10.460158455135884,
+      "mass": 0.8280978578187711
+     },
+     "defl": 0.02100239929739739,
+     "zeta": 0.3732572292962235
+    },
+    "design": {
+     "name": "Optimised medium · Dolphin fluke",
+     "main": {
+      "span": 0.8860012464298479,
+      "rootChord": 0.12024277039042311,
+      "taper": 0.3,
+      "ellipticity": 0.4,
+      "sweep": 10.608390381128313,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1169899145571983,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.44958335237830455,
+      "flapSpan": 0.9543,
+      "incidence": 1.5584180982614093,
+      "nHalf": 12,
+      "crescent": 9.70757037690772,
+      "crescentStart": 0.5
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.546731707599763,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "dolphin"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep",
+     "main.crescent"
+    ],
+    "delta": -0.018382505795320858
+   },
+   "strong": {
+    "start": 0.8563484849812465,
+    "score": 1.0126672575464821,
+    "raw": 1.0191520456206278,
+    "r": {
+     "score": 1.0126672575464821,
+     "raw": 1.0191520456206278,
+     "bands": {
+      "light": {
+       "upV": 4.48276745301078,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.337753120966891,
+       "upFoil": false,
+       "downV": 3.256193385377835,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.200249630366504,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.4701002154321432
+      },
+      "medium": {
+       "upV": 14.98029328978835,
+       "upTWA": 49.08331888814533,
+       "upVMG": 9.81150555726869,
+       "upFoil": true,
+       "downV": 20.245020150594904,
+       "downTWA": 136.3393000508948,
+       "downVMG": 14.646074841245053,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.98817597387301,
+        "vMinFlyKn": 9.562811987310575,
+        "foilingTacks": false
+       },
+       "score": 1.01948115577776
+      },
+      "strong": {
+       "upV": 16.97099399690188,
+       "upTWA": 47.504902666666666,
+       "upVMG": 11.464366664909265,
+       "upFoil": true,
+       "downV": 26.640275494471904,
+       "downTWA": 145.1636834561675,
+       "downVMG": 21.86599982784304,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.182596398141127,
+        "vMinFlyKn": 9.562811987310575,
+        "foilingTacks": true
+       },
+       "score": 1.0190697680813448
+      }
+     },
+     "penalties": {
+      "seaway": 0.006484788074145557
+     },
+     "takeoffKn": 9.458026529612551,
+     "minTWSkn": 8.041144905956722,
+     "minFlyKn": 9.562811987310575,
+     "vmaxKn": 26.640275494471904,
+     "cavAtMax": 0.11381128601945778,
+     "main": {
+      "area": 0.07148335647003332,
+      "AR": 9.708614542991807,
+      "mass": 0.6828900963723639
+     },
+     "defl": 0.028377687418291705,
+     "zeta": 0.35457225358503636
+    },
+    "design": {
+     "name": "Optimised strong · Dolphin fluke",
+     "main": {
+      "span": 0.8330692373427511,
+      "rootChord": 0.12168331149950191,
+      "taper": 0.3,
+      "ellipticity": 0.4,
+      "sweep": 9.699182344941187,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09928237923262537,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4411456426370815,
+      "flapSpan": 0.9585,
+      "incidence": 1.8324246364584087,
+      "nHalf": 12,
+      "crescent": 12.429762518759112,
+      "crescentStart": 0.5
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 13.181288509450805,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "dolphin"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep",
+     "main.crescent"
+    ],
+    "delta": -0.010673464809213717
+   }
+  },
+  "manta": {
+   "light": {
+    "start": 0.38745834931363965,
+    "score": 0.5232345284820801,
+    "raw": 0.5772426120288394,
+    "r": {
+     "score": 0.5232345284820801,
+     "raw": 0.5772426120288394,
+     "bands": {
+      "light": {
+       "upV": 4.6697039679589585,
+       "upTWA": 42.31372222631333,
+       "upVMG": 3.4531054729662864,
+       "upFoil": false,
+       "downV": 3.2973279007470135,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2406774250413104,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.48166865958990424
+      },
+      "medium": {
+       "upV": 14.562961014251554,
+       "upTWA": 47.67154070832795,
+       "upVMG": 9.806403941309188,
+       "upFoil": true,
+       "downV": 18.713909554781484,
+       "downTWA": 136.63310915960432,
+       "downVMG": 13.604480634126366,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 8.737776608550933,
+        "vMinFlyKn": 10.071552977583567,
+        "foilingTacks": false
+       },
+       "score": 0.9595384217845802
+      },
+      "strong": {
+       "upV": 16.486810094444813,
+       "upTWA": 46.52938794384132,
+       "upVMG": 11.342635651379487,
+       "upFoil": true,
+       "downV": 19.1224072464486,
+       "downTWA": 148.7505607815447,
+       "downVMG": 16.348070043786887,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.892086056666887,
+        "vMinFlyKn": 10.071552977583567,
+        "foilingTacks": false
+       },
+       "score": 0.8773662779161084
+      }
+     },
+     "penalties": {
+      "takeoff": 0.03354894434574023,
+      "seaway": 0.013420364642311724,
+      "tipRe": 0.007038774558707362
+     },
+     "takeoffKn": 9.968286149707255,
+     "minTWSkn": 7.670978886914805,
+     "minFlyKn": 10.071552977583567,
+     "vmaxKn": 19.1224072464486,
+     "cavAtMax": 1.0745562704529856,
+     "main": {
+      "area": 0.07175639225523824,
+      "AR": 12.139484106921383,
+      "mass": 0.7239719957747482
+     },
+     "defl": 0.033987232666184954,
+     "zeta": 0.27937104539873087
+    },
+    "design": {
+     "name": "Optimised light · Manta ray",
+     "main": {
+      "span": 0.9333196576481614,
+      "rootChord": 0.11692778691036979,
+      "taper": 0.25,
+      "ellipticity": 0.2,
+      "sweep": 22.71369579568978,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.11373950061310495,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3255452265271549,
+      "flapSpan": 0.6202,
+      "incidence": 2.4500042889411544,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 11.062825189413703,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "manta"
+    },
+    "vars": [
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep",
+     "main.span"
+    ],
+    "delta": -0.38607195775857195
+   },
+   "medium": {
+    "start": 0.7386865583830993,
+    "score": 0.9165174792702621,
+    "raw": 0.9337641225045493,
+    "r": {
+     "score": 0.9165174792702621,
+     "raw": 0.9337641225045493,
+     "bands": {
+      "light": {
+       "upV": 4.530943090661827,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.3648125591196942,
+       "upFoil": false,
+       "downV": 3.264158329058123,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2080777305595682,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47270358402087076
+      },
+      "medium": {
+       "upV": 15.116160950660449,
+       "upTWA": 49.519582546261304,
+       "upVMG": 9.81323209288125,
+       "upFoil": true,
+       "downV": 20.004702743592894,
+       "downTWA": 136.1577165120519,
+       "downVMG": 14.428376641651507,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.06969657039627,
+        "vMinFlyKn": 9.373742574507624,
+        "foilingTacks": false
+       },
+       "score": 1.0210756566861583
+      },
+      "strong": {
+       "upV": 19.72050924153067,
+       "upTWA": 51.553930776104,
+       "upVMG": 12.261773188649903,
+       "upFoil": true,
+       "downV": 25.92682468231485,
+       "downTWA": 146.11446849340922,
+       "downVMG": 21.523233935373725,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.832305544918402,
+        "vMinFlyKn": 9.373742574507624,
+        "foilingTacks": true
+       },
+       "score": 1.0455785242617925
+      }
+     },
+     "penalties": {
+      "takeoff": 0.011234667002142118,
+      "seaway": 0.00345226162361488,
+      "tipRe": 0.002559714608530261
+     },
+     "takeoffKn": 9.306922862352364,
+     "minTWSkn": 7.898773360171369,
+     "minFlyKn": 9.373742574507624,
+     "vmaxKn": 25.92682468231485,
+     "cavAtMax": 0.09166281152508726,
+     "main": {
+      "area": 0.07407416090556948,
+      "AR": 10.54725457971121,
+      "mass": 0.7506203563829127
+     },
+     "defl": 0.027728923024384615,
+     "zeta": 0.3655286023489821
+    },
+    "design": {
+     "name": "Optimised medium · Manta ray",
+     "main": {
+      "span": 0.8838998997904303,
+      "rootChord": 0.12749746622827346,
+      "taper": 0.25,
+      "ellipticity": 0.2,
+      "sweep": 15.594677641928305,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.10156302641460613,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.4220127390425129,
+      "flapSpan": 0.9543,
+      "incidence": 1.5694430065251592,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 14.73895920387546,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "manta"
+    },
+    "vars": [
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep",
+     "main.span"
+    ],
+    "delta": -0.015372291336345323
+   },
+   "strong": {
+    "start": 0.8457124658144337,
+    "score": 1.0127834505819675,
+    "raw": 1.0185647603528643,
+    "r": {
+     "score": 1.0127834505819675,
+     "raw": 1.0185647603528643,
+     "bands": {
+      "light": {
+       "upV": 4.523996917683528,
+       "upTWA": 41.87745853268267,
+       "upVMG": 3.368451517845549,
+       "upFoil": false,
+       "downV": 3.268832125933756,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2126712282279866,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47328973710075417
+      },
+      "medium": {
+       "upV": 15.000492049729909,
+       "upTWA": 49.08331888814533,
+       "upVMG": 9.82473495415584,
+       "upFoil": true,
+       "downV": 20.253905991147892,
+       "downTWA": 136.3393000508948,
+       "downVMG": 14.652503221399694,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.000295229837945,
+        "vMinFlyKn": 9.671394019562866,
+        "foilingTacks": false
+       },
+       "score": 1.0172932108447847
+      },
+      "strong": {
+       "upV": 17.117286506311913,
+       "upTWA": 47.94116638902932,
+       "upVMG": 11.46675630573559,
+       "upFoil": true,
+       "downV": 26.625384003477382,
+       "downTWA": 145.1636834561675,
+       "downVMG": 21.85377708113796,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.270371903787149,
+        "vMinFlyKn": 9.671394019562866,
+        "foilingTacks": true
+       },
+       "score": 1.018882647729884
+      }
+     },
+     "penalties": {
+      "seaway": 0.005781309770896836
+     },
+     "takeoffKn": 9.513456518104984,
+     "minTWSkn": 7.984196287642581,
+     "minFlyKn": 9.671394019562866,
+     "vmaxKn": 26.625384003477382,
+     "cavAtMax": 0.14412849556082663,
+     "main": {
+      "area": 0.06999023978640384,
+      "AR": 10.308832694736855,
+      "mass": 0.668914734975248
+     },
+     "defl": 0.03092618635921961,
+     "zeta": 0.3513725914615295
+    },
+    "design": {
+     "name": "Optimised strong · Manta ray",
+     "main": {
+      "span": 0.8494219635861509,
+      "rootChord": 0.12522942216908423,
+      "taper": 0.25,
+      "ellipticity": 0.2,
+      "sweep": 15.195141736085331,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.10203636851206208,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4329782495932766,
+      "flapSpan": 0.9585,
+      "incidence": 2.0059965698059967,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 14.398819085416223,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "manta"
+    },
+    "vars": [
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep",
+     "main.span"
+    ],
+    "delta": -0.010557271773728338
+   }
+  },
+  "sharkskin": {
+   "light": {
+    "start": 0.928158421838931,
+    "score": 0.928158421838931,
+    "raw": 0.9327105032106559,
+    "r": {
+     "score": 0.928158421838931,
+     "raw": 0.9327105032106559,
+     "bands": {
+      "light": {
+       "upV": 12.316781716037122,
+       "upTWA": 57.09805616141069,
+       "upVMG": 6.690511976718314,
+       "upFoil": true,
+       "downV": 14.1395918305734,
+       "downTWA": 118.80275933333333,
+       "downVMG": 6.812397032185646,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.390069029622272,
+        "vMinFlyKn": 8.747307773052071,
+        "foilingTacks": false
+       },
+       "score": 0.9207115343420577
+      },
+      "medium": {
+       "upV": 14.13686544964078,
+       "upTWA": 46.36275009232933,
+       "upVMG": 9.75571239560542,
+       "upFoil": true,
+       "downV": 19.273155999073435,
+       "downTWA": 133.85011200489643,
+       "downVMG": 13.351944739480894,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 8.482119269784468,
+        "vMinFlyKn": 8.747307773052071,
+        "foilingTacks": false
+       },
+       "score": 0.9807063786850485
+      },
+      "strong": {
+       "upV": 15.967508927417272,
+       "upTWA": 45.49022310571469,
+       "upVMG": 11.193718151081681,
+       "upFoil": true,
+       "downV": 19.80949206854581,
+       "downTWA": 147.3243831787186,
+       "downVMG": 16.674454017883544,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 9.580505356450363,
+        "vMinFlyKn": 8.747307773052071,
+        "foilingTacks": true
+       },
+       "score": 0.8836942078227248
+      }
+     },
+     "penalties": {
+      "seaway": 0.0030039056367959283,
+      "tipRe": 0.0015481757349288916
+     },
+     "takeoffKn": 8.644800260086617,
+     "minTWSkn": 6.959121157988041,
+     "minFlyKn": 8.747307773052071,
+     "vmaxKn": 19.80949206854581,
+     "cavAtMax": 0.7853128823830116,
+     "main": {
+      "area": 0.09577831150634922,
+      "AR": 14.735528094024094,
+      "mass": 1.0243792614050702
+     },
+     "defl": 0.04387782039134436,
+     "zeta": 0.3072139887035941
+    },
+    "design": {
+     "name": "Optimised light · Shark-skin riblets",
+     "main": {
+      "span": 1.188,
+      "rootChord": 0.1091,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": 8.997,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1225,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3529,
+      "flapSpan": 0.6202,
+      "incidence": 1.032,
+      "nHalf": 12,
+      "riblet": 28
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7,
+      "riblet": 28
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7,
+      "riblet": 28
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.22,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "sharkskin"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.riblet"
+    ],
+    "delta": 0.018851935598279024
+   },
+   "medium": {
+    "start": 0.9413093135195129,
+    "score": 0.9425701706658378,
+    "raw": 0.9623306288577371,
+    "r": {
+     "score": 0.9425701706658378,
+     "raw": 0.9623306288577371,
+     "bands": {
+      "light": {
+       "upV": 4.616090305237437,
+       "upTWA": 42.04409650590533,
+       "upVMG": 3.4280454029769807,
+       "upFoil": false,
+       "downV": 3.290257674408394,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.233728670299537,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.479277711582301
+      },
+      "medium": {
+       "upV": 15.272887615531282,
+       "upTWA": 49.08331888814533,
+       "upVMG": 10.003143384213574,
+       "upFoil": true,
+       "downV": 20.495266612198346,
+       "downTWA": 137.40231050602605,
+       "downVMG": 15.087065472504339,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.16373256931877,
+        "vMinFlyKn": 9.536995280341495,
+        "foilingTacks": false
+       },
+       "score": 1.0519628119208355
+      },
+      "strong": {
+       "upV": 19.78177558069672,
+       "upTWA": 49.705889077638666,
+       "upVMG": 12.793099506282113,
+       "upFoil": true,
+       "downV": 26.754572003504656,
+       "downTWA": 146.40827743818267,
+       "downVMG": 22.28659004108625,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.869065348418031,
+        "vMinFlyKn": 9.536995280341495,
+        "foilingTacks": true
+       },
+       "score": 1.086854813880779
+      }
+     },
+     "penalties": {
+      "takeoff": 0.009810951544288593,
+      "cavitation": 0.0027949976724248593,
+      "seaway": 0.007154508975185802
+     },
+     "takeoffKn": 9.427653933178343,
+     "minTWSkn": 7.7848761235430874,
+     "minFlyKn": 9.536995280341495,
+     "vmaxKn": 26.754572003504656,
+     "cavAtMax": -0.005589995344849719,
+     "main": {
+      "area": 0.07010162250947771,
+      "AR": 12.006227429915558,
+      "mass": 0.6585506916156538
+     },
+     "defl": 0.042567769710462396,
+     "zeta": 0.3701132190062067
+    },
+    "design": {
+     "name": "Optimised medium · Shark-skin riblets",
+     "main": {
+      "span": 0.9174181288021712,
+      "rootChord": 0.09953602175778832,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": 3.359,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.11105032100932177,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.4296222656648442,
+      "flapSpan": 0.9543,
+      "incidence": 0.7803342041382086,
+      "nHalf": 12,
+      "riblet": 40.883617894796274
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7,
+      "riblet": 28
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7,
+      "riblet": 28
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 13.714238007768063,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "sharkskin"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.riblet"
+    ],
+    "delta": 0.010680400059230433
+   },
+   "strong": {
+    "start": 1.034807814804073,
+    "score": 1.0427360638785252,
+    "raw": 1.048135744100808,
+    "r": {
+     "score": 1.0427360638785252,
+     "raw": 1.048135744100808,
+     "bands": {
+      "light": {
+       "upV": 4.51232212923032,
+       "upTWA": 41.44119505374134,
+       "upVMG": 3.382596402548701,
+       "upFoil": false,
+       "downV": 3.2817558145126196,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.225372878499498,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47522458183961025
+      },
+      "medium": {
+       "upV": 15.460366817136567,
+       "upTWA": 50.32845929167204,
+       "upVMG": 9.869675107015414,
+       "upFoil": true,
+       "downV": 20.671827236401246,
+       "downTWA": 138.35309564458586,
+       "downVMG": 15.447112338262324,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.276220090281939,
+        "vMinFlyKn": 10.324404842898355,
+        "foilingTacks": false
+       },
+       "score": 1.036340013704753
+      },
+      "strong": {
+       "upV": 17.45274496022952,
+       "upTWA": 48.210791987726665,
+       "upVMG": 11.630370383252574,
+       "upFoil": true,
+       "downV": 27.59429400368186,
+       "downTWA": 146.11446849340922,
+       "downVMG": 22.907488765018243,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.471646976137711,
+        "vMinFlyKn": 10.324404842898355,
+        "foilingTacks": true
+       },
+       "score": 1.0510846766998216
+      }
+     },
+     "penalties": {
+      "seaway": 0.005399680222282603
+     },
+     "takeoffKn": 10.227212534308885,
+     "minTWSkn": 8.183516451742074,
+     "minFlyKn": 10.324404842898355,
+     "vmaxKn": 27.59429400368186,
+     "cavAtMax": 0.11320498797994472,
+     "main": {
+      "area": 0.059973412013638025,
+      "AR": 10.193064197713257,
+      "mass": 0.4951595821551815
+     },
+     "defl": 0.04442179262361407,
+     "zeta": 0.3449627419423229
+    },
+    "design": {
+     "name": "Optimised strong · Shark-skin riblets",
+     "main": {
+      "span": 0.7818649747948299,
+      "rootChord": 0.10357285863037127,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": 1.436,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.09559613027194122,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4470292494237211,
+      "flapSpan": 0.9585,
+      "incidence": 1.366904468362284,
+      "nHalf": 12,
+      "riblet": 10.249010311956532
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7,
+      "riblet": 28
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7,
+      "riblet": 28
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 13.132984401348828,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "sharkskin"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.riblet"
+    ],
+    "delta": 0.0193953415228294
+   }
+  },
+  "forward": {
+   "light": {
+    "start": 0.8868863927377102,
+    "score": 0.8868863927377102,
+    "raw": 0.890135879938516,
+    "r": {
+     "score": 0.8868863927377102,
+     "raw": 0.890135879938516,
+     "bands": {
+      "light": {
+       "upV": 12.202397483299325,
+       "upTWA": 57.88726410943733,
+       "upVMG": 6.486634252669645,
+       "upFoil": true,
+       "downV": 13.906309757779765,
+       "downTWA": 117.08277273507476,
+       "downVMG": 6.331226104578189,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 7.321438489979595,
+        "vMinFlyKn": 8.79058872297082,
+        "foilingTacks": false
+       },
+       "score": 0.8717948847845105
+      },
+      "medium": {
+       "upV": 14.146048097709617,
+       "upTWA": 47.06863921645733,
+       "upVMG": 9.635180661605824,
+       "upFoil": true,
+       "downV": 19.149405917068748,
+       "downTWA": 133.08091065847472,
+       "downVMG": 13.07962765170474,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "flap min",
+       "manoeuvre": {
+        "vTurnKn": 8.487628858625769,
+        "vMinFlyKn": 8.79058872297082,
+        "foilingTacks": false
+       },
+       "score": 0.9634998605545374
+      },
+      "strong": {
+       "upV": 16.19938869876994,
+       "upTWA": 46.799013589028,
+       "upVMG": 11.08944795241677,
+       "upFoil": true,
+       "downV": 19.6098604401572,
+       "downTWA": 147.030574,
+       "downVMG": 16.45190963775905,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.719633219261963,
+        "vMinFlyKn": 8.79058872297082,
+        "foilingTacks": true
+       },
+       "score": 0.8738620452070005
+      }
+     },
+     "penalties": {
+      "seaway": 0.0032494872008057797
+     },
+     "takeoffKn": 8.692637099470495,
+     "minTWSkn": 6.959121157988041,
+     "minFlyKn": 8.79058872297082,
+     "vmaxKn": 19.6098604401572,
+     "cavAtMax": 0.7735734528432701,
+     "main": {
+      "area": 0.09577831150634922,
+      "AR": 14.735528094024094,
+      "mass": 1.0243792614050702
+     },
+     "defl": 0.04387782039134436,
+     "zeta": 0.30345858014344185
+    },
+    "design": {
+     "name": "Optimised light · Forward-swept (dragonfly hind wing)",
+     "main": {
+      "span": 1.188,
+      "rootChord": 0.1091,
+      "taper": 0.3894,
+      "ellipticity": 0.4803,
+      "sweep": -8,
+      "twist": -1.091,
+      "dihedral": -6.739,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.1225,
+      "tcTip": 0.1015,
+      "cli": 0.4492,
+      "family": "eppler",
+      "flapFrac": 0.3529,
+      "flapSpan": 0.6202,
+      "incidence": 1.032,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.552,
+      "rootChord": 0.08359,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -12,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.01354,
+      "family": "eppler",
+      "incidence": 2.675,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1028,
+      "tc": 0.1264,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07533,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.7,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.902,
+      "flapMax": 10.22,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "forward"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep"
+    ],
+    "delta": -0.02242009350294183
+   },
+   "medium": {
+    "start": 0.9237394162165621,
+    "score": 0.9258459254447735,
+    "raw": 0.9440762613497826,
+    "r": {
+     "score": 0.9258459254447735,
+     "raw": 0.9440762613497826,
+     "bands": {
+      "light": {
+       "upV": 4.645304871592811,
+       "upTWA": 42.14708422435868,
+       "upVMG": 3.444143542481756,
+       "upFoil": false,
+       "downV": 3.295579168837886,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.2389587376098676,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.48086470115976726
+      },
+      "medium": {
+       "upV": 15.173653919176585,
+       "upTWA": 49.519582546261304,
+       "upVMG": 9.850555844963484,
+       "upFoil": true,
+       "downV": 20.170691365005617,
+       "downTWA": 136.3393000508948,
+       "downVMG": 14.5923023604818,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.10419235150595,
+        "vMinFlyKn": 9.379057778883608,
+        "foilingTacks": false
+       },
+       "score": 1.0298545426605377
+      },
+      "strong": {
+       "upV": 19.711124109232504,
+       "upTWA": 50.411778201766666,
+       "upVMG": 12.561220999153653,
+       "upFoil": true,
+       "downV": 26.35674364552623,
+       "downTWA": 145.6390760097929,
+       "downVMG": 21.757455419923232,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 11.8266744655395,
+        "vMinFlyKn": 9.379057778883608,
+        "foilingTacks": true
+       },
+       "score": 1.0641746962967782
+      }
+     },
+     "penalties": {
+      "takeoff": 0.009099093815361826,
+      "seaway": 0.0036857379839065865,
+      "tipRe": 0.005445504105740728
+     },
+     "takeoffKn": 9.331220939499731,
+     "minTWSkn": 7.727927505228946,
+     "minFlyKn": 9.379057778883608,
+     "vmaxKn": 26.35674364552623,
+     "cavAtMax": 0.04644613182242807,
+     "main": {
+      "area": 0.07054974800926117,
+      "AR": 12.496067833356337,
+      "mass": 0.6881784229922766
+     },
+     "defl": 0.03945735354839229,
+     "zeta": 0.36663340748446754
+    },
+    "design": {
+     "name": "Optimised medium · Forward-swept (dragonfly hind wing)",
+     "main": {
+      "span": 0.9389326050094989,
+      "rootChord": 0.09787698283867113,
+      "taper": 0.4669,
+      "ellipticity": 0.646,
+      "sweep": -6.674948231255266,
+      "twist": 0.2472,
+      "dihedral": -4.791,
+      "dihedralStart": 0.8,
+      "tcRoot": 0.12064331577666285,
+      "tcTip": 0.09982,
+      "cli": 0.3726,
+      "family": "eppler",
+      "flapFrac": 0.4210126281457669,
+      "flapSpan": 0.9543,
+      "incidence": 1.2779242964530493,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.5799,
+      "rootChord": 0.07738,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -14,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.1,
+      "tcTip": 0.09,
+      "cli": 0.2004,
+      "family": "eppler",
+      "incidence": -0.2095,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1176,
+      "tc": 0.1119,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07744,
+      "tc": 0.11,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.75,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.399,
+      "flapMax": 13.59796272386429,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "forward"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep"
+    ],
+    "delta": -0.006043845161833872
+   },
+   "strong": {
+    "start": 1.013155480752764,
+    "score": 1.0208169848050328,
+    "raw": 1.0262046745653635,
+    "r": {
+     "score": 1.0208169848050328,
+     "raw": 1.0262046745653635,
+     "bands": {
+      "light": {
+       "upV": 4.5311466903433475,
+       "upTWA": 41.60783305569599,
+       "upVMG": 3.387971532158079,
+       "upFoil": false,
+       "downV": 3.281355680212984,
+       "downTWA": 169.363907614242,
+       "downVMG": 3.224979618796234,
+       "downFoil": false,
+       "upLimit": "hull drag",
+       "downLimit": "hull drag",
+       "score": 0.47561183603447293
+      },
+      "medium": {
+       "upV": 15.189130784430624,
+       "upTWA": 50.225471612925325,
+       "upVMG": 9.71752112115925,
+       "upFoil": true,
+       "downV": 20.369851104250817,
+       "downTWA": 137.1085016625707,
+       "downVMG": 14.923847103479455,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 9.113478470658373,
+        "vMinFlyKn": 10.300106765750986,
+        "foilingTacks": false
+       },
+       "score": 1.0059388550322397
+      },
+      "strong": {
+       "upV": 17.226443572302088,
+       "upTWA": 48.210791987726665,
+       "upVMG": 11.479564938846107,
+       "upFoil": true,
+       "downV": 27.07539809136679,
+       "downTWA": 145.63907587716582,
+       "downVMG": 22.350703635471923,
+       "downFoil": true,
+       "upLimit": "drag",
+       "downLimit": "drag",
+       "manoeuvre": {
+        "vTurnKn": 10.335866143381253,
+        "vMinFlyKn": 10.300106765750986,
+        "foilingTacks": true
+       },
+       "score": 1.0312711294486445
+      }
+     },
+     "penalties": {
+      "seaway": 0.005387689760330705
+     },
+     "takeoffKn": 10.178616380014152,
+     "minTWSkn": 8.041144905956722,
+     "minFlyKn": 10.300106765750986,
+     "vmaxKn": 27.07539809136679,
+     "cavAtMax": 0.11818361441207315,
+     "main": {
+      "area": 0.06317221291194483,
+      "AR": 10.474328677396132,
+      "mass": 0.5849058884220297
+     },
+     "defl": 0.032531470324236166,
+     "zeta": 0.34079126891333833
+    },
+    "design": {
+     "name": "Optimised strong · Forward-swept (dragonfly hind wing)",
+     "main": {
+      "span": 0.8134411603294721,
+      "rootChord": 0.10486218683651083,
+      "taper": 0.3369,
+      "ellipticity": 0.6073,
+      "sweep": -10.666931465199992,
+      "twist": 0.1135,
+      "dihedral": -3.955,
+      "dihedralStart": 0.3,
+      "tcRoot": 0.11126202759689832,
+      "tcTip": 0.08688,
+      "cli": 0.342,
+      "family": "eppler",
+      "flapFrac": 0.4246887268867098,
+      "flapSpan": 0.9585,
+      "incidence": 1.2910893986748468,
+      "nHalf": 12
+     },
+     "elevator": {
+      "span": 0.565,
+      "rootChord": 0.07767,
+      "taper": 0.46,
+      "ellipticity": 0.6,
+      "sweep": 4,
+      "twist": -0.5,
+      "dihedral": -16,
+      "dihedralStart": 0.45,
+      "tcRoot": 0.09,
+      "tcTip": 0.085,
+      "cli": 0.09212,
+      "family": "eppler",
+      "incidence": 0.2623,
+      "x": -2.3,
+      "z": 0.1,
+      "nHalf": 7
+     },
+     "mainStrut": {
+      "length": 1.1,
+      "chord": 0.1175,
+      "tc": 0.1059,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "rudderStrut": {
+      "length": 1.1,
+      "chord": 0.07508,
+      "tc": 0.1,
+      "family": "naca66",
+      "nSeg": 7
+     },
+     "boat": {
+      "hullMass": 33,
+      "sailorMass": 75,
+      "sailArea": 8.25,
+      "sailCLmax": 1.3,
+      "sailCD0": 0.02,
+      "sailK": 0.115,
+      "ceAboveDeck": 2.1,
+      "deckAboveKeel": 0.3,
+      "windageCdA": 0.48,
+      "rideHeight": 0.72,
+      "sailorZ": 0.35,
+      "hikeMax": 1.35,
+      "sailorXmin": -0.95,
+      "sailorXmax": 0.45,
+      "boatX": -0.1,
+      "boatZ": 0.45,
+      "wandX": 1.45,
+      "wandLength": 1.3,
+      "wandGearing": 0.25,
+      "flapMin": -6.878,
+      "flapMax": 13.196701560522207,
+      "elevMin": -3,
+      "elevMax": 4,
+      "elevLoadTarget": 0.03,
+      "takeoffPitch": 3,
+      "finish": 1,
+      "junctionFactor": 1
+     },
+     "shape": "forward"
+    },
+    "vars": [
+     "main.span",
+     "main.rootChord",
+     "main.incidence",
+     "main.flapFrac",
+     "main.tcRoot",
+     "boat.flapMax",
+     "main.sweep"
+    ],
+    "delta": -0.002523737550663041
+   }
+  }
+ },
+ "gens": 14,
+ "lambda": 10,
+ "bandOrder": [
+  "light",
+  "medium",
+  "strong"
+ ]
+}

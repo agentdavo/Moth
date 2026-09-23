@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Shape gallery</title>
+<style>body{margin:0;background:#0b1219;color:#e6edf3;font:12px Inter,system-ui,sans-serif;padding:14px}
+h1{font-size:15px;margin:0 0 10px;letter-spacing:.06em} .g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.c{background:#101b26;border:1px solid #1f3244;border-radius:8px;padding:8px} .c b{font-size:12px} .c i{color:#9fb0c0;font-size:11px}
+canvas{width:100%;height:190px;display:block} .d{font-family:'JetBrains Mono',monospace;font-size:11px;color:#9fb0c0}
+.pos{color:#7fe0b0}.neg{color:#ff8a8e}</style></head><body>
+<h1>NATURE-INSPIRED MAIN-FOIL SHAPES · medium-wind tournament optima (dashed = re-optimised baseline)</h1><div class="g" id="g"></div>
+<script type="module">
+import { SHAPES } from '/src/physics/shapes.js';
+import { SHAPE_RESULTS } from '/src/physics/shapeResults.js';
+import { drawPlanform } from '/src/ui/planform.js';
+const R = SHAPE_RESULTS, base = R.shapes.baseline.medium.design.main;
+const g = document.getElementById('g');
+for (const [k, sh] of Object.entries(SHAPES)) {
+  if (sh.noApply || !R.shapes[k]) continue;
+  const div = document.createElement('div'); div.className = 'c';
+  const f = (v) => `<span class="${v >= 0.004 ? 'pos' : v <= -0.004 ? 'neg' : ''}">${v >= 0 ? '+' : ''}${v.toFixed(3)}</span>`;
+  const r = R.shapes[k];
+  div.innerHTML = `<b>${sh.label}</b><br><i>${sh.nature}</i><canvas></canvas><div class="d">Δ L ${f(r.light.delta)} · M ${f(r.medium.delta)} · S ${f(r.strong.delta)}</div>`;
+  g.appendChild(div);
+  requestAnimationFrame(() => drawPlanform(div.querySelector('canvas'), r.medium.design.main, k === 'baseline' ? null : base, { title: '' }));
+}
+setTimeout(() => { window.done = true; }, 800);
+</script></body></html>

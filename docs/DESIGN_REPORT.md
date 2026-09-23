@@ -1,18 +1,28 @@
 # Moth Foil Design Report: light, medium and strong wind
 
-*Chief-engineer summary of the Moth Foil Lab studies. Source data: `docs/results/opt-*.json`
+*Chief-engineer summary of the Moth Foil Lab studies (v2). Source data: `docs/results/opt-*.json`
 and `sensitivity-*.json`. Reproduce with `node tools/optimise.mjs <band> 40 12 11`,
 `node tools/sensitivity.mjs <design>` and `node tools/report-tables.mjs`.*
 
-## 1. Headline recommendations
+## 1. Headline recommendations (v2: with the seaway / lull criterion)
 
-1. **Run a two-foil quiver, not three.** The medium and strong optima converge to almost the same main foil: about 630 cm², 820–860 mm span, AR 11–12, with a big flap. The foil that must be different is the **light-air** foil. Its job is to get foiling at 7 kn of true wind: about 945 cm², span as large as the rules and structure allow (~1.2 m, AR 15), and a take-off speed below 9 kn.
-2. **Light air is a threshold problem, not a drag problem.** At 7 kn TWS the light optimum sits exactly on the take-off cliff. Any change that raises take-off speed flips the band from foiling to hull-borne and costs **±1.6 kn of mean VMG**. Examples: +4 mm of strut chord, −32 mm of span, less planform fill. Nothing else in the design space matters as much in any band.
-3. **In medium and strong air, area and span are traded against the ability to foil through manoeuvres.** Smaller is faster in a straight line: every −4.4 mm of root chord is worth about +0.1 kn VMG. The limit is the **minimum flying speed**, which must stay below the ~60% of upwind speed a boat keeps through a tack or gybe. The optimiser therefore buys low-speed lift with a **43–44% chord flap**, not with area.
-4. **Top speed is limited by shedding lift, not by drag.** On the baseline medium foil, the strong-wind downwind VMG is set by the **flap-up stop, camber and incidence** (−0.9 to −1.0 kn per step). The foil runs out of negative flap before it runs out of drive. Optimised foils have lower camber and incidence than the research baselines, and the flap-up stop has to be designed as carefully as the flap-down stop.
-5. **Elevators want S_r/S_m ≈ 0.37–0.48, span ~0.55–0.57 m and 70–82 mm root chord.** The model prefers lower aspect ratio than current production rudders (AR ~9 vs 14–16). The reasons are tip clearance at windward heel with the elevator 0.1 m above the main foil, and tip Reynolds number at take-off. The elevator's induced drag is negligible because it carries only ~3% of the weight. **Gull/anhedral tips** (−12…−16° outboard) keep the tips immersed.
-6. **Struts are stiffness-limited.** At 10.5–12% t/c and 100–120 mm chord, a carbon strut deflects 85–100 mm under the 441 N design side load. Thinner struts save ~0.04 kn per step but fail the stiffness limit, so steel or UHM lower sections are the enabling technology. The rudder strut can drop to 75–80 mm chord.
-7. **Wand gearing has a damping optimum.** Heave/pitch damping peaks at ζ ≈ 0.5 around 0.4–0.6 flap-degrees per wand-degree (1.3 m wand, medium foil at 7.5 m/s). It collapses toward porpoising (ζ < 0.1) above ~3. The strong-wind research baseline (small foil, +7° flap stop) has only ζ = 0.07. The optimised strong foil restores ζ = 0.33.
+v2 adds a flight test at a fixed lull / tack-exit speed (11 kn, 0.3 m head sea) to the objective, plus the generalised planform geometry. Under v1 (steady VPP only), the medium and strong optima shrank to ~630 cm², smaller than current production foils. The seaway criterion moves them to production-like sizes. The v1 results are kept in `docs/results/v1/`.
+
+1. **A two-foil quiver, now at realistic sizes.**
+   - **Foil A (light–medium, ≤ ~11 kn):** 958 cm², span 1.19 m, AR 14.7, foiling from 7.0 kn TWS.
+   - **Foil B (medium–strong, ≥ ~11 kn):** 730 cm², span 0.95 m, AR 12.2, 41% flap.
+   - Cross-evaluation: Foil A is marginally the best medium-wind foil (0.936 vs 0.931). Foil B is clearly the best strong-wind foil (1.051 vs 1.023 for the strong-band optimum, 669 cm²). A third, smaller foil earns nothing in the model.
+2. **Light air is a take-off-threshold problem.** Span and root chord on Foil A are worth ±1.5 kn of mean VMG in 7 kn: the band flips between foiling and hull-borne. Nothing else matters as much.
+3. **Above 11 kn, size is set by lulls and manoeuvres, not straight-line drag.** Smaller is faster in steady flight: each −4.4 mm of root chord gains ~0.1 kn. But with a minimum flying speed near 11 kn the boat touches down in chop and fails the seaway test. The optimiser buys low-speed lift with big flaps (41–44% chord, +14–15° stops) and keeps area around 670–730 cm².
+4. **Top speed is limited by shedding lift.** On the light foil, camber (−0.62 kn), incidence (−0.54 kn) and the flap-up stop (−0.32 kn per step) set strong-wind VMG. Every foil must be able to shed lift, with ≥ −6° flap-up.
+5. **Elevator:** S_r/S_m 0.37–0.51, span 0.55–0.58 m, 69–82 mm root chord, gull tips.
+6. **Struts** stay stiffness-limited (≤ 100 mm deflection needs ≳ 10.5% t/c at 105–118 mm chord). Rudder struts shrink to ~75 mm.
+7. **Wand gearing** peaks in damping around 0.4–0.6 flap° per wand°.
+8. **Nature-inspired shapes** (full study in [`SHAPE_STUDY.md`](SHAPE_STUDY.md)):
+   - **Shark-skin riblets are the only consistent winner:** +1–2% VMG in every band.
+   - Winglets (up or down), gull wings and raked tips tie within optimiser noise.
+   - Tubercles, raptor feather tips, tuna/dolphin crescents, manta and forward sweep lose.
+   - Given every feature at once, the optimiser keeps only riblets.
 
 ## 2. How the numbers were produced
 
@@ -24,58 +34,60 @@ and `sensitivity-*.json`. Reproduce with `node tools/optimise.mjs <band> 40 12 1
 | Aero | North Sails FLOW Moth polar with a depower curve, CE shift and windage CdA 0.48 m². |
 | VPP | 6-DOF trim: flap↔weight, leeway↔side force, elevator rake + sailor fore/aft↔pitch, hiking/depower↔roll, drive = drag. Best VMG over TWA per band. The heel per band comes from the research. |
 | Take-off | Minimum flying speed (flap max, bow-up 3°). The hull-borne hump uses the Beaver & Zseleczky tow-tank fit with foil unloading, times 1.15 for pumping. A band below the take-off threshold is scored hull-borne. |
-| Constraints | Cavitation margin at V_max; divergence ≥ 1.3 V_max; tip deflection ≤ 4.5% b/2 at 2 g; strut ≤ 100 mm at 441 N. Also tip Re ≥ 1.5e5 (main) and 1.2e5 (elevator) at take-off, S_r/S_m ≥ 0.35, tip clearance, strut ventilation, damping ζ ≥ 0.15, and foiling manoeuvres. |
+| Constraints | Seaway test at 11 kn in a 0.3 m head sea (stall, hull touch-down, breach, ride error). Cavitation margin at V_max; divergence ≥ 1.3 V_max; tip deflection ≤ 4.5% b/2 at 2 g; strut ≤ 100 mm at 441 N. Also tip Re ≥ 1.5e5 (main) and 1.2e5 (elevator) at take-off, S_r/S_m ≥ 0.35, tip clearance, strut ventilation, damping ζ ≥ 0.15, and foiling manoeuvres. |
 | Optimiser | sep-CMA-ES, 22 variables, λ = 12, 40 generations (481 full VPP evaluations per study, ~90 s on 4 cores). |
 
 Validation against published data is in the README table. Examples: the 2009 tow-tank T-foil drag breakdown, take-off at 7.5–9.3 kn, and the medium foil at 14.4 / 19.9 kn in 11 kn TWS against the published 14–18 / 19–25 kn.
 
-## 3. Research baselines vs optimised designs
+## 3. Research baselines vs optimised designs (v2)
 
-ᴴ = hull-borne (cannot take off in that band). "Foiling tacks" means the turn speed (0.6 × upwind speed) stays above the minimum flying speed.
+ᴴ = hull-borne (cannot take off in that band). "Foiling tacks" means the turn speed (0.6 × upwind speed) stays above the minimum flying speed. The target-band score includes the seaway penalty.
 
 | | Light (baseline) | ★ Light (opt) | Medium (baseline) | ★ Medium (opt) | Strong (baseline) | ★ Strong (opt) |
 |---|---|---|---|---|---|---|
-| Main span (mm) | 1100 | 1196 | 1000 | 861 | 880 | 822 |
-| Main area (cm²) | 965 | 945 | 803 | 635 | 654 | 627 |
-| Main AR | 12.5 | 15.1 | 12.5 | 11.7 | 11.8 | 10.8 |
-| Root / tip chord (mm) | 115 / 39 | 105 / 40 | 105 / 36 | 99 / 34 | 97 / 33 | 100 / 34 |
-| ¼-chord sweep / twist (°) | 3.0 / -1.5 | 7.8 / -1.0 | 5.0 / -1.0 | 3.0 / -0.0 | 8.0 / -1.5 | 4.7 / -0.2 |
-| Tip dihedral (°) | -3.0 | -6.7 | -3.0 | -5.4 | -2.0 | -6.6 |
-| t/c root → tip (%) | 12.0 → 10.0 | 13.3 → 10.1 | 11.0 → 9.0 | 11.1 → 9.6 | 10.0 → 8.5 | 10.4 → 10.1 |
-| Design c_l | 0.55 | 0.37 | 0.35 | 0.36 | 0.20 | 0.31 |
-| Flap chord / span (%) | 35 / 90 | 31 / 63 | 32 / 90 | 44 / 76 | 28 / 85 | 43 / 88 |
-| Flap stops (°) | -6.0 / +12.0 | -6.2 / +9.9 | -7.0 / +10.0 | -4.3 / +10.7 | -9.0 / +7.0 | -6.9 / +12.9 |
-| Main incidence (°) | 2.5 | 1.3 | 1.5 | 0.4 | 0.5 | 1.2 |
-| Elevator span (mm) / area (cm²) | 780 / 417 | 567 / 354 | 700 / 347 | 553 / 293 | 630 / 289 | 555 / 298 |
-| S_elev / S_main | 0.43 | 0.37 | 0.43 | 0.46 | 0.44 | 0.48 |
-| Main strut chord (mm) / t/c (%) | 110 / 12.5 | 101 / 12.8 | 105 / 12.0 | 115 / 11.2 | 100 / 12.0 | 119 / 10.7 |
-| Rudder strut chord (mm) | 100 | 76 | 95 | 75 | 92 | 80 |
-| **Take-off boat speed (kn)** | 7.5 | 8.9 | 9.3 | 10.6 | 12.9 | 10.4 |
-| **Min. flying speed (kn)** | 7.6 | 9.0 | 9.4 | 10.7 | 13.0 | 10.5 |
-| **Foils from TWS (kn)** | 6.9 | 7.0 | 7.6 | 7.8 | 8.8 | 8.0 |
-| light VMG up / down (kn) | 6.2 / 5.1 | **6.6 / 6.5** | 3.4ᴴ / 3.2ᴴ | 3.5ᴴ / 3.3ᴴ | 3.5ᴴ / 3.3ᴴ | 3.4ᴴ / 3.2ᴴ |
-| light boat speed up / down (kn) | 11.8 / 12.4 | 12.2 / 13.9 | 4.7 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 |
+| Main span (mm) | 1100 | 1188 | 1000 | 945 | 880 | 818 |
+| Main area (cm²) | 965 | 958 | 803 | 730 | 654 | 669 |
+| Main AR | 12.5 | 14.7 | 12.5 | 12.2 | 11.8 | 10.0 |
+| Root / tip chord (mm) | 115 / 39 | 109 / 40 | 105 / 36 | 101 / 38 | 97 / 33 | 111 / 37 |
+| ¼-chord sweep / twist (°) | 3.0 / -1.5 | 9.0 / -1.1 | 5.0 / -1.0 | 3.4 / 0.2 | 8.0 / -1.5 | 1.4 / 0.1 |
+| Tip dihedral (°) | -3.0 | -6.7 | -3.0 | -4.8 | -2.0 | -4.0 |
+| t/c root → tip (%) | 12.0 → 10.0 | 12.3 → 10.2 | 11.0 → 9.0 | 10.9 → 10.0 | 10.0 → 8.5 | 9.5 → 8.7 |
+| Design c_l | 0.55 | 0.45 | 0.35 | 0.37 | 0.20 | 0.34 |
+| Flap chord / span (%) | 35 / 90 | 35 / 62 | 32 / 90 | 41 / 95 | 28 / 85 | 44 / 96 |
+| Flap stops (°) | -6.0 / +12.0 | -6.9 / +10.2 | -7.0 / +10.0 | -6.4 / +14.7 | -9.0 / +7.0 | -6.9 / +14.9 |
+| Main incidence (°) | 2.5 | 1.0 | 1.5 | 0.9 | 0.5 | 1.9 |
+| Elevator span (mm) / area (cm²) | 780 / 421 | 552 / 356 | 700 / 352 | 580 / 347 | 630 / 294 | 565 / 341 |
+| S_elev / S_main | 0.44 | 0.37 | 0.44 | 0.48 | 0.45 | 0.51 |
+| Main strut chord (mm) / t/c (%) | 110 / 12.5 | 103 / 12.6 | 105 / 12.0 | 118 / 11.2 | 100 / 12.0 | 118 / 10.6 |
+| Rudder strut chord (mm) | 100 | 75 | 95 | 77 | 92 | 75 |
+| **Take-off boat speed (kn)** | 7.5 | 8.6 | 9.3 | 9.2 | 12.9 | 9.5 |
+| **Min. flying speed (kn)** | 7.6 | 8.7 | 9.4 | 9.3 | 13.0 | 9.6 |
+| **Foils from TWS (kn)** | 6.9 | 7.0 | 7.6 | 7.7 | 8.8 | 8.1 |
+| light VMG up / down (kn) | 6.2 / 5.2 | 6.6 / 6.6 | 3.4ᴴ / 3.2ᴴ | 3.4ᴴ / 3.2ᴴ | 3.5ᴴ / 3.2ᴴ | 3.4ᴴ / 3.2ᴴ |
+| light boat speed up / down (kn) | 11.7 / 12.5 | 12.2 / 14.0 | 4.6 / 3.3 | 4.6 / 3.3 | 4.6 / 3.3 | 4.5 / 3.3 |
 | light foiling tacks | ✗ | ✗ | – | – | – | – |
-| medium VMG up / down (kn) | 9.3 / 10.6 | 9.7 / 13.2 | 9.8 / 14.1 | **10.0 / 15.5** | 8.2 / 15.1 | 9.9 / 15.2 |
-| medium boat speed up / down (kn) | 13.5 / 14.5 | 14.3 / 19.2 | 15.0 / 19.8 | 15.3 / 20.7 | 18.8 / 20.6 | 15.2 / 20.5 |
+| medium VMG up / down (kn) | 9.3 / 10.6 | 9.7 / 13.1 | 9.8 / 14.1 | 9.9 / 14.7 | 8.2 / 15.2 | 9.8 / 14.9 |
+| medium boat speed up / down (kn) | 13.6 / 14.6 | 14.0 / 19.2 | 14.5 / 19.9 | 15.1 / 20.2 | 18.8 / 20.7 | 15.1 / 20.4 |
 | medium foiling tacks | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
-| strong VMG up / down (kn) | 10.3 / 13.1 | 11.1 / 16.6 | 11.4 / 21.2 | **12.9 / 22.8** | 10.8 / 22.7 | 11.6 / 22.6 |
-| strong boat speed up / down (kn) | 13.3 / 14.8 | 15.8 / 19.8 | 20.6 / 26.0 | 19.2 / 27.3 | 20.1 / 27.2 | 17.2 / 27.1 |
-| strong foiling tacks | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ |
-| V_max (kn) | 14.8 | 19.8 | 26.0 | 27.3 | 27.2 | 27.1 |
-| Cavitation margin at V_max | 2.27 | 1.03 | 0.22 | 0.13 | 0.36 | 0.33 |
-| Divergence speed (kn) | 48 | 48 | 44 | 46 | 43 | 51 |
-| Tip deflection 2 g (% b/2) | 2.8 | 4.1 | 4.4 | 4.2 | 6.1 | 3.8 |
-| Strut deflection (mm) | 72 | 97 | 102 | 89 | 120 | 84 |
-| Heave/pitch damping ζ | 0.35 | 0.30 | 0.35 | 0.34 | 0.07 | 0.33 |
-| Target-band score | 0.665 | 0.900 | 0.835 | 0.941 | 0.863 | 1.033 |
+| strong VMG up / down (kn) | 10.4 / 13.1 | 11.1 / 16.5 | 11.4 / 21.2 | 12.5 / 21.8 | 10.8 / 22.7 | 11.5 / 22.2 |
+| strong boat speed up / down (kn) | 13.4 / 14.8 | 16.1 / 19.7 | 20.6 / 26.0 | 19.8 / 26.6 | 20.1 / 27.2 | 17.2 / 26.9 |
+| strong foiling tacks | ✓ | ✓ | ✓ | ✓ | ✗ | ✓ |
+| V_max (kn) | 14.8 | 19.7 | 26.0 | 26.6 | 27.2 | 26.9 |
+| Cavitation margin at V_max | 2.26 | 0.81 | 0.23 | 0.01 | 0.35 | 0.18 |
+| Divergence speed (kn) | 48 | 47 | 44 | 44 | 43 | 42 |
+| Tip deflection 2 g (% b/2) | 2.8 | 4.4 | 4.4 | 4.5 | 6.1 | 3.8 |
+| Strut deflection (mm) | 72 | 92 | 102 | 80 | 120 | 92 |
+| Heave/pitch damping ζ | 0.36 | 0.31 | 0.36 | 0.37 | 0.08 | 0.35 |
+| Target-band score | 0.666 | 0.907 | 0.813 | 0.931 | 0.715 | 1.023 |
 
 Notes:
-- The **optimised medium foil is the best strong-wind foil as well**: 12.9 / 22.8 kn VMG against 11.6 / 22.6 for the optimised strong foil. It carries a 44% flap and a +10.7° stop, so it keeps foiling through lulls. It gives up the light band, which it could not reach anyway (7.8 kn threshold).
-- The **optimised strong foil** trades ~1 kn of upwind VMG for a stiffer, better-damped foil. It has the highest divergence margin (51 kn) and ζ 0.33 against 0.07 for the baseline. Choose it for waves and gusts, which the steady VPP rewards less than a sailor does.
-- The light baseline foils in 7 kn but is overpowered in breeze: its V_max is 14.8 kn, limited by the flap-up stop. The light optimum gains +0.4 kn upwind and +1.4 kn downwind VMG in 7 kn through more span (AR 15) and a smaller elevator and struts. With less camber (c_l 0.37 vs 0.55) and incidence (1.3° vs 2.5°) it also reaches 19.8 kn.
+- The **strong-band optimum (669 cm²)** has the best tack margin but gives up upwind VMG. Foil B (the medium optimum) beats it on the strong target (1.051 vs 1.023). Choose the strong foil only if waves and gusts are expected to be more severe than the 0.3 m seaway test.
+- The light baseline foils in 7 kn but is overpowered in breeze: V_max is 14.8 kn, limited by the flap-up stop. The light optimum lowers camber and incidence and reaches 19.7 kn.
+- With riblets (the "🧬 chimera" presets in the app), scores rise by +0.022 / +0.009 / +0.012.
 
 ## 4. Design decisions, quantified
+
+*The tables below were computed on the v1 optima (`docs/results/v1/sensitivity-*.json`). The v2 sensitivities (`docs/results/sensitivity-opt-*.json`) keep the same ranking: root chord and span first, then elevator size, strut thickness, camber and incidence. The one new effect is that the light foil's strong-wind VMG is now visibly camber/incidence-limited (−0.62 / −0.54 kn per step).*
 
 Central-difference sensitivities (±8% of each variable's range) of mean VMG = ½(up + down VMG). Full tables are in `docs/results/sensitivity-*.json`.
 
@@ -122,7 +134,7 @@ Central-difference sensitivities (±8% of each variable's range) of mean VMG = �
 
 ## 5. What the model does not capture (and which way it biases)
 
-- **Unsteady wave loads, gust response and sailor skill:** these favour bigger area and elevators than the steady optimum. The manoeuvre criterion (0.6 × upwind speed) is an estimate; raise it to push toward bigger medium foils.
+- **Unsteady loads:** v2 includes a heave/pitch seaway test (0.3 m head sea at 11 kn), but only one sea state, a constant boat speed and no roll or yaw dynamics. The manoeuvre criterion (0.6 × upwind speed) is an estimate. Sailor skill (pumping, heel control) is not modelled.
 - **Tip-vortex cavitation and hinge-gap cavitation** are not modelled. The low tip twist chosen by the optimiser would need checking with a panel method or CFD.
 - **Section polars are semi-empirical.** Laminar extent in real sea water (Ncrit ≈ 4) is uncertain. The surface-finish factor is exposed in the app.
 - **LBM section CFD** runs at lattice Re ~10³–10⁴. Use it for flow topology (flap separation, wake), not for absolute Cd.

@@ -130,9 +130,13 @@ export class MothScene {
     const colorFrom = (surf) => {
       const ss = strips.filter((s) => s.surf === surf);
       if (!ss.length) return null;
-      return (eta, yb) => {
+      return (pb) => {
         let best = ss[0], bd = 1e9;
-        for (const s of ss) { const d = Math.abs(s.yb - yb); if (d < bd) { bd = d; best = s; } }
+        for (const s of ss) {
+          const q = s.pb || [0, s.yb, 0];
+          const d = (q[0] - pb[0]) ** 2 + (q[1] - pb[1]) ** 2 + (q[2] - pb[2]) ** 2;
+          if (d < bd) { bd = d; best = s; }
+        }
         if (colorMode === 'cav') return ramp(1 - Math.min(1, Math.max(0, best.cav) / 1.2));
         if (colorMode === 'cp') return ramp(Math.min(1, -best.cp / 0.9));
         return ramp(Math.abs(best.stall));
@@ -142,8 +146,8 @@ export class MothScene {
     const elevRot = (detail?.elev ?? 0);
     const elevG = foilGeometry({ ...e, incidence: (e.incidence || 0) + elevRot }, e.x, e.z || 0, { colorFn: colorFrom('elev') });
     const mstrutFn = colorFrom('mstrut'), rstrutFn = colorFrom('rstrut');
-    const sG = strutGeometry(design.mainStrut, m.rootChord * 0.25 + 0.0, 0, { colorFn: mstrutFn ? (t) => mstrutFn(t, 0) : null });
-    const rG = strutGeometry(design.rudderStrut, e.x + e.rootChord * 0.25, e.z || 0, { colorFn: rstrutFn ? (t) => rstrutFn(t, 0) : null });
+    const sG = strutGeometry(design.mainStrut, m.rootChord * 0.25 + 0.0, 0, { colorFn: mstrutFn ? (t) => mstrutFn([0, 0, t * design.mainStrut.length]) : null });
+    const rG = strutGeometry(design.rudderStrut, e.x + e.rootChord * 0.25, e.z || 0, { colorFn: rstrutFn ? (t) => rstrutFn([e.x, 0, (e.z || 0) + t * design.rudderStrut.length]) : null });
     for (const g of [mainG, elevG, sG, rG]) B.add(new THREE.Mesh(g, this.mats.foil));
     // hull + deck gear
     const keel = L;

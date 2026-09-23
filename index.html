@@ -40,6 +40,7 @@
           <button data-tab="sim">Flight sim · wand</button>
           <button data-tab="opt">Optimiser</button>
           <button data-tab="sweep">Design space · GPU</button>
+          <button data-tab="shapes">Shape lab 🐋</button>
           <button data-tab="sens">Sensitivity</button>
           <button data-tab="decisions">Design decisions</button>
         </nav>
@@ -99,6 +100,13 @@
             </div>
             <canvas id="swHeat" class="wide"></canvas>
             <canvas id="swCurve" class="narrow"></canvas>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-shapes">
+          <div class="shapes-wrap">
+            <div class="shape-list" id="shapeList"></div>
+            <canvas id="planformCanvas" class="wide"></canvas>
+            <div class="shape-results"><canvas id="shapeBars" class="wide"></canvas><div class="cfd-readout" id="shapeReadout"></div></div>
           </div>
         </div>
         <div class="tabpane" id="tab-sens">

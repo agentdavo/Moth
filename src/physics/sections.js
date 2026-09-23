@@ -63,15 +63,50 @@ export function flapEta(deltaRad) {
 // Section lift slope per radian, incl. thickness (+) and viscous (-) corrections.
 export function liftSlope2D(tc) { return 2 * Math.PI * (1 + 0.77 * tc) * 0.9; }
 
-export function sectionProps(sec) {
+// Humpback-whale leading-edge tubercles (amplitude A = amplitude / chord, wavelength W = lambda/c).
+// Fits to Johari et al. 2007 (Re 1.8e5) etc., docs/research/BIOINSPIRED_FOILS.md §1:
+//   lift slope x (1 - A k), c_lmax x max(0.75, 1 - kL A k) with kL = 2.4 (W 0.25) .. 3.0 (W 0.5),
+//   post-stall plateau 0.83 (A < 0.1) / 0.72 x base c_lmax, dCd0 = 0.0025 sqrt(1.8e5/Re),
+//   cavitation: -Cp_min in the troughs x (1 + 2.5 A);  k = Reynolds fade (1 at 1.8e5 -> 0.3 at 1e6).
+export function tubercleReFade(re) { return Math.min(1, Math.max(0.3, 1 - 0.7 * (re - 1.8e5) / (1e6 - 1.8e5))); }
+export function tubercleEffects(A, W = 0.3, re = 4e5) {
+  if (!(A > 0)) return { slope: 1, clmax: 1, dcd: 0, cp: 1, plateau: 0 };
+  const k = tubercleReFade(re);
+  const kL = 2.4 + 0.6 * Math.min(1, Math.max(0, (W - 0.25) / 0.25));
+  return {
+    slope: 1 - A * k,
+    clmax: Math.max(0.75, 1 - kL * A * k),
+    dcd: 0.0025 * Math.sqrt(1.8e5 / Math.max(re, 5e4)),
+    cp: 1 + 2.5 * A,
+    plateau: A < 0.1 ? 0.83 : 0.72,
+  };
+}
+
+export function sectionProps(sec, re = 4e5) {
   const f = FAMILIES[sec.family] || FAMILIES.eppler;
   const tc = sec.tc;
   const cli = sec.cli;
   const a0 = liftSlope2D(tc);
   const alpha0 = -cli / (2 * Math.PI);             // a=1.0 mean line zero-lift angle
-  const clmax = f.clmaxK * (0.72 + 4.2 * tc + 0.45 * cli);
-  const clmin = -f.clmaxK * (0.72 + 4.2 * tc - 0.45 * cli);
-  return { f, tc, cli, a0, alpha0, clmax, clmin };
+  let clmax = f.clmaxK * (0.72 + 4.2 * tc + 0.45 * cli);
+  let clmin = -f.clmaxK * (0.72 + 4.2 * tc - 0.45 * cli);
+  const T = tubercleEffects(sec.tub || 0, sec.tubWave, re);
+  clmax *= T.clmax; clmin *= T.clmax;
+  // swept (crescent / raked) strips stall earlier: c_lmax x cos(local sweep)
+  if (sec.sweepLocal) { clmax *= Math.cos(sec.sweepLocal); clmin *= Math.cos(sec.sweepLocal); }
+  return { f, tc, cli, a0, alpha0, clmax, clmin, tub: sec.tub || 0, T };
+}
+
+// Shark-skin riblets: change of turbulent skin friction vs riblet spacing in wall units
+// s+ = s u_tau / nu (Bechert et al. 1997 blade-riblet curve, see research doc).
+// Blade-riblet curve (Bechert 1997, digitised); commercial trapezoid films reach ~0.83 of it.
+const RIBLET_CURVE = [[0, 0], [5, -0.035], [10, -0.07], [15, -0.095], [17, -0.099], [20, -0.09], [25, -0.05], [30, 0], [35, 0.04], [40, 0.08], [60, 0.15]];
+export const RIBLET_FILM = 0.83;
+export function ribletFactor(splus) {
+  const t = RIBLET_CURVE;
+  if (splus <= 0) return 1;
+  for (let i = 1; i < t.length; i++) if (splus <= t[i][0]) { const u = (splus - t[i - 1][0]) / (t[i][0] - t[i - 1][0]); const d = t[i - 1][1] + u * (t[i][1] - t[i - 1][1]); return 1 + (d < 0 ? RIBLET_FILM * d : d); }
+  return 1 + t[t.length - 1][1];
 }
 
 // Transition location vs. distance from the bucket centre.
@@ -93,12 +128,23 @@ export function transition(f, dcl, finish = 1) {
  * @param finish   surface finish multiplier on laminar run (1 = mirror, 0.5 = sanded 400 grit ...)
  */
 export function sectionCd(sec, cl, re, dclFlap = 0, deltaRad = 0, finish = 1) {
-  const p = sectionProps(sec);
+  const p = sectionProps(sec, re);
   const centre = p.cli + 0.8 * dclFlap;          // cambering flap shifts the bucket
   const dcl = cl - centre;
   const xtr = transition(p.f, dcl, finish);
   const ff = 1 + 2 * p.tc + 60 * Math.pow(p.tc, 4); // Hoerner form factor
-  let cd = 2 * cfMixed(re, xtr) * ff;
+  let cf = cfMixed(re, xtr);
+  if (sec.rib > 0 && sec.chord > 0) {
+    // riblets act on the turbulent part only (applied aft of transition)
+    const V = re * NU_WATER / sec.chord;
+    const utau = V * Math.sqrt(cfTurb(re) / 2);
+    const splus = sec.rib * 1e-6 * utau / NU_WATER;
+    const turb = cfTurb(re) - xtr * cfTurb(Math.max(re * xtr, 1e3));
+    cf += turb * (ribletFactor(splus) - 1);
+  }
+  let cd = 2 * cf * ff;
+  cd += p.T.dcd;
+  if (sec.slotDrag) cd += sec.slotDrag;
   cd += 0.0035 * dcl * dcl;                         // pressure drag growth with off-design lift
   if (dclFlap !== 0 || deltaRad !== 0 || sec.flapped) {
     // flap gap increment (Wenzinger & Harris 1939): 0.0012 below cl 0.6 -> 0.0022 at cl 1.0
@@ -121,7 +167,7 @@ export function sectionCpMin(sec, cl, dclFlap = 0, deltaRad = 0) {
   const vle = f.kLE * Math.abs(cl - design) * Math.sqrt(0.12 / Math.max(p.tc, 0.05)) * 0.9;
   const vflap = 0.35 * Math.abs(deltaRad);
   const v = vt + vl + vle + vflap;
-  return 1 - v * v;
+  return (1 - v * v) * p.T.cp; // tubercle troughs: suction peak x (1 + 2.5 A)
 }
 
 /** Cavitation number at depth h (m) and speed V (m/s). */
