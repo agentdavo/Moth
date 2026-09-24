@@ -3,6 +3,17 @@
 A WebGPU / Three.js engineering lab for designing and optimising **International Moth** hydrofoils:
 the main T-foil, the rudder elevator and both surface-piercing struts. It covers light, medium and strong wind.
 
+The repo also holds three companion tools that share the physics and the log format:
+
+| Page / folder | What it is | Docs |
+|---|---|---|
+| `index.html` | **Moth Foil Lab**: foil physics, VPP, flight dynamics, optimiser, shape lab, riblet sizing | this README, [`docs/DESIGN_REPORT.md`](docs/DESIGN_REPORT.md), [`docs/RIBLET_EVIDENCE.md`](docs/RIBLET_EVIDENCE.md) |
+| `iom.html` | **IOM Keel Lab**: International One Metre statics, low-Re resistance, VPP, bulb-shape study, keel/rudder optimiser, polar export | [`docs/IOM_LAB.md`](docs/IOM_LAB.md), [`docs/research/IOM_RESEARCH.md`](docs/research/IOM_RESEARCH.md) |
+| `analysis.html` | **Sail Log Analysis**: legs, tacks/gybes and losses, measured polars vs model, paired A/B tests with confidence intervals | [`docs/ANALYSIS.md`](docs/ANALYSIS.md) |
+| `hardware/logger/` | **Datalogger**: ESP32-S3 + BNO085 + u-blox M10 + microSD firmware (PlatformIO), wiring, BOM (~£70, ~21 g), install and calibration | [`hardware/logger/README.md`](hardware/logger/README.md), log format [`docs/LOG_FORMAT.md`](docs/LOG_FORMAT.md) |
+
+The loop: design in a lab → log the real boat → compare measured polars with the model and A/B-test changes (riblet film, bulbs) in the analysis page.
+
 ![Moth Foil Lab](docs/screenshots/01-main.png)
 
 ```
@@ -11,7 +22,12 @@ npm run dev        # http://127.0.0.1:5173  (Chrome/Edge with WebGPU; falls back
 npm test           # physics unit + validation tests (node --test)
 node tools/optimise.mjs medium 40 12    # offline CMA-ES study -> docs/results/opt-medium.json
 node tools/shape-tournament.mjs 14 10  # nature-inspired planform tournament -> docs/results/shape-tournament.json
+node tools/synth-log.mjs --kind moth --minutes 20 --seed 3 --out /tmp/x.csv   # synthetic sail-log v1 file
+node tools/iom-bulb-study.mjs          # IOM bulb fineness x cross-section study -> docs/results/iom/
+pio run -d hardware/logger             # datalogger firmware (PlatformIO); host tests: make -C hardware/logger/test_host
 ```
+
+`npm run dev` serves all three pages (`/`, `/iom.html`, `/analysis.html`); `npm run build` builds them together.
 
 ## What is in it
 
