@@ -1,0 +1,33 @@
+# sail-log config (see hardware/logger/README.md). key = value; lines starting with # are comments
+boat = unnamed
+class = IOM
+rate_hz = 50
+fsync_s = 5
+# IMU: sensor axes in boat terms (fwd/aft, stbd/port, down/up)
+imu_mount = x_fwd_y_port_z_up
+imu_fusion = rv
+yaw_trim_deg = 0
+# magnetic declination, east positive; leave empty to log magnetic heading
+declination_deg =
+level_at_boot = 0
+gnss_rate = 10
+gnss_baud = 115200
+gnss_latency_ms = 40
+# receiver channels wired to the logger: rudder,sheet,aux1,aux2
+channels = rudder,sheet
+rudder_center_us = 1500
+rudder_deg_per_us = 0.09
+sheet_in_us = 1100
+sheet_out_us = 1900
+aux1_name = aux1
+aux2_name = aux2
+pulse_min_us = 800
+pulse_max_us = 2200
+# event marker from a transmitter switch: none, aux1 or aux2
+event_channel = none
+event_threshold_us = 1700
+vbat_scale = 3.128
+vbat_stop = 0
+sport_enable = 0
+sport_id = 12
+vmg_bearing_deg =
