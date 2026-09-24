@@ -1,6 +1,6 @@
 // Minimal-span open-channel simulation with riblets: D3Q19 lattice Boltzmann, regularised BGK,
 // Guo body force, OpenMP. Used to check the riblet drag-reduction claim from first principles.
-// Resolution is DNS-like (dx+ = 2); a small Smagorinsky term (Cs = CS env, default 0.1, van Driest damped,
+// Resolution is DNS-like (dx+ = 2); a small Smagorinsky term (Cs = CS env, default 0.07, van Driest damped,
 // zero at the wall) keeps tau ~ 0.509 stable, so strictly this is a wall-resolved LES.
 // Populations are stored as deviations from the rest weights (f - w_i) for float32 precision.
 //
@@ -74,17 +74,33 @@ int main(int argc, char **argv) {
     fclose(fr);
     fprintf(stderr, "restarted at step %ld\n", step0);
   } else {
-    // Mean profile (Reichardt) + streaks, quasi-streamwise vortices and noise to trigger turbulence.
+    // Mean profile (Reichardt) + a finite-amplitude trigger: multi-mode quasi-streamwise vortices from a
+    // stream function psi(y,z) a(x) (divergence-free: v = psi_z a, w = -psi_y a), streaks and noise.
+    // A weak single-mode trigger relaminarises at Re_tau 180; this one reaches ~3 u_tau near y+ 30.
+    enum { MZ = 4, MX = 3 };
+    double phz[MZ][MX], phx[MZ][MX], phs[MZ];
+    for (int m = 0; m < MZ; m++) { phs[m] = 2 * M_PI * urand(); for (int n = 0; n < MX; n++) { phz[m][n] = 2 * M_PI * urand(); phx[m][n] = 2 * M_PI * urand(); } }
+    const double del = 15 * nu / uTau; // phi(y) = (y/del)^2 exp(2 - y/del) / 4, peak 1 at y = 2 del (y+ 30)
+    const double TRIG = getenv("TRIG") ? atof(getenv("TRIG")) : 3.0;
     for (int y = 0; y < NY; y++) for (int z = 0; z < NZ; z++) for (int x = 0; x < NX; x++) {
       size_t c = IDX(x, y, z);
       double yy = (y + 0.5 - tip); if (yy < 0.2) yy = 0.2;
       double yp = yy * uTau / nu;
       double Up = 2.5 * log(1 + 0.4 * yp) + 7.8 * (1 - exp(-yp / 11) - yp / 11 * exp(-yp / 3));
-      double eta = yy / H;
-      double ph = 2 * M_PI * z / NZ, px = 2 * M_PI * x / NX;
-      double u = uTau * (Up + 3.0 * sin(M_PI * eta) * cos(2 * ph) * (1 + 0.5 * sin(px)) + 1.5 * (urand() - 0.5));
-      double v = uTau * (1.5 * sin(M_PI * eta) * sin(2 * ph) * cos(px) + 1.0 * (urand() - 0.5));
-      double w = uTau * (-1.5 * cos(M_PI * eta) * cos(2 * ph) * cos(px) + 1.0 * (urand() - 0.5));
+      double q = yy / del, phi = q * q * exp(2 - q) / 4, dphi = (2 * q - q * q) * exp(2 - q) / (4 * del);
+      double u = uTau * Up, v = 0, w = 0;
+      for (int m = 0; m < MZ; m++) {
+        double kz = 2 * M_PI * (m + 1) / NZ;
+        u += uTau * TRIG * 0.6 * (q * exp(1 - q)) * cos(kz * z + phs[m]) / sqrt(MZ);
+        for (int n = 0; n < MX; n++) {
+          double kx = 2 * M_PI * (n + 1) / NX;
+          double a = 1 + 0.6 * sin(kx * x + phx[m][n]);
+          double A = uTau * TRIG / (kz * sqrt(MZ * MX));
+          v += A * phi * kz * cos(kz * z + phz[m][n]) * a;
+          w += -A * dphi * sin(kz * z + phz[m][n]) * a;
+        }
+      }
+      u += uTau * 1.0 * (urand() - 0.5); v += uTau * 0.5 * (urand() - 0.5); w += uTau * 0.5 * (urand() - 0.5);
       if (solid[y * NZ + z]) u = v = w = 0;
       double uu = u * u + v * v + w * w;
       for (int i = 0; i < Q; i++) {
@@ -102,7 +118,7 @@ int main(int argc, char **argv) {
   FILE *ts = fopen(fn, restart ? "a" : "w");
   double t0 = omp_get_wtime();
   const float gf = (float)g, tau0 = (float)tau;
-  const double CS = getenv("CS") ? atof(getenv("CS")) : 0.1;
+  const double CS = getenv("CS") ? atof(getenv("CS")) : 0.07;
   (void)omega;
   const int yMon = tip + 8; // monitor row, y+ ~ 17
 
