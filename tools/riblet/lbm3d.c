@@ -166,7 +166,9 @@ int main(int argc, char **argv) {
           const float qxx = cx[i] * cx[i] - 1.f / 3, qyy = cy[i] * cy[i] - 1.f / 3, qzz = cz[i] * cz[i] - 1.f / 3;
           const float fneq = 4.5f * wq[i] * (qxx * Pxx + qyy * Pyy + qzz * Pzz + 2 * (cx[i] * cy[i] * Pxy + cx[i] * cz[i] * Pxz + cy[i] * cz[i] * Pyz));
           const float cu = cx[i] * ux + cy[i] * uy + cz[i] * uz;
-          const float Fi = fpref * wq[i] * (3 * (cx[i] - ux) + 9 * cu * cx[i]) * gf;
+          // Guo forcing. The regularisation projects out the first moment of f - feq (= -F/2), which BGK keeps;
+          // restore it so the collision adds exactly F per step (without it only (3 - omega)/2 of F is applied).
+          const float Fi = fpref * wq[i] * (3 * (cx[i] - ux) + 9 * cu * cx[i]) * gf - 1.5f * (1 - om) * wq[i] * cx[i] * gf;
           B[(size_t)i * N + c] = feq[i] + (1 - om) * fneq + Fi - wq[i];
         }
         rowU += ux;
