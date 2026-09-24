@@ -104,11 +104,17 @@ const RIBLET_CURVE = [[0, 0], [5, -0.035], [10, -0.07], [15, -0.095], [17, -0.09
 export let RIBLET_FILM = 0.83;
 /** Sensitivity studies only: scale factor of a real film relative to the ideal blade curve. */
 export function setRibletFilm(k) { RIBLET_FILM = k; }
-export function ribletFactor(splus) {
+/** Ideal blade-riblet change of turbulent C_f (fraction, negative = reduction) at spacing s+. */
+export function ribletCurve(splus) {
   const t = RIBLET_CURVE;
-  if (splus <= 0) return 1;
-  for (let i = 1; i < t.length; i++) if (splus <= t[i][0]) { const u = (splus - t[i - 1][0]) / (t[i][0] - t[i - 1][0]); const d = t[i - 1][1] + u * (t[i][1] - t[i - 1][1]); return 1 + (d < 0 ? RIBLET_FILM * d : d); }
-  return 1 + t[t.length - 1][1];
+  if (splus <= 0) return 0;
+  for (let i = 1; i < t.length; i++) if (splus <= t[i][0]) { const u = (splus - t[i - 1][0]) / (t[i][0] - t[i - 1][0]); return t[i - 1][1] + u * (t[i][1] - t[i - 1][1]); }
+  return t[t.length - 1][1];
+}
+/** Turbulent C_f multiplier for a real film (reductions scaled by the film factor, penalties not). */
+export function ribletFactor(splus, film = RIBLET_FILM) {
+  const d = ribletCurve(splus);
+  return 1 + (d < 0 ? film * d : d);
 }
 
 // Transition location vs. distance from the bucket centre.

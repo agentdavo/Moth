@@ -1,6 +1,6 @@
 // Moth Foil Lab: application controller.
 import { PRESETS, WIND_BANDS, DESIGN_VARS, cloneDesign, encode, decode, getPath } from './physics/design.js';
-import { planformStats, tcAt } from './physics/geometry.js';
+import { planformStats, tcAt, chordAt } from './physics/geometry.js';
 import { liftSlope2D, reynolds, FAMILIES } from './physics/sections.js';
 import { KNOT, DEG } from './physics/constants.js';
 import { SepCMAES, paretoInsert } from './physics/optimizer.js';
@@ -12,6 +12,7 @@ import { SHAPE_RESULTS } from './physics/shapeResults.js';
 import { drawPlanform } from './ui/planform.js';
 import { lineChart, barList, polarChart, scatter, heatmap, divergingBars } from './ui/charts.js';
 import { renderDecisions } from './ui/decisions.js';
+import { splusAt, dCfPercent, bestSpacing, meanDCf, S_PLUS_OPT } from './physics/riblet.js';
 import { MothScene } from './render/scene.js';
 import { LBMSolver } from './gpu/lbm.js';
 import { GPUSweep, levelFlightDrag, cpuSolve } from './gpu/sweep.js';
@@ -261,7 +262,7 @@ wireTabs($('dockTabs'), 'tab-', 'tabpane');
 wireTabs($('rightTabs'), 'r-', 'rpane');
 let activeTab = 'cfd';
 function onTab(t) {
-  if (['cfd', 'sim', 'opt', 'sweep', 'sens', 'shapes', 'decisions'].includes(t)) activeTab = t;
+  if (['cfd', 'sim', 'opt', 'sweep', 'sens', 'shapes', 'riblets', 'decisions'].includes(t)) activeTab = t;
   if (t === 'loads' && state.detail) renderDetail(state.detail);
   if (t === 'margins' && state.detail) renderDetail(state.detail);
   if (t === 'perf' && state.evalRes) renderEval(state.evalRes, state.polars);
@@ -270,6 +271,7 @@ function onTab(t) {
   if (t === 'sim' && simResult) drawSim(simResult);
   if (t === 'sens' && sens.rows) drawSens();
   if (t === 'shapes') drawShapeLab();
+  if (t === 'riblets') drawRiblets();
 }
 window.__moth.tab = (t) => document.querySelector(`[data-tab="${t}"]`)?.click();
 renderDecisions($('decisions'));
@@ -507,6 +509,46 @@ function drawSweep() {
   });
   drawSweepReadout();
 }
+
+// ---------------------------------------------------------------- riblet sizing
+const RIB_IDS = ['ribS', 'ribC', 'ribX', 'ribU', 'ribF'];
+for (const id of RIB_IDS) $(id).oninput = () => { $(id + 'Out').textContent = $(id).value; drawRiblets(); };
+let ribChordFrom = null;
+function drawRiblets() {
+  // follow the loaded design's mean main-foil chord until the user moves the chord slider
+  if (state.design && ribChordFrom !== state.design && document.activeElement !== $('ribC')) {
+    ribChordFrom = state.design;
+    const c = Math.round(chordAt(state.design.main, 0.5) * 1000);
+    $('ribC').value = c; $('ribCOut').textContent = c;
+  }
+  const s = +$('ribS').value, c = +$('ribC').value / 1000, xc = +$('ribX').value, ue = +$('ribU').value, film = +$('ribF').value;
+  const kn = Array.from({ length: 61 }, (_, i) => 5 + i * 0.5);
+  const ms = kn.map((k) => k * KNOT);
+  const pal = ['#3987e5', '#199e70', '#d95926', '#8250df'];
+  lineChart($('ribSplus'), {
+    series: [0.3, 0.5, 0.8].map((x, i) => ({ label: `x/c ${x}`, color: pal[i], x: kn, y: ms.map((V) => splusAt(s, V, c, x, ue)) })),
+    xlabel: 'boat speed (kn)', ylabel: `s+ for ${s} µm`, fmtX: (v) => v.toFixed(0), hline: { y: S_PLUS_OPT, label: 'optimum s+ ≈ 15', color: '#6e7781' }, fmtY: (v) => v.toFixed(0),
+  });
+  const spacings = [...new Set([20, 30, 40, 60, s])].sort((a, b) => a - b);
+  lineChart($('ribDcf'), {
+    series: spacings.map((sp, i) => ({ label: `${sp}`, color: sp === s ? '#e6edf3' : pal[i % pal.length], width: sp === s ? 3 : 1.6, dash: sp === s ? [] : [5, 3], x: kn, y: ms.map((V) => dCfPercent(sp, V, c, xc, ue, film)) })),
+    xlabel: 'boat speed (kn)', ylabel: 'ΔC_f turbulent (%) · lines = spacing µm', zeroLine: true, fmtX: (v) => v.toFixed(0), fmtY: (v) => v.toFixed(0),
+  });
+  lineChart($('ribBest'), {
+    series: [0.3, 0.5, 0.8].map((x, i) => ({ label: `x/c ${x}`, color: pal[i], x: kn, y: ms.map((V) => bestSpacing(V, c, x, ue)) })),
+    xlabel: 'boat speed (kn)', ylabel: 'spacing for s+ = 15 (µm)', fmtX: (v) => v.toFixed(0), hline: { y: s, label: `your film ${s} µm`, color: '#e6edf3' }, fmtY: (v) => v.toFixed(0),
+  });
+  const bands = [['light air 8–14 kn', 8, 14], ['medium 12–20 kn', 12, 20], ['breeze 16–30 kn', 16, 30]];
+  let best = 10, bestV = Infinity;
+  for (let sp = 10; sp <= 100; sp++) { const m = meanDCf(sp, 10, 30, c, xc, ue, film); if (m < bestV) { bestV = m; best = sp; } }
+  $('ribReadout').textContent = [
+    `chord ${(c * 1000).toFixed(0)} mm · x/c ${xc} · Ue/U ${ue} · film ${film}`,
+    ...bands.map(([l, a, b]) => `${l.padEnd(17)} mean ΔCf ${meanDCf(s, a, b, c, xc, ue, film).toFixed(1).padStart(5)}%`),
+    `best single spacing for 10–30 kn: ${best} µm (${bestV.toFixed(1)}%)`,
+    `s+ at 15 kn: ${splusAt(s, 15 * KNOT, c, xc, ue).toFixed(1)}   at 25 kn: ${splusAt(s, 25 * KNOT, c, xc, ue).toFixed(1)}`,
+  ].join('\n');
+}
+window.__moth.drawRiblets = drawRiblets;
 
 // ---------------------------------------------------------------- sensitivity (design decisions, per band)
 const sens = { rows: null };
