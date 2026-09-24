@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IOM Keel Lab</title>
+  <meta name="description" content="International One Metre design lab: statics, low-Reynolds resistance, VPP, bulb-shape study and CMA-ES keel optimiser." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/iom/ui/styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M5 18h22l-3 3H8zM16 18V4l8 12H16M15 18V6L8 16h7M16 21v7M11 28h10" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      <div><b>IOM KEEL LAB</b><span>International One Metre · statics · low-Re resistance · VPP · bulb study · optimiser</span></div>
+    </div>
+    <div class="presets" id="presets"></div>
+    <div class="right">
+      <button id="exportPolar" title="Download the polar of the selected band as JSON {tws, points:[{twa, speed}]}">Export polar JSON</button>
+      <button id="theme" title="Toggle light / dark">◐ Theme</button>
+      <span id="busy" class="pill">idle</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="left" id="controls" aria-label="Design parameters"></aside>
+
+    <section class="center">
+      <div class="viewport" id="viewport">
+        <div class="hud" id="hud"></div>
+        <div class="viewbar">
+          View <button data-view="boat" class="on">Boat</button><button data-view="keel">Keel</button><button data-view="bulb">Bulb</button>
+          <label><input type="checkbox" id="heeled" checked /> heeled (upwind, selected band)</label>
+        </div>
+      </div>
+      <div class="dock">
+        <nav class="tabs" id="dockTabs">
+          <button data-tab="perf" class="on">Polars &amp; VMG</button>
+          <button data-tab="res">Resistance</button>
+          <button data-tab="stab">Stability</button>
+          <button data-tab="bulb">Bulb study</button>
+          <button data-tab="opt">Optimiser</button>
+          <button data-tab="notes">Model &amp; sources</button>
+        </nav>
+        <div class="tabpane on" id="tab-perf">
+          <div class="grid3 perf">
+            <div class="cell"><canvas id="polar"></canvas></div>
+            <div class="cell"><canvas id="vmgChart"></canvas></div>
+            <div class="cell" style="overflow:auto"><div id="bandTable"></div></div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-res">
+          <div class="grid2">
+            <div class="cell"><div class="bar">Condition <select id="resCond"></select></div><canvas id="resBars"></canvas></div>
+            <div class="cell"><canvas id="resCurve"></canvas></div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-stab">
+          <div class="grid2">
+            <div class="cell"><canvas id="gzChart"></canvas></div>
+            <div class="cell"><canvas id="massBars"></canvas></div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-bulb">
+          <div class="grid3">
+            <div class="cell">
+              <div class="bar">Band <select id="bsBand"></select> Shape <select id="bsVariant"></select> <button id="bsRun" title="Recompute the grid for the current design in the worker">Recompute for my design</button></div>
+              <canvas id="bulbHeat"></canvas>
+            </div>
+            <div class="cell"><div class="bar">Round bulb (w/h = 1): what the ΔVMG is made of</div><canvas id="bulbDecomp"></canvas></div>
+            <div class="cell"><div class="bar">Nose/tail variants at w/h = 1</div><canvas id="bulbVariants"></canvas><div class="progress" id="bsProg"><div></div></div></div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-opt">
+          <div class="grid3">
+            <div class="cell opt-side">
+              <div class="row"><label>Target</label><select id="optTarget"><option value="all">all-round (4 bands)</option><option value="0">4 kn</option><option value="1">8 kn</option><option value="2">12 kn</option><option value="3">16 kn</option></select></div>
+              <div class="row"><label>Generations</label><input type="number" id="optGens" value="20" min="2" max="200" /></div>
+              <div class="row"><label>Population λ</label><input type="number" id="optLambda" value="10" min="4" max="40" /></div>
+              <div class="row"><label>Seed</label><input type="number" id="optSeed" value="1" min="1" /></div>
+              <div class="row"><span></span><div><button id="optRun" class="primary">Run CMA-ES</button> <button id="optApply" disabled>Apply best</button></div></div>
+              <div class="progress" id="optProg"><div></div></div>
+              <div id="optVars" style="overflow:auto"></div>
+            </div>
+            <div class="cell"><canvas id="optHist"></canvas></div>
+            <div class="cell"><canvas id="pareto"></canvas></div>
+          </div>
+        </div>
+        <div class="tabpane" id="tab-notes"><div class="prose" id="notes"></div></div>
+      </div>
+    </section>
+
+    <aside class="right" id="right" aria-label="Rules and results">
+      <div class="card"><h3>Class rules &amp; checks <small>IOM Class Rules 2026</small></h3><div class="badges" id="badges"></div></div>
+      <div class="card"><h3>Keel &amp; bulb <small>derived</small></h3><table class="kv" id="keelTable"></table></div>
+      <div class="card"><h3>Stability <small>A rig</small></h3><table class="kv" id="stabTable"></table></div>
+    </aside>
+  </main>
+  <script type="module" src="/src/iom/ui/main.js"></script>
+</body>
+</html>
