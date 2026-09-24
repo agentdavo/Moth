@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sail Log Analysis</title>
+  <meta name="description" content="Sailing datalogger analysis: legs, tacks and gybes, polars and A/B configuration tests from LOG_FORMAT v1 logs, CSV or GPX." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 L16 25 L6 25 Z' fill='%232a78d6'/%3E%3Cpath d='M18 7 L18 25 L26 25 Z' fill='%23eb6834'/%3E%3Cpath d='M4 27 H28' stroke='%23898781' stroke-width='2'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/src/analysis/analysis.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 L16 25 L6 25 Z" fill="var(--s1)"/><path d="M18 7 L18 25 L26 25 Z" fill="var(--s2)"/><path d="M4 27 H28" stroke="var(--ink-3)" stroke-width="2"/></svg>
+      <div><b>SAIL LOG ANALYSIS</b><span>legs · maneuvers · polars · A/B tests</span></div>
+    </div>
+    <div class="loadbar">
+      <button id="btnOpen" class="primary" title="Open a LOG_FORMAT v1 CSV, a plain CSV or a GPX track">Open log…</button>
+      <input id="fileInput" type="file" accept=".csv,.CSV,.txt,.gpx,.GPX" hidden />
+      <div class="menu" id="sampleMenu">
+        <button id="btnSamples" aria-haspopup="true" aria-expanded="false">Load sample ▾</button>
+        <div class="menu-list" role="menu" hidden>
+          <button role="menuitem" data-sample="moth">Moth, A/B test (15 min, synthetic, +1 % for B)</button>
+          <button role="menuitem" data-sample="iom">IOM, A/B test (15 min, synthetic, +1 % for B)</button>
+          <button role="menuitem" data-sample="gpx">Moth, GPX track only (1 Hz)</button>
+        </div>
+      </div>
+    </div>
+    <div class="fileinfo" id="fileInfo"></div>
+    <div class="topright">
+      <div class="seg" role="group" aria-label="Speed unit">
+        <button data-unit="kn" class="on">kn</button><button data-unit="ms">m/s</button>
+      </div>
+      <button id="btnTheme" title="Theme: auto / light / dark">◐</button>
+      <button id="btnCSV" disabled title="Legs table as CSV">Legs CSV</button>
+      <button id="btnJSON" disabled title="Full summary as JSON">Summary JSON</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side" id="side">
+      <button class="side-toggle" id="sideToggle" aria-expanded="true">Settings</button>
+      <div class="side-body">
+        <section class="group" data-g="wind">
+          <h4>Wind</h4>
+          <div class="ctl"><label for="twdMode">Direction</label>
+            <select id="twdMode"><option value="auto">auto-estimate</option><option value="manual">manual</option><option value="column">wind column</option></select></div>
+          <div class="ctl"><label for="twd">TWD (°true)</label><input id="twd" type="number" step="1" min="0" max="360" /></div>
+          <p class="hint" id="twdHint">–</p>
+          <div class="ctl check"><label><input id="trackShifts" type="checkbox" /> track shifts from leg pairs</label></div>
+          <div class="ctl"><label for="tws">TWS (<span class="u">kn</span>)</label><input id="tws" type="number" step="0.5" min="0" /></div>
+          <div class="ctl col"><label for="twsSchedule">TWS by time window <small>m:ss-m:ss value, one per line</small></label>
+            <textarea id="twsSchedule" rows="2" placeholder="e.g. 0:00-6:00 10"></textarea></div>
+        </section>
+        <section class="group" data-g="seg">
+          <h4>Segmentation</h4>
+          <div class="ctl"><label for="minLeg">Min leg (s)</label><input id="minLeg" type="number" min="5" step="5" /></div>
+          <div class="ctl"><label for="settle">Settle after (s)</label><input id="settle" type="number" min="0" step="1" /></div>
+          <div class="ctl"><label for="pre">Cut before (s)</label><input id="pre" type="number" min="0" step="1" /></div>
+          <div class="ctl"><label for="upMax">Upwind TWA &lt;</label><input id="upMax" type="number" min="40" max="90" step="1" /></div>
+          <div class="ctl"><label for="downMin">Downwind TWA &gt;</label><input id="downMin" type="number" min="90" max="150" step="1" /></div>
+          <div class="ctl"><label for="hyst">Tack hysteresis (°)</label><input id="hyst" type="number" min="3" max="40" step="1" /></div>
+          <div class="ctl check"><label><input id="adaptiveSettle" type="checkbox" /> start legs after 90 % speed recovery</label></div>
+        </section>
+        <section class="group" data-g="man">
+          <h4>Maneuvers</h4>
+          <div class="ctl"><label for="mPre">Window before (s)</label><input id="mPre" type="number" min="2" step="1" /></div>
+          <div class="ctl"><label for="mPost">Window after (s)</label><input id="mPost" type="number" min="5" step="1" /></div>
+          <div class="ctl"><label for="mRef">VMG reference</label><select id="mRef"><option value="entry">entry VMG</option><option value="mean">mean of entry and exit</option></select></div>
+          <div class="ctl"><label for="foilSpeed">Off-foil below (<span class="u">kn</span>)</label><input id="foilSpeed" type="number" min="0" step="0.5" /></div>
+        </section>
+        <section class="group" data-g="model">
+          <h4>Model overlay</h4>
+          <div class="ctl"><label for="modelSel">Model</label>
+            <select id="modelSel"><option value="none">none</option><option value="moth">Moth VPP (MothModel)</option><option value="import">imported polar…</option></select></div>
+          <input id="polarInput" type="file" accept=".json,application/json" hidden />
+          <p class="hint" id="modelHint">Polar table JSON: {"tws": 4, "points": [{"twa": 45, "speed": 1.0}], "unit": "m/s"}</p>
+        </section>
+        <section class="group" data-g="ab">
+          <h4>A/B test</h4>
+          <div class="ctl"><label for="abMode">Assign by</label>
+            <select id="abMode"><option value="toggle">markers toggle A↔B</option><option value="value">marker 1 = A, 2 = B</option><option value="alternate">alternating legs</option><option value="ranges">time ranges</option><option value="off">off</option></select></div>
+          <div class="ctl"><label for="abStart">Start with</label><select id="abStart"><option>A</option><option>B</option></select></div>
+          <div class="ctl col" id="rangesRow"><label for="abRanges">Ranges <small>m:ss-m:ss A|B, one per line</small></label>
+            <textarea id="abRanges" rows="3" placeholder="e.g. 1:00-5:30 A"></textarea></div>
+          <div class="ctl"><label for="abPairing">Pair</label><select id="abPairing"><option value="auto">auto</option><option value="legs">adjacent legs</option><option value="blocks">blocks of legs</option></select></div>
+          <div class="ctl"><label for="abMetric">Compare</label><select id="abMetric"><option value="vmg">VMG</option><option value="speed">speed</option><option value="ratio">speed ÷ model</option></select></div>
+          <div class="ctl"><label for="abEffect">Effect to resolve (%)</label><input id="abEffect" type="number" min="0.1" step="0.1" /></div>
+          <div class="ctl"><label for="abGap">Max pair gap (s)</label><input id="abGap" type="number" min="30" step="30" /></div>
+        </section>
+      </div>
+    </aside>
+
+    <main class="main">
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="overview" class="on">Overview</button>
+        <button role="tab" data-tab="legs">Legs</button>
+        <button role="tab" data-tab="maneuvers">Maneuvers</button>
+        <button role="tab" data-tab="polar">Polar</button>
+        <button role="tab" data-tab="ab">A/B test</button>
+        <span class="tabs-status" id="status"></span>
+      </nav>
+
+      <div class="empty" id="empty">
+        <div class="empty-card">
+          <h2>Open a sailing log</h2>
+          <p>Drop a file anywhere on this page, or use <b>Open log…</b>. Accepted: the on-board logger's <code>LOG_FORMAT v1</code> CSV (<code>docs/LOG_FORMAT.md</code>), a plain CSV with at least time, lat, lon and speed columns, or a GPX track.</p>
+          <p>No log at hand? Try a synthetic sample with a known +1 % A/B effect:</p>
+          <div class="empty-actions"><button data-sample="moth" class="primary">Moth A/B sample</button><button data-sample="iom">IOM sample</button></div>
+          <p class="hint">Everything runs in this browser tab; the file is not uploaded anywhere.</p>
+        </div>
+      </div>
+
+      <section class="pane on" data-pane="overview">
+        <div class="kpis" id="kpis"></div>
+        <div class="grid-ov">
+          <div class="card chart-card">
+            <h3>Track <small id="mapNote">colour = speed · ● tack ◆ gybe ▲ marker · drag to pan, wheel to zoom</small></h3>
+            <div class="chart" id="mapWrap"><canvas id="map"></canvas></div>
+          </div>
+          <div class="card chart-card">
+            <h3>Polar <small id="polarNoteSmall">10-s blocks, leg means, 90th-percentile envelope</small></h3>
+            <div class="chart" id="polarSmallWrap"><canvas id="polarSmall"></canvas></div>
+          </div>
+        </div>
+        <div class="card chart-card ts-card">
+          <h3>Time series <small>drag to zoom a time window · double-click to reset · shaded: legs (blue upwind, orange downwind)</small></h3>
+          <div class="chart" id="tsWrap"><canvas id="ts"></canvas></div>
+        </div>
+      </section>
+
+      <section class="pane" data-pane="legs">
+        <div class="card">
+          <h3>Legs <small id="legsNote"></small></h3>
+          <div class="table-wrap" id="legsTableWrap"></div>
+        </div>
+        <div class="grid-3">
+          <div class="card chart-card"><h3>Heel vs speed <small>1-s samples in legs, + = leeward</small></h3><div class="chart"><canvas id="scHeel"></canvas></div></div>
+          <div class="card chart-card"><h3>Rudder vs heel <small>+ rudder = weather helm (bearing away)</small></h3><div class="chart"><canvas id="scRudder"></canvas></div></div>
+          <div class="card chart-card"><h3>Straight-line speed consistency <small>CV of 1-s speed per leg</small></h3><div class="chart"><canvas id="cvChart"></canvas></div></div>
+        </div>
+      </section>
+
+      <section class="pane" data-pane="maneuvers">
+        <div class="kpis" id="manKpis"></div>
+        <div class="grid-2">
+          <div class="card chart-card"><h3>Tacks: speed through the turn <small>speed ÷ entry speed, aligned at head-to-wind</small></h3><div class="chart"><canvas id="trTack"></canvas></div></div>
+          <div class="card chart-card"><h3>Gybes: speed through the turn <small>speed ÷ entry speed, aligned at dead downwind</small></h3><div class="chart"><canvas id="trGybe"></canvas></div></div>
+        </div>
+        <div class="grid-2 man-lower">
+          <div class="card chart-card"><h3>Distance lost per maneuver <small id="lossNote"></small></h3><div class="chart"><canvas id="lossChart"></canvas></div></div>
+          <div class="card"><h3>Maneuvers</h3><div class="table-wrap" id="manTableWrap"></div></div>
+        </div>
+      </section>
+
+      <section class="pane" data-pane="polar">
+        <div class="grid-polar">
+          <div class="card chart-card"><h3>Measured polar <small id="polarNote"></small></h3><div class="chart"><canvas id="polarBig"></canvas></div></div>
+          <div class="card"><h3>Binned speeds <small>5° TWA bins of 10-s blocks</small></h3><div class="table-wrap" id="polarTableWrap"></div></div>
+        </div>
+      </section>
+
+      <section class="pane" data-pane="ab">
+        <div class="verdicts" id="verdicts"></div>
+        <div class="card chart-card ab-timeline"><h3>Configuration timeline <small>legs coloured by configuration (A blue, B orange, grey unassigned) · ▲ event markers</small></h3><div class="chart"><canvas id="abTimeline"></canvas></div></div>
+        <div class="grid-2">
+          <div class="card chart-card"><h3>Pair differences <small id="forestNote">B − A in %, with the 95 % CI of the mean</small></h3><div class="chart"><canvas id="forest"></canvas></div></div>
+          <div class="card chart-card"><h3>Convergence <small>running mean and 95 % CI as pairs accumulate</small></h3><div class="chart"><canvas id="converge"></canvas></div></div>
+        </div>
+        <div class="card"><h3>Pairs <small id="balanceNote"></small></h3><div class="table-wrap" id="pairsTableWrap"></div></div>
+      </section>
+    </main>
+  </div>
+  <div class="drop" id="drop" hidden><div>Drop the log file to analyse it</div></div>
+  <script type="module" src="/src/analysis/app.js"></script>
+</body>
+</html>
