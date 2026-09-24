@@ -1,5 +1,6 @@
 // IOM Keel Lab page: controls, 3-D view, charts; physics in a Web Worker.
 import { DEFAULT_DESIGN, PARAMS, SECTIONS, SECTION_LABELS, clone } from '../physics/design.js';
+import { showExport } from '../../ui/exportDialog.js';
 import { computeStatics } from '../physics/statics.js';
 import { checkRules } from '../physics/rules.js';
 import { VARS } from '../physics/objective.js';
@@ -323,9 +324,7 @@ $('exportPolar').onclick = () => {
   const mk = (b) => ({ tws: +(b.tws * KNOT).toFixed(4), tws_kn: b.tws, zRef_m: state.design.env.zRef, rig: b.rig, points: b.polar.map((p) => ({ twa: p.twa, speed: +p.V.toFixed(4) })), vmg: { up: { twa: +b.up.twa.toFixed(1), speed: +b.up.V.toFixed(4), vmg: +b.up.vmg.toFixed(4) }, down: { twa: +b.down.twa.toFixed(1), speed: +b.down.V.toFixed(4), vmg: +b.down.vmg.toFixed(4) } } });
   const sel = r.bands[state.band];
   const doc = { format: 'iom-polar v1', source: 'IOM Keel Lab VPP', design: state.design.name, units: { tws: 'm/s', speed: 'm/s', twa: 'deg' }, ...mk(sel), bands: r.bands.map(mk) };
-  const blob = new Blob([JSON.stringify(doc, null, 1)], { type: 'application/json' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `iom-polar-${sel.tws}kn.json`; a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  showExport(`Polar, ${sel.tws} kn (paste into Log analysis → Model overlay → polar table)`, `iom-polar-${sel.tws}kn.json`, JSON.stringify(doc, null, 1), 'application/json');
 };
 
 // ------------------------------------------------------------------ tabs, views, bands

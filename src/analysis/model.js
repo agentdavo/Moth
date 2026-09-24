@@ -72,7 +72,7 @@ export class PolarModel {
 export function parsePolarJSON(obj, name = 'Imported polar') {
   if (typeof obj === 'string') obj = JSON.parse(obj);
   const unit = obj.unit || (Array.isArray(obj) ? obj[0]?.unit : null) || 'm/s';
-  const list = Array.isArray(obj) ? obj : Array.isArray(obj.tables) ? obj.tables : [obj];
+  const list = Array.isArray(obj) ? obj : Array.isArray(obj.tables) ? obj.tables : Array.isArray(obj.bands) ? obj.bands : [obj]; // bands: IOM Keel Lab export
   const tables = list.map((t) => {
     const u = t.unit || unit;
     const f = /kn|kt/i.test(u) ? KN : 1;

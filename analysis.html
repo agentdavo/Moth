@@ -73,8 +73,13 @@
         <section class="group" data-g="model">
           <h4>Model overlay</h4>
           <div class="ctl"><label for="modelSel">Model</label>
-            <select id="modelSel"><option value="none">none</option><option value="moth">Moth VPP (MothModel)</option><option value="import">imported polar…</option></select></div>
+            <select id="modelSel"><option value="none">none</option><option value="moth">Moth VPP (MothModel)</option><option value="import">polar from file…</option><option value="paste">paste polar…</option></select></div>
           <input id="polarInput" type="file" accept=".json,application/json" hidden />
+          <div id="polarPasteBox" class="paste-box" hidden>
+            <label for="polarPaste">Paste polar JSON (for example from the One-metre lab’s Export polar)</label>
+            <textarea id="polarPaste" rows="4" spellcheck="false" placeholder='{"tws": 4, "points": [{"twa": 45, "speed": 1.0}]}'></textarea>
+            <button id="polarUse" type="button">Use pasted polar</button>
+          </div>
           <p class="hint" id="modelHint">Polar table JSON: {"tws": 4, "points": [{"twa": 45, "speed": 1.0}], "unit": "m/s"}</p>
         </section>
         <section class="group" data-g="ab">

@@ -1,6 +1,7 @@
 // Sail log analysis page: loading, settings, rendering. Analysis logic lives in the DOM-free
 // modules (parse, track, wind, segment, metrics, ab, pipeline); this file only wires the UI.
 import { parseLog } from './parse.js';
+import { showExport } from '../ui/exportDialog.js';
 import { buildTrack } from './track.js';
 import { analyze, defaultSettings } from './pipeline.js';
 import { PolarModel, parsePolarJSON } from './model.js';
@@ -445,12 +446,7 @@ function renderAB() {
 
 // ------------------------------------------------------------------ helpers & wiring
 function esc(s) { return String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
-function download(name, text, type) {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([text], { type }));
-  a.download = name; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-}
+function download(name, text, type) { showExport(name, name, text, type); }
 function switchTab(tab) {
   S.tab = tab;
   $$('.tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === tab));
@@ -486,7 +482,7 @@ function wire() {
   $('#btnJSON').addEventListener('click', () => S.res && download(S.file.replace(/\.[^.]+$/, '') + '-summary.json', summaryJSON(S.res, S.track, S.file), 'application/json'));
   // settings
   $$('.side input, .side select, .side textarea').forEach((el) => {
-    if (el.id === 'modelSel' || el.id === 'polarInput') return;
+    if (el.id === 'modelSel' || el.id === 'polarInput' || el.id === 'polarPaste') return;
     el.addEventListener(el.tagName === 'TEXTAREA' || el.type === 'number' ? 'input' : 'change', () => {
       if (!S.settings) return;
       if (el.id === 'twd' && el.value !== '') $('#twdMode').value = 'manual';
@@ -495,7 +491,9 @@ function wire() {
   });
   $('#modelSel').addEventListener('change', async (e) => {
     const v = e.target.value;
+    $('#polarPasteBox').hidden = v !== 'paste';
     if (v === 'import') { $('#polarInput').click(); return; }
+    if (v === 'paste') { $('#polarPaste').focus(); return; }
     S.model.kind = v;
     if (v === 'none') setModelHint('Polar table JSON: {"tws": 4, "points": [{"twa": 45, "speed": 1.0}], "unit": "m/s"}');
     if (S.settings) run();
@@ -504,13 +502,17 @@ function wire() {
   $('#polarInput').addEventListener('change', async (e) => {
     const f = e.target.files[0]; e.target.value = '';
     if (!f) { $('#modelSel').value = S.model.kind; return; }
+    usePolar(await f.text(), f.name.replace(/\.json$/i, ''));
+  });
+  $('#polarUse').addEventListener('click', () => usePolar($('#polarPaste').value, 'Pasted polar'));
+  function usePolar(text, name) {
     try {
-      S.model.imported = parsePolarJSON(await f.text(), f.name.replace(/\.json$/i, ''));
+      S.model.imported = parsePolarJSON(text, name);
       S.model.kind = 'import';
       setModelHint(`${S.model.imported.name}: ${S.model.imported.tables.length} table(s), TWS ${S.model.imported.tables.map((t) => fmtS(t.tws)).join(', ')} ${unitLabel()}`);
       if (S.settings) run();
-    } catch (err) { setModelHint(`Could not read polar: ${err.message}`); $('#modelSel').value = S.model.kind; }
-  });
+    } catch (err) { setModelHint(`Could not read polar: ${err.message}`); if (S.model.kind !== 'import') $('#modelSel').value = S.model.kind === 'none' ? 'paste' : S.model.kind; }
+  }
   $('#sideToggle').addEventListener('click', () => { const s = $('#side'); s.classList.toggle('collapsed'); $('#sideToggle').setAttribute('aria-expanded', String(!s.classList.contains('collapsed'))); });
   // drag and drop
   let depth = 0;

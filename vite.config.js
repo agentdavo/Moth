@@ -3,7 +3,7 @@ export default defineConfig({
   base: './',
   build: {
     target: 'esnext',
-    rollupOptions: { input: { index: 'index.html', analysis: 'analysis.html' } },
+    rollupOptions: { input: { index: 'index.html', analysis: 'analysis.html', iom: 'iom.html' } },
   },
   worker: { format: 'es' },
   optimizeDeps: { esbuildOptions: { target: 'esnext' } },

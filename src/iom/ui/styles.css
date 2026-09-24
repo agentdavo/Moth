@@ -48,12 +48,14 @@ input[type=range] { accent-color: var(--accent); width: 100%; }
 .mono, output, td.num { font-family: 'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
 .top { height: 52px; display: flex; align-items: center; gap: 14px; padding: 0 14px; background: var(--panel); border-bottom: 1px solid var(--line); }
-.brand { display: flex; align-items: center; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; flex: none; }
+.brand span { white-space: nowrap; }
 .brand b { letter-spacing: 0.08em; font-size: 13px; display: block; }
 .brand span { color: var(--ink-3); font-size: 11px; }
-.top .presets { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; min-width: 0; }
+.top .presets { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; min-width: 0; flex: 1 1 auto; scrollbar-width: thin; }
 .top .presets button { white-space: nowrap; }
-.top .right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.top .right { margin-left: auto; display: flex; gap: 8px; align-items: center; flex: none; }
+.top .right button { white-space: nowrap; }
 .pill { border: 1px solid var(--line); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: var(--ink-2); white-space: nowrap; }
 .pill.busy { color: var(--accent); border-color: var(--accent); }
 
@@ -137,3 +139,9 @@ table.data td { white-space: nowrap; text-align: right; padding: 3px 6px; border
   .top .right { margin-left: 0; }
   .brand span { display: none; }
 }
+
+/* cross-page navigation */
+.pages { display: flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; flex: none; }
+.pages a { padding: 4px 10px; border-radius: 6px; font-size: 12px; color: var(--ink-2); text-decoration: none; white-space: nowrap; }
+.pages a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.pages a.on { color: var(--ink); background: color-mix(in srgb, var(--ink) 14%, transparent); }

@@ -13,11 +13,12 @@
   <header class="top">
     <div class="brand">
       <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M5 18h22l-3 3H8zM16 18V4l8 12H16M15 18V6L8 16h7M16 21v7M11 28h10" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>
-      <div><b>IOM KEEL LAB</b><span>International One Metre · statics · low-Re resistance · VPP · bulb study · optimiser</span></div>
+      <div><b>IOM KEEL LAB</b><span>International One Metre · VPP · bulb study</span></div>
     </div>
+    <nav class="pages" aria-label="Pages"><a data-page="index" href="./index.html">Moth lab</a><a data-page="analysis" href="./analysis.html">Log analysis</a><a data-page="iom" href="./iom.html" class="on" aria-current="page">One-metre lab</a></nav>
     <div class="presets" id="presets"></div>
     <div class="right">
-      <button id="exportPolar" title="Download the polar of the selected band as JSON {tws, points:[{twa, speed}]}">Export polar JSON</button>
+      <button id="exportPolar" title="Polar of the selected band as JSON {tws, points:[{twa, speed}]}, to copy into Log analysis">Export polar</button>
       <button id="theme" title="Toggle light / dark">◐ Theme</button>
       <span id="busy" class="pill">idle</span>
     </div>
