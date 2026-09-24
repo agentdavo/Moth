@@ -2,21 +2,27 @@
 
 **Claim under test** ([SHAPE_STUDY.md](SHAPE_STUDY.md)): a riblet film with ~30 µm spacing on the turbulent part of the main foil and both struts makes a foiling Moth **about 1–2% faster in VMG**. That is roughly +0.6–1.1% upwind and +1.4–3.8% downwind, depending on the wind band.
 
-The claim is a chain of five links. Each link is tested separately below, with the strongest independent evidence available. Five of the links are supported. What is **not** proven is the on-water number. Nobody has measured riblets on a hydrofoil, and §7 describes how to do it.
+The claim is a chain of five links. Each link is tested separately below, with the strongest independent evidence available. Four links are supported by independent evidence, and the fifth is a model result with its sensitivity shown. What is **not** proven is the on-water number. Nobody has measured riblets on a hydrofoil, and §7 describes how to do it.
+
+**Bottom line.**
+- **The physics is solid.** Riblets of the right spacing cut turbulent skin friction by 5–10%: lab data, theory reproduced here, published DNS, flight tests and water tests all agree.
+- **The model is realistic at the optimum.** Its assumption (−8.2%, ΔU⁺ ≈ 1.0) sits inside the published DNS range. Past the optimum it is somewhat optimistic.
+- **The whole-boat gain is a model result.** Allowing for film quality from 0.4 to 1.0 of ideal, it is **+0.3–1.3% upwind and +0.6–4.6% downwind**. It is unmeasured on the water.
+- **My own turbulence simulation did not converge** at the compute available here, so it adds no evidence either way (§3).
 
 | # | Link | Evidence | Verdict |
 |---|---|---|---|
 | 1 | Riblets reduce turbulent skin friction | Decades of lab, flight and water measurements (§1) | **Established** |
 | 2 | The mechanism, and the best size | Viscous protrusion-height theory, re-derived here with a solver validated to ≤1.5% of published values (§2) | **Reproduced** |
-| 3 | The size of the effect in a turbulent flow | Independent 3-D DNS written for this report, plus published DNS (§3) | **{{DNS_VERDICT}}** |
+| 3 | The size of the effect in a turbulent flow | Published DNS (§3); my own simulation was inconclusive (§3) | **Supported by published DNS**: ΔU⁺ ≈ +0.8 to +1.3 at the optimum, negative past s⁺ ≈ 30 |
 | 4 | Conversion to Moth scale (speed, Reynolds number) | Standard ΔU⁺ → ΔC_f relation (García-Mayoral & Jiménez 2011) (§4) | **Consistent**: the model is in line with DNS at the optimum and slightly optimistic past it |
 | 5 | Friction → drag → VMG | The VPP, decomposed by surface, film quality and spacing (§5) | **Model result**, with its sensitivity shown |
 
 Reproduce everything:
 - `python3 tools/riblet/protrusion.py` (about 1 min)
 - `node tools/riblet/chain.mjs` (about 1 min)
-- `gcc -O3 -fopenmp tools/riblet/lbm3d.c -o lbm3d -lm`, then the runs in §3 (about 3 h on 4 cores)
-- `python3 tools/riblet/report.py <run dir> chain.json docs/figures`
+- `gcc -O3 -ffast-math -fno-finite-math-only -fopenmp tools/riblet/lbm3d.c -o lbm3d -lm`, then the runs in §3 (inconclusive at this scale; see §3)
+- `python3 tools/riblet/report.py docs/results/riblet docs/results/riblet/chain.json docs/figures 9`
 
 ## 1. Riblets reduce turbulent skin friction (established)
 
@@ -52,14 +58,14 @@ What this gives:
 - **The linear growth breaks down at ℓ_g⁺ ≈ 11.** That is s⁺ ≈ 15 for blades, the optimum in every data set.
 - **Beyond s⁺ ≈ 30, blade riblets increase drag** because Kelvin–Helmholtz rollers form over the grooves. Endrikat et al. 2021 found that blunt trapezoidal grooves avoid those rollers. This is why trapezoid-groove films degrade more gently than blades.
 
-## 3. Effect size in real turbulence: an independent DNS ({{DNS_VERDICT}})
+## 3. Effect size in real turbulence: published DNS supports it; my own simulation was inconclusive
 
-`tools/riblet/lbm3d.c` is a D3Q19 lattice-Boltzmann DNS (regularised BGK, Guo forcing, OpenMP). It uses the **minimal-span open channel** that recent riblet studies use (MacDonald et al. 2017; Endrikat et al. 2021):
+`tools/riblet/lbm3d.c` is a D3Q19 lattice-Boltzmann simulation (regularised BGK, Guo forcing, a van Driest-damped Smagorinsky stabiliser, OpenMP). It uses the **minimal-span open channel** that recent riblet studies use (MacDonald et al. 2017; Endrikat et al. 2021):
 - Re_τ = 180, grid spacing Δ⁺ = 2.
 - Box L_x⁺ × h⁺ × L_z⁺ = 340 × 180 × 160.
 - Riblet blades on the floor, a free-slip lid on top.
 
-All cases run at the same wall friction u_τ (the total force per unit planform area is fixed). A drag reduction therefore shows up as a higher velocity above the riblets: ΔU⁺ > 0 means less drag. The three cases start from one turbulent smooth-wall field, which pairs the comparison:
+All cases run at the same wall friction u_τ (the total force per unit planform area is fixed). A drag reduction therefore shows up as a higher velocity above the riblets: ΔU⁺ > 0 means less drag. The three cases were branched from one turbulent smooth-wall field:
 
 | Case | Blade geometry (cells) | s⁺ | h⁺ | t⁺ | ℓ_g⁺ | Δh⁺ (protrusion.py, same staircase) |
 |---|---|---|---|---|---|---|
@@ -67,13 +73,24 @@ All cases run at the same wall friction u_τ (the total force per unit planform 
 | s16 | s 8, h 4, t 1 | 16 | 8 | 2 | 10.6 (≈ optimum) | 1.33 → linear-theory ΔU⁺ 0.9–1.3 |
 | s32 | s 16, h 8, t 1 | 32 | 16 | 2 | 21.9 (well past breakdown) | 3.17, but viscous theory no longer applies here |
 
-{{DNS_RESULTS}}
+**What happened.** The in-house simulation did **not** produce a usable riblet number.
+- **Three code bugs were found and fixed on the way**, each committed with a regression check:
+  - float32 precision against a tiny body force;
+  - an instability at τ ≈ 0.509, stabilised with a van Driest-damped Smagorinsky term. That makes the run strictly a wall-resolved LES;
+  - the regularised collision was dropping part of the Guo force, so only about 52% of the driving force was applied. After the fix, the laminar open-channel solution is reproduced to 1–2%.
+- **A too-weak transition trigger relaminarised,** and was replaced by a multi-mode trigger.
+- **The corrected smooth-wall spin-up passes the near-wall check.** U⁺ = y⁺ in the sublayer, U⁺(9) = 7.9, and the u′⁺ peak is about 2.8–3.1 against a reference of about 2.7. The log region reads low: U⁺ ≈ 13 at y⁺ = 40, against 14.2 from the log law.
+- **The riblet comparison did not converge.** At Re_τ = 180 in this minimal box, turbulence is only intermittently self-sustaining. All three runs, the smooth reference included, kept accelerating through the averaging window (figure below).
+  - After 4 eddy turnovers, the lid-velocity shift is **ΔU⁺ = +0.12 ± 0.16 (s⁺ = 16) and +0.12 ± 0.17 (s⁺ = 32)**. These cannot be told from zero or from each other.
+  - The riblet runs did show 20–30% lower near-wall Reynolds shear stress, which is consistent with riblet damping. On a drifting baseline, though, that is not a measurement.
+  - The runs were stopped rather than letting a noisy number stand in as proof. The raw data is in `docs/results/riblet/`.
+- **What a conclusive run needs** is what the published studies used: Re_τ ≥ 395, L_x⁺ ≈ 1000 and hundreds of eddy turnovers. That is roughly 50–100× the compute of the 4-core container this was run on; a GPU would do it.
 
-![DNS mean-velocity profiles](figures/riblet-dns-profiles.png)
+![In-house simulation: smooth-wall check and non-stationary branches](figures/riblet-dns-check.png)
 
 ![Velocity shift vs spacing](figures/riblet-dU-vs-splus.png)
 
-**Published DNS for comparison** (Endrikat/Modesti 2021 and Wong et al. 2024, Re_τ = 395, L_x⁺ ≈ 1000; ΔU⁺ with the sign used here):
+**Published DNS (the evidence for this link)** (Endrikat/Modesti 2021 and Wong et al. 2024, Re_τ = 395, L_x⁺ ≈ 1000; ΔU⁺ with the sign used here):
 - trapezoid s⁺ 15: **+1.27**
 - trapezoid s⁺ 17.9: +1.06
 - blade (t = 0.2 s) s⁺ 16: +0.81
@@ -81,11 +98,7 @@ All cases run at the same wall friction u_τ (the total force per unit planform 
 - blade s⁺ 25: +0.36
 - blade s⁺ 33: **−0.71** (drag increase)
 
-**Limitations of this DNS:**
-- L_x⁺ = 340 is shorter than the L_x⁺ ≥ 1000 that MacDonald et al. recommend. The two cases share the same box, so the bias largely cancels in ΔU⁺, but not entirely.
-- The blades are staircase-rasterised, at t⁺ = 2 and h⁺ = 8.
-- The run is about 10 eddy turnovers, so the batch-mean error bars are shown.
-- The DNS is an independent check of sign and magnitude. The published DNS is the higher-fidelity reference.
+These results are the evidence for link 3. They agree with the lab data (§1) and with viscous theory in the linear range (§2), and they show the drag-increasing regime past s⁺ ≈ 30 for blades.
 
 ## 4. Converting to Moth scale (consistent, model not optimistic at the optimum)
 

@@ -77,38 +77,37 @@ for k in ('s16', 's32'):
 json.dump(res, open(os.path.join(outdir, 'riblet_dns.json'), 'w'), indent=1, default=float)
 print(json.dumps(res, indent=1, default=float))
 
-# --- Figure 1: mean velocity profiles and the shift
-if profs['smooth']:
+# --- Figure 1: what the in-house simulation did establish (smooth-wall check) and why the riblet comparison
+# did not converge (non-stationary minimal-channel turbulence at Re_tau 180)
+spin = os.path.join(run, 'spinup-smooth.prof')
+if os.path.exists(spin):
+    d = np.loadtxt(spin)
     fig, ax = plt.subplots(1, 2, figsize=(10, 4.2))
+    m = d[:, 1] > 0
     yy = np.logspace(0, np.log10(180), 200)
     ax[0].plot(yy[yy < 12], yy[yy < 12], ':', color=MUTED, lw=1.2)
-    ax[0].plot(yy[yy > 20], np.log(yy[yy > 20]) / 0.41 + 5.2, '--', color=MUTED, lw=1.2)
-    ax[0].text(2.2, 1.2, 'U+ = y+', color=MUTED, fontsize=9)
-    ax[0].text(45, 12.2, 'log law (κ 0.41, B 5.2)', color=MUTED, fontsize=9)
-    for k, (lab, col) in cases.items():
-        if profs[k]:
-            d = profs[k][0]
-            m = d[:, 0] > 0
-            ax[0].plot(d[m, 1], d[m, 2], color=col, label=lab)
-    ax[0].set_xscale('log'); ax[0].set_xlim(1, 200); ax[0].set_ylim(0, 24)
-    ax[0].set_xlabel('y+ (distance above the riblet tips, wall units)'); ax[0].set_ylabel('U+  (mean velocity / u_τ)')
-    ax[0].set_title('Mean velocity at equal wall friction', color=INK, fontsize=11, loc='left')
+    ax[0].plot(yy[yy > 25], np.log(yy[yy > 25]) / 0.41 + 5.2, '--', color=MUTED, lw=1.2)
+    ax[0].text(1.3, 4.2, 'U+ = y+', color=MUTED, fontsize=9)
+    ax[0].text(40, 18.6, 'log law', color=MUTED, fontsize=9)
+    ax[0].plot(d[m, 1], d[m, 2], color=C_SMOOTH, label='U+ (mean velocity)')
+    ax[0].plot(d[m, 1], d[m, 3], color='#3987e5', label="u'+ (streamwise rms)")
+    ax[0].axhline(2.7, color='#3987e5', lw=0.8, ls=':')
+    ax[0].text(60, 3.0, 'reference peak u\'+ ≈ 2.7', color=MUTED, fontsize=8)
+    ax[0].set_xscale('log'); ax[0].set_xlim(1, 200); ax[0].set_ylim(0, 22)
+    ax[0].set_xlabel('y+ (wall units)'); ax[0].set_ylabel('wall units')
+    ax[0].set_title('Smooth wall after spin-up: sublayer right, log region low', color=INK, fontsize=11, loc='left')
     ax[0].legend(loc='upper left')
-    ds = profs['smooth'][0]
-    for k in ('s16', 's32'):
-        if profs[k]:
-            d = profs[k][0]
-            Ur = np.interp(ds[:, 1], d[:, 1], d[:, 2])
-            m = ds[:, 1] > 1
-            ax[1].plot(ds[m, 1], Ur[m] - ds[m, 2], color=cases[k][1], label=cases[k][0])
-    ax[1].axhline(0, color=INK, lw=0.8)
-    ax[1].axvspan(30, zc, color=GRID, alpha=0.5, lw=0)
-    ax[1].text(31, ax[1].get_ylim()[0] if False else -1.6, 'averaging band\n30 < y+ < z_c', color=MUTED, fontsize=8)
-    ax[1].set_xscale('log'); ax[1].set_xlim(1, 200); ax[1].set_ylim(-2, 2)
-    ax[1].set_xlabel('y+'); ax[1].set_ylabel('ΔU+ = U+ riblet − U+ smooth')
-    ax[1].set_title('Velocity shift (above 0 = less drag)', color=INK, fontsize=11, loc='left')
+    for k, (lab, col) in cases.items():
+        p_ = os.path.join(run, k + '.ts')
+        if os.path.exists(p_):
+            t = np.loadtxt(p_)
+            ax[1].plot(t[:, 1], t[:, 2], color=col, lw=1.5, label=lab)
+    ax[1].axvline(t_stat, color=MUTED, lw=0.8, ls=':')
+    ax[1].text(t_stat + 0.1, ax[1].get_ylim()[0] + 0.05, ' averaging starts', color=MUTED, fontsize=8)
+    ax[1].set_xlabel('time (H / u_τ)'); ax[1].set_ylabel('U_b+  (bulk velocity)')
+    ax[1].set_title('Riblet branches: the baseline never settles', color=INK, fontsize=11, loc='left')
     ax[1].legend(loc='upper left')
-    fig.tight_layout(); fig.savefig(os.path.join(outdir, 'riblet-dns-profiles.png')); plt.close(fig)
+    fig.tight_layout(); fig.savefig(os.path.join(outdir, 'riblet-dns-check.png')); plt.close(fig)
 
 # --- Figure 2: dU+ vs s+ : viscous theory, published DNS, this DNS, and what the boat model assumes
 fig, ax = plt.subplots(figsize=(7.6, 4.6))
@@ -126,15 +125,16 @@ lit = [(16, 0.81, 'Wong 2024 blade'), (20.5, 0.60, 'Endrikat/Modesti 2021 blade'
        (15, 1.27, 'Wong 2024 trapezoid'), (17.9, 1.06, 'Endrikat/Modesti 2021 trapezoid')]
 for i, (s_, du, lab) in enumerate(lit):
     ax.plot(s_, du, 's' if 'blade' in lab else 'D', ms=7, color='#6e7781', mec='white', mew=1.5, label='Published DNS (blades t = 0.2s ■, trapezoids ◆)' if i == 0 else None)
+SHOW_OWN = os.environ.get('SHOW_OWN_DNS') == '1'  # off: the in-house runs did not converge (see RIBLET_EVIDENCE.md 3)
 for k, s_ in (('s16', 16), ('s32', 32)):
-    if k in res and 'dUtop' in res[k]:
+    if SHOW_OWN and k in res and 'dUtop' in res[k]:
         m, e = res[k]['dUtop']
         ax.errorbar(s_, m, yerr=2 * e if np.isfinite(e) else None, fmt='o', ms=9, color=cases[k][1], mec='white', mew=1.5, capsize=4,
                     label='This DNS (±2 s.e.)' if k == 's16' else None)
 ax.axhline(0, color=INK, lw=0.8)
 ax.set_xlim(0, 40); ax.set_ylim(-1.8, 2.8)
 ax.set_xlabel('s+  (riblet spacing in wall units)'); ax.set_ylabel('ΔU+  (above 0 = drag reduction)')
-ax.set_title('Riblet velocity shift: theory, published DNS, this DNS and the boat model', color=INK, fontsize=11, loc='left')
+ax.set_title('Riblet velocity shift: theory, published DNS and the boat model', color=INK, fontsize=11, loc='left')
 ax.legend(loc='lower left', fontsize=8)
 fig.tight_layout(); fig.savefig(os.path.join(outdir, 'riblet-dU-vs-splus.png')); plt.close(fig)
 

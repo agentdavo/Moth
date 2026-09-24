@@ -92,7 +92,7 @@ Baseline re-optimised scores: light 0.909, medium 0.932, strong 1.023.
 
 ## 5. Recommendations
 
-1. **Apply riblet film (~30 µm spacing) to the turbulent part of the main foil, elevator and both struts.** Keep the laminar leading-edge region smooth.
+1. **Apply riblet film (30–40 µm spacing, never above ~50 µm) to the turbulent part of the main foil, elevator and both struts.** Keep the laminar leading-edge region smooth. The evidence, link by link, is in [RIBLET_EVIDENCE.md](RIBLET_EVIDENCE.md).
 2. **Keep the conventional optimised planform.** No bio-inspired planform beat it outside the optimiser noise.
 3. Anti-ventilation up-turned tips cost nothing in drag, so use them if they help ventilation in practice. The research suggests down-turned tips are strictly better near the surface.
 4. Research directions this model cannot settle:
