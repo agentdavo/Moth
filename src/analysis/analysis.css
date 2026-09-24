@@ -200,3 +200,9 @@ td.dim { color: var(--ink-3); }
   .verdicts { grid-template-columns: 1fr; }
   .fileinfo { order: 5; flex-basis: 100%; }
 }
+
+/* cross-page navigation */
+.pages { display: flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; flex: none; }
+.pages a { padding: 4px 10px; border-radius: 6px; font-size: 12px; color: var(--ink-2); text-decoration: none; white-space: nowrap; }
+.pages a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.pages a.on { color: var(--ink); background: color-mix(in srgb, var(--ink) 14%, transparent); }

@@ -534,7 +534,9 @@ function init() {
   const tab = q.get('tab');
   if (tab) switchTab(tab);
   if (q.get('model') === 'moth') { $('#modelSel').value = 'moth'; S.model.kind = 'moth'; }
-  if (q.get('sample') && SAMPLES[q.get('sample')]) loadSample(q.get('sample'));
+  // open in a working state: the synthetic Moth A/B sample unless ?sample=none (or another sample) is given
+  const sk = q.get('sample') ?? 'moth';
+  if (SAMPLES[sk]) loadSample(sk);
   window.__sla = S; // for debugging and the screenshot tool
 }
 init();
