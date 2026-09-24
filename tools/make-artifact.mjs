@@ -1,26 +1,39 @@
-// Packages dist/ (vite build) as a claude.ai Artifact page: the publish skeleton supplies
-// doctype/head/body, so emit title + fonts + inlined CSS + body markup + module script.
+// Packages one page of the multi-page Vite build (dist/) as a claude.ai Artifact page: the publish
+// skeleton supplies doctype/head/body, so emit title + fonts + inlined CSS + body markup + module script.
+// usage: node tools/make-artifact.mjs <outDir> [page=index] [outName=moth-foil-lab.html] [--dark]
 import fs from 'node:fs';
 import path from 'node:path';
-const outDir = process.argv[2] || 'artifact';
-const html = fs.readFileSync('dist/index.html', 'utf8');
+const args = process.argv.slice(2);
+const [outDir = 'artifact', pageName = 'index', outName = 'moth-foil-lab.html'] = args.filter((a) => !a.startsWith('--'));
+const dark = args.includes('--dark') || pageName === 'index'; // the Moth app is dark-only
+const html = fs.readFileSync(`dist/${pageName}.html`, 'utf8');
 const title = html.match(/<title>[\s\S]*?<\/title>/)[0];
 const fonts = [...html.matchAll(/<link[^>]+fonts\.googleapis[^>]*>/g)].map((m) => m[0]).join('\n');
-const cssHref = html.match(/href="\.\/(assets\/[^"]+\.css)"/)[1];
-const jsSrc = html.match(/src="\.\/(assets\/[^"]+\.js)"/)[1];
-const css = fs.readFileSync(path.join('dist', cssHref), 'utf8');
-const body = html.split(/<body>/)[1].split(/<\/body>/)[0];
+const cssFiles = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="\.\/(assets\/[^"]+\.css)"/g), ...html.matchAll(/<link[^>]+href="\.\/(assets\/[^"]+\.css)"[^>]+rel="stylesheet"/g)].map((m) => m[1]);
+const css = [...new Set(cssFiles)].map((f) => fs.readFileSync(path.join('dist', f), 'utf8')).join('\n');
+const scripts = [...html.matchAll(/<script type="module"[^>]*src="\.\/(assets\/[^"]+\.js)"/g)].map((m) => m[1]);
+const body = html.split(/<body[^>]*>/)[1].split(/<\/body>/)[0];
+// copy only the JS reachable from this page's entry scripts (chunks, dynamic imports, workers)
+const all = fs.readdirSync('dist/assets').filter((f) => f.endsWith('.js'));
+const need = new Set(scripts.map((s) => path.basename(s)));
+for (let changed = true; changed;) {
+  changed = false;
+  for (const f of [...need]) {
+    const src = fs.readFileSync(path.join('dist/assets', f), 'utf8');
+    for (const g of all) if (!need.has(g) && src.includes(g)) { need.add(g); changed = true; }
+  }
+}
+fs.rmSync(path.join(outDir, 'assets'), { recursive: true, force: true });
 fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
-for (const f of fs.readdirSync('dist/assets')) if (f.endsWith('.js')) fs.copyFileSync(path.join('dist/assets', f), path.join(outDir, 'assets', f));
+for (const f of need) fs.copyFileSync(path.join('dist/assets', f), path.join(outDir, 'assets', f));
 const page = `${title}
 ${fonts}
 <style>
 ${css}
-:root { color-scheme: dark; }
-html, body { background: #0b1219; }
+${dark ? ':root { color-scheme: dark; }\nhtml, body { background: #0b1219; }' : ''}
 </style>
 ${body.trim()}
-<script type="module" src="${jsSrc}"></script>
+${scripts.map((s) => `<script type="module" src="${s}"></script>`).join('\n')}
 `;
-fs.writeFileSync(path.join(outDir, 'moth-foil-lab.html'), page);
-console.log(JSON.stringify({ page: path.join(outDir, 'moth-foil-lab.html'), files: fs.readdirSync(path.join(outDir, 'assets')).map((f) => `assets/${f}`) }));
+fs.writeFileSync(path.join(outDir, outName), page);
+console.log(JSON.stringify({ page: path.join(outDir, outName), files: fs.readdirSync(path.join(outDir, 'assets')).map((f) => `assets/${f}`) }));
