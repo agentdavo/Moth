@@ -1,0 +1,502 @@
+{
+ "name": "Moth VPP (medium preset, cached)",
+ "source": "src/physics/vpp.js MothModel, mediumDesign; tools/synth-log.mjs --recompute-polar",
+ "unit": "m/s",
+ "tables": [
+  {
+   "tws": 4,
+   "points": [
+    {
+     "twa": 38,
+     "speed": 2.5062894131988283,
+     "foiling": false
+    },
+    {
+     "twa": 42,
+     "speed": 2.7282402034848925,
+     "foiling": false
+    },
+    {
+     "twa": 46,
+     "speed": 2.930930076912045,
+     "foiling": false
+    },
+    {
+     "twa": 50,
+     "speed": 3.144453417789191,
+     "foiling": false
+    },
+    {
+     "twa": 54.5,
+     "speed": 6.478201848144532,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 55,
+     "speed": 6.547880744628907,
+     "foiling": true
+    },
+    {
+     "twa": 62,
+     "speed": 7.418170161718752,
+     "foiling": true
+    },
+    {
+     "twa": 75,
+     "speed": 8.497728531250004,
+     "foiling": true
+    },
+    {
+     "twa": 90,
+     "speed": 8.522470666465004,
+     "foiling": true
+    },
+    {
+     "twa": 105,
+     "speed": 8.865606228640004,
+     "foiling": true
+    },
+    {
+     "twa": 120,
+     "speed": 8.560596840040006,
+     "foiling": true
+    },
+    {
+     "twa": 121.3,
+     "speed": 8.461468788745005,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 132,
+     "speed": 2.2053688932210207,
+     "foiling": false
+    },
+    {
+     "twa": 145,
+     "speed": 1.993683435581624,
+     "foiling": false
+    },
+    {
+     "twa": 160,
+     "speed": 1.896323123667389,
+     "foiling": false
+    },
+    {
+     "twa": 172,
+     "speed": 1.8677657176740468,
+     "foiling": false
+    }
+   ],
+   "best": {
+    "up": {
+     "twa": 54.54412519934933,
+     "speed": 6.478201848144532,
+     "vmg": 3.757848176448643
+    },
+    "down": {
+     "twa": 121.29194721539561,
+     "speed": 8.461468788745005,
+     "vmg": 4.394878550996183
+    }
+   }
+  },
+  {
+   "tws": 4.75,
+   "points": [
+    {
+     "twa": 38,
+     "speed": 3.1688265031203633,
+     "foiling": false
+    },
+    {
+     "twa": 42,
+     "speed": 3.6530387411825362,
+     "foiling": false
+    },
+    {
+     "twa": 46,
+     "speed": 4.5664878115057945,
+     "foiling": false
+    },
+    {
+     "twa": 49.8,
+     "speed": 7.063860703125004,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 50,
+     "speed": 7.095098294677738,
+     "foiling": true
+    },
+    {
+     "twa": 55,
+     "speed": 7.757585136328129,
+     "foiling": true
+    },
+    {
+     "twa": 62,
+     "speed": 8.516083839375007,
+     "foiling": true
+    },
+    {
+     "twa": 75,
+     "speed": 9.581900467125008,
+     "foiling": true
+    },
+    {
+     "twa": 90,
+     "speed": 9.578411594124804,
+     "foiling": true
+    },
+    {
+     "twa": 105,
+     "speed": 10.026054556582405,
+     "foiling": true
+    },
+    {
+     "twa": 120,
+     "speed": 9.957186408512007,
+     "foiling": true
+    },
+    {
+     "twa": 129.2,
+     "speed": 9.440675297984004,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 132,
+     "speed": 8.667445867640005,
+     "foiling": true
+    },
+    {
+     "twa": 145,
+     "speed": 2.414815391041338,
+     "foiling": false
+    },
+    {
+     "twa": 160,
+     "speed": 2.2846367540769275,
+     "foiling": false
+    },
+    {
+     "twa": 172,
+     "speed": 2.2478060519322742,
+     "foiling": false
+    }
+   ],
+   "best": {
+    "up": {
+     "twa": 49.78920801227333,
+     "speed": 7.063860703125004,
+     "vmg": 4.5604393597494175
+    },
+    "down": {
+     "twa": 129.200224173729,
+     "speed": 9.440675297984004,
+     "vmg": 5.966812049581359
+    }
+   }
+  },
+  {
+   "tws": 5.5,
+   "points": [
+    {
+     "twa": 38,
+     "speed": 3.78387435413897,
+     "foiling": false
+    },
+    {
+     "twa": 42,
+     "speed": 4.568964409548791,
+     "foiling": false
+    },
+    {
+     "twa": 46,
+     "speed": 7.101345812988285,
+     "foiling": true
+    },
+    {
+     "twa": 48.6,
+     "speed": 7.505685198046878,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 50,
+     "speed": 7.694610151757816,
+     "foiling": true
+    },
+    {
+     "twa": 55,
+     "speed": 8.352348879492194,
+     "foiling": true
+    },
+    {
+     "twa": 62,
+     "speed": 9.103850362031256,
+     "foiling": true
+    },
+    {
+     "twa": 75,
+     "speed": 10.205089718880007,
+     "foiling": true
+    },
+    {
+     "twa": 90,
+     "speed": 10.232659000793605,
+     "foiling": true
+    },
+    {
+     "twa": 105,
+     "speed": 10.804953311258629,
+     "foiling": true
+    },
+    {
+     "twa": 120,
+     "speed": 10.882085637097479,
+     "foiling": true
+    },
+    {
+     "twa": 132,
+     "speed": 10.34215935622554,
+     "foiling": true
+    },
+    {
+     "twa": 134.6,
+     "speed": 10.060488630617604,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 145,
+     "speed": 2.874762190598994,
+     "foiling": false
+    },
+    {
+     "twa": 160,
+     "speed": 2.6965638942085204,
+     "foiling": false
+    },
+    {
+     "twa": 172,
+     "speed": 2.648753899987786,
+     "foiling": false
+    }
+   ],
+   "best": {
+    "up": {
+     "twa": 48.64705555964666,
+     "speed": 7.505685198046878,
+     "vmg": 4.958973150164397
+    },
+    "down": {
+     "twa": 134.6193134332862,
+     "speed": 10.060488630617604,
+     "vmg": 7.06641704199344
+    }
+   }
+  },
+  {
+   "tws": 6.25,
+   "points": [
+    {
+     "twa": 38,
+     "speed": 4.070412637107075,
+     "foiling": false
+    },
+    {
+     "twa": 42,
+     "speed": 6.8389500439453155,
+     "foiling": true
+    },
+    {
+     "twa": 46,
+     "speed": 7.540671300585941,
+     "foiling": true
+    },
+    {
+     "twa": 47.7,
+     "speed": 7.7995684593750045,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 50,
+     "speed": 8.12843782324219,
+     "foiling": true
+    },
+    {
+     "twa": 55,
+     "speed": 8.766864222375006,
+     "foiling": true
+    },
+    {
+     "twa": 62,
+     "speed": 9.529236586695008,
+     "foiling": true
+    },
+    {
+     "twa": 75,
+     "speed": 10.662914386084807,
+     "foiling": true
+    },
+    {
+     "twa": 90,
+     "speed": 10.785670229798917,
+     "foiling": true
+    },
+    {
+     "twa": 105,
+     "speed": 11.470219621618696,
+     "foiling": true
+    },
+    {
+     "twa": 120,
+     "speed": 11.669606683912118,
+     "foiling": true
+    },
+    {
+     "twa": 132,
+     "speed": 11.267747266291718,
+     "foiling": true
+    },
+    {
+     "twa": 138.4,
+     "speed": 10.679613281770504,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 145,
+     "speed": 3.407664300128818,
+     "foiling": false
+    },
+    {
+     "twa": 160,
+     "speed": 3.145645817369222,
+     "foiling": false
+    },
+    {
+     "twa": 172,
+     "speed": 3.081519151106477,
+     "foiling": false
+    }
+   ],
+   "best": {
+    "up": {
+     "twa": 47.67154070832795,
+     "speed": 7.7995684593750045,
+     "vmg": 5.252071938232595
+    },
+    "down": {
+     "twa": 138.35309564458586,
+     "speed": 10.679613281770504,
+     "vmg": 7.980387229737064
+    }
+   }
+  },
+  {
+   "tws": 7,
+   "points": [
+    {
+     "twa": 38,
+     "speed": 4.563563689310104,
+     "foiling": false
+    },
+    {
+     "twa": 42,
+     "speed": 7.163820996093754,
+     "foiling": true
+    },
+    {
+     "twa": 46,
+     "speed": 7.841551782421879,
+     "foiling": true
+    },
+    {
+     "twa": 47.5,
+     "speed": 8.07246005917969,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 50,
+     "speed": 8.414204308781255,
+     "foiling": true
+    },
+    {
+     "twa": 55,
+     "speed": 9.056829040218755,
+     "foiling": true
+    },
+    {
+     "twa": 62,
+     "speed": 9.853997182680008,
+     "foiling": true
+    },
+    {
+     "twa": 75,
+     "speed": 11.046307435615212,
+     "foiling": true
+    },
+    {
+     "twa": 90,
+     "speed": 11.267747266291718,
+     "foiling": true
+    },
+    {
+     "twa": 105,
+     "speed": 12.063752868948633,
+     "foiling": true
+    },
+    {
+     "twa": 120,
+     "speed": 12.382309374663073,
+     "foiling": true
+    },
+    {
+     "twa": 132,
+     "speed": 12.106946971418388,
+     "foiling": true
+    },
+    {
+     "twa": 140.8,
+     "speed": 11.315954969941,
+     "foiling": true,
+     "best": true
+    },
+    {
+     "twa": 145,
+     "speed": 8.459919082160003,
+     "foiling": true
+    },
+    {
+     "twa": 160,
+     "speed": 3.6275909901596606,
+     "foiling": false
+    },
+    {
+     "twa": 172,
+     "speed": 3.550374496262521,
+     "foiling": false
+    }
+   ],
+   "best": {
+    "up": {
+     "twa": 47.504902666666666,
+     "speed": 8.07246005917969,
+     "vmg": 5.453165679226902
+    },
+    "down": {
+     "twa": 140.84228348794807,
+     "speed": 11.315954969941,
+     "vmg": 8.774512637572307
+    }
+   }
+  }
+ ]
+}
